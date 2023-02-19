@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-App::Greple::tee - Greple -Mtee module
+App::Greple::tee - module to replace matched text by the external command result
 
 =head1 SYNOPSIS
 
@@ -11,27 +11,30 @@ App::Greple::tee - Greple -Mtee module
 =head1 DESCRIPTION
 
 Greple's B<-Mtee> module sends matched text part to the specified
-command, and replace them by the output of the command.
+command, and replace them by the command result.
 
-Command is specifed as a following arguments after the module option
-ending with C<-->.  For example, next command call command C<tr a-z
-A-Z> for the matched word in the data.
+External command is specified as following arguments after the module
+option ending with C<-->.  For example, next command call command
+C<tr> command with C<a-z A-Z> arguments for the matched word in the
+data.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
 Above command effectively convert all matched words from lower-case to
-upper-case letter.  Actually this example is not useful because
-B<greple> can do the same thing more effectively with B<--cm> option.
+upper-case.  Actually this example is not useful because B<greple> can
+do the same thing more effectively with B<--cm> option.
 
 By default, the command is executed only once and all data is sent to
-the same command.  Number of lines in the output must be same as in
-input data.
+the same command.  Data are mapped line by line, so the number of
+lines of input and output data must be identical.
 
 Using B<--discrete> option, individual command is called for each
 matched part.  You can notice the difference by following commands.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
+
+In this case, lines of input and output data can be differ.
 
 =head1 OPTIONS
 
@@ -42,6 +45,68 @@ matched part.  You can notice the difference by following commands.
 Invoke new command for every matched part.
 
 =back
+
+=head1 EXAMPLE
+
+First of all, use the B<teip> command for anything that can be done
+with it.
+
+Next command will find some indented part in LICENSE document.
+
+    greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
+
+      a) distribute a Standard Version of the executables and library files,
+         together with instructions (in the manual page or equivalent) on where to
+         get the Standard Version.
+    
+      b) accompany the distribution with the machine-readable source of the Package
+         with your modifications.
+    
+=begin comment
+
+      c) accompany any non-standard executables with their corresponding Standard
+         Version executables, giving the non-standard executables non-standard
+         names, and clearly documenting the differences in manual pages (or
+         equivalent), together with instructions on where to get the Standard
+         Version.
+    
+      d) make other distribution arrangements with the Copyright Holder.
+
+=end comment
+
+You can reformat this part by using B<tee> module with B<ansifold>
+command:
+
+    greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete ...
+
+      a) distribute a Standard Version of
+         the executables and library files,
+         together with instructions (in the
+         manual page or equivalent) on where
+         to get the Standard Version.
+    
+      b) accompany the distribution with the
+         machine-readable source of the
+         Package with your modifications.
+    
+=begin comment
+
+      c) accompany any non-standard
+         executables with their
+         corresponding Standard Version
+         executables, giving the non-
+         standard executables non-standard
+         names, and clearly documenting the
+         differences in manual pages (or
+         equivalent), together with
+         instructions on where to get the
+         Standard Version.
+    
+      d) make other distribution
+         arrangements with the Copyright
+         Holder.
+
+=end comment
 
 =head1 SEE ALSO
 
@@ -167,3 +232,5 @@ option default \
 	--callback &__PACKAGE__::callback
 
 option --tee-each --discrete
+
+#  LocalWords:  greple tee teip

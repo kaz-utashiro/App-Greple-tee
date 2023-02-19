@@ -1,5 +1,5 @@
 {
-   "abstract" : "Greple -Mtee module",
+   "abstract" : "module to replace matched text by the external command result",
    "author" : [
       "Kazumasa Utashiro"
    ],
@@ -52,6 +52,17 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/kaz-utashiro/App-Greple-tee/issues"
+      },
+      "homepage" : "https://github.com/kaz-utashiro/App-Greple-tee",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/kaz-utashiro/App-Greple-tee.git",
+         "web" : "https://github.com/kaz-utashiro/App-Greple-tee"
+      }
+   },
    "version" : "0.01",
    "x_authority" : "cpan:UTASHIRO",
    "x_contributors" : [
