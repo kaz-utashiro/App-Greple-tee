@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-App::Greple::tee - module to replace matched text by the external command result
+App::Greple::tee - マッチしたテキストを外部コマンドの結果に置き換えるモジュール
 
 =head1 SYNOPSIS
 
@@ -10,36 +10,22 @@ App::Greple::tee - module to replace matched text by the external command result
 
 =head1 DESCRIPTION
 
-Greple's B<-Mtee> module sends matched text part to the given filter
-command, and replace them by the command result.  The idea is derived
-from the command called B<teip>.  It is like bypassing partial data to
-the external filter command.
+Greple の B<-Mtee> モジュールは、マッチしたテキスト部分を指定されたフィルタコマンドに送り、その結果で置き換えます。このアイデアは、B<teip>というコマンドから派生したものです。これは、外部のフィルタコマンドに部分的なデータをバイパスするようなものです。
 
-Filter command is specified as following arguments after the module
-option ending with C<-->.  For example, next command call command
-C<tr> command with C<a-z A-Z> arguments for the matched word in the
-data.
+フィルタコマンドは、C<-->で終わるモジュールオプションの後に続く引数で指定します。例えば、次のコマンドは、データ中の一致した単語に対して、C<a-z A-Z> の引数でコマンドC<tr>を呼び出します。
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Above command convert all matched words from lower-case to upper-case.
-Actually this example is not useful because B<greple> can do the same
-thing more effectively with B<--cm> option.
+このコマンドは、マッチした単語をすべて小文字から大文字に変換します。B<greple>はB<--cm>オプションでより効果的に同じことを行うことができるので、この例はあまり意味がありません。
 
-By default, the command is executed as a single process, and all
-matched data is sent to it mixed together.  If the matched text does
-not end with newline, it is added before and removed after.  Data are
-mapped line by line, so the number of lines of input and output data
-must be identical.
+デフォルトでは、このコマンドは一つのプロセスとして実行され、マッチした データはすべて混ぜて送られます。マッチしたテキストが改行で終わっていない場合は、その前に追加され、後に削除されます。データは一行ずつマップされるので、入力データと出力データの行数は同じでなければなりません。
 
-Using B<--discrete> option, individual command is called for each
-matched part.  You can notice the difference by following commands.
+B<--discrete>オプションを使用すると、マッチした部分ごとにコマンドが呼び出されます。以下のコマンドを実行すると、その違いに気づくことができます。
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
 
-Lines of input and output data do not have to be identical when used
-with B<--discrete> option.
+B<--discrete>オプションを使用する場合、入出力データの行数は同一である必要はありません。
 
 =head1 OPTIONS
 
@@ -47,47 +33,37 @@ with B<--discrete> option.
 
 =item B<--discrete>
 
-Invoke new command for every matched part.
+マッチした部品ごとに新しいコマンドを呼び出す。
 
 =back
 
 =head1 WHY DO NOT USE TEIP
 
-First of all, whenever you can do it with the B<teip> command, use
-it. It is an excellent tool and much faster than B<greple>.
+まず第一に、B<teip>コマンドでできることは、いつでもそれを使ってください。これは優れたツールで、B<greple>よりずっと速いです。
 
-Because B<greple> is designed to process document files, it has many
-features that are appropriate for it, such as match area controls. It
-might be worth using B<greple> to take advantage of those features.
+B<greple>は文書ファイルの処理を目的としているため、マッチエリアの制御など、それに適した機能を多く持っています。それらの機能を活用するために、B<greple>を使う価値はあるかもしれません。
 
-Also, B<teip> cannot handle multiple lines of data as a single unit,
-while B<greple> can execute individual commands on a data chunk
-consisting of multiple lines.
+また、B<teip>は複数行のデータを1つの単位として扱うことができませんが、B<greple>は複数行からなるデータチャンクに対して個別のコマンドを実行することが可能です。
 
 =head1 EXAMPLE
 
-Next command will find text blocks inside L<perlpod(1)> style document
-included in Perl module file.
+次のコマンドは，Perlモジュールファイルに含まれるL<perlpod(1)>スタイルドキュメント内のテキストブロックを検索します。
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-You can translate them by DeepL service by executing above command
-with B<-Mtee> module calling B<deepl> command like this:
+このようにB<-Mtee>モジュールでB<deepl>コマンドを呼び出して上記のコマンドを実行すると、DeepLサービスによって翻訳することができます。
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 
-Because B<deepl> works better for single line input, you can change
-command part as this:
+B<deepl>は一行入力に適しているので、コマンド部分をこのように変更することができます。
 
     sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
 
-The dedicated module L<App::Greple::xlate::deepl> is more effective
-for this purpose, though.  In fact, the implementation hint of B<tee>
-module came from B<xlate> module.
+ただし、この場合は専用モジュール L<App::Greple::xlate::deepl> の方が効果的です。実は、B<tee>モジュールの実装のヒントはB<xlate>モジュールからきています。
 
 =head1 EXAMPLE 2
 
-Next command will find some indented part in LICENSE document.
+次に、LICENSE文書にインデントされた部分があります。
 
     greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
 
@@ -98,8 +74,7 @@ Next command will find some indented part in LICENSE document.
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
     
-You can reformat this part by using B<tee> module with B<ansifold>
-command:
+この部分はB<tee>モジュールとB<ansifold>コマンドで整形することができます。
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
 
@@ -127,7 +102,7 @@ L<App::Greple>, L<https://github.com/kaz-utashiro/greple>
 
 L<https://github.com/tecolicom/Greple>
 
-L<App::Greple::xlate>
+L<App::Greple::xlate>を使用します。
 
 =head1 AUTHOR
 

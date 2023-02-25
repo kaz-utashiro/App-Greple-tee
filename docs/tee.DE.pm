@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-App::Greple::tee - module to replace matched text by the external command result
+App::Greple::tee - Modul zum Ersetzen von übereinstimmendem Text durch das Ergebnis eines externen Befehls
 
 =head1 SYNOPSIS
 
@@ -10,36 +10,22 @@ App::Greple::tee - module to replace matched text by the external command result
 
 =head1 DESCRIPTION
 
-Greple's B<-Mtee> module sends matched text part to the given filter
-command, and replace them by the command result.  The idea is derived
-from the command called B<teip>.  It is like bypassing partial data to
-the external filter command.
+Greple's B<-Mtee> Modul sendet übereinstimmende Textteile an den angegebenen Filterbefehl, und ersetzt sie durch das Ergebnis des Befehls. Die Idee ist von dem Befehl B<teip> abgeleitet. Es ist wie das Umgehen von Teildaten an den externen Filterbefehl.
 
-Filter command is specified as following arguments after the module
-option ending with C<-->.  For example, next command call command
-C<tr> command with C<a-z A-Z> arguments for the matched word in the
-data.
+Der Filterbefehl wird als folgendes Argument nach der Moduloption angegeben und endet mit C<-->. Zum Beispiel ruft der nächste Befehl den Befehl C<tr> mit den Argumenten C<a-z A-Z> für das übereinstimmende Wort in den Daten auf.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Above command convert all matched words from lower-case to upper-case.
-Actually this example is not useful because B<greple> can do the same
-thing more effectively with B<--cm> option.
+Der obige Befehl konvertiert alle übereinstimmenden Wörter von Kleinbuchstaben in Großbuchstaben. Eigentlich ist dieses Beispiel nicht sinnvoll, denn B<greple> kann dasselbe mit der Option B<--cm> effektiver erledigen.
 
-By default, the command is executed as a single process, and all
-matched data is sent to it mixed together.  If the matched text does
-not end with newline, it is added before and removed after.  Data are
-mapped line by line, so the number of lines of input and output data
-must be identical.
+Standardmäßig wird der Befehl als ein einziger Prozess ausgeführt, und alle übereinstimmenden Daten werden gemischt an ihn gesendet. Wenn der übereinstimmende Text nicht mit einem Zeilenumbruch endet, wird er davor eingefügt und danach entfernt. Die Daten werden zeilenweise zugeordnet, so dass die Anzahl der Zeilen der Eingabe- und Ausgabedaten identisch sein muss.
 
-Using B<--discrete> option, individual command is called for each
-matched part.  You can notice the difference by following commands.
+Mit der Option B<--diskret> wird für jeden übereinstimmenden Teil ein eigener Befehl aufgerufen. Sie können den Unterschied an den folgenden Befehlen erkennen.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
 
-Lines of input and output data do not have to be identical when used
-with B<--discrete> option.
+Die Zeilen der Ein- und Ausgabedaten müssen nicht identisch sein, wenn die Option B<--diskret> verwendet wird.
 
 =head1 OPTIONS
 
@@ -47,47 +33,37 @@ with B<--discrete> option.
 
 =item B<--discrete>
 
-Invoke new command for every matched part.
+Aufruf eines neuen Befehls für jedes übereinstimmende Teil.
 
 =back
 
 =head1 WHY DO NOT USE TEIP
 
-First of all, whenever you can do it with the B<teip> command, use
-it. It is an excellent tool and much faster than B<greple>.
+Vor allem, wenn Sie den Befehl B<teip> verwenden können, sollten Sie ihn einsetzen. Er ist ein hervorragendes Werkzeug und viel schneller als B<greple>.
 
-Because B<greple> is designed to process document files, it has many
-features that are appropriate for it, such as match area controls. It
-might be worth using B<greple> to take advantage of those features.
+Da B<greple> für die Verarbeitung von Dokumentdateien konzipiert ist, verfügt es über viele Funktionen, die dafür geeignet sind, wie z. B. die Steuerung des Abgleichbereichs. Es könnte sich lohnen, B<greple> zu verwenden, um diese Funktionen zu nutzen.
 
-Also, B<teip> cannot handle multiple lines of data as a single unit,
-while B<greple> can execute individual commands on a data chunk
-consisting of multiple lines.
+Außerdem kann B<teip> nicht mehrere Datenzeilen als eine Einheit verarbeiten, während B<greple> einzelne Befehle auf einem aus mehreren Zeilen bestehenden Datenpaket ausführen kann.
 
 =head1 EXAMPLE
 
-Next command will find text blocks inside L<perlpod(1)> style document
-included in Perl module file.
+Der nächste Befehl findet Textblöcke innerhalb des L<perlpod(1)> Stildokuments, das in der Perl-Moduldatei enthalten ist.
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-You can translate them by DeepL service by executing above command
-with B<-Mtee> module calling B<deepl> command like this:
+Sie können sie mit dem Dienst DeepL übersetzen, indem Sie den obigen Befehl mit dem Modul B<-Mtee> ausführen und den Befehl B<deepl> wie folgt aufrufen:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 
-Because B<deepl> works better for single line input, you can change
-command part as this:
+Da B<deepl> besser für einzeilige Eingaben funktioniert, können Sie den Befehlsteil wie folgt ändern:
 
     sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
 
-The dedicated module L<App::Greple::xlate::deepl> is more effective
-for this purpose, though.  In fact, the implementation hint of B<tee>
-module came from B<xlate> module.
+Das spezielle Modul L<App::Greple::xlate::deepl> ist für diesen Zweck jedoch effektiver. Tatsächlich stammt der Implementierungshinweis des Moduls B<tee> aus dem Modul B<xlate>.
 
 =head1 EXAMPLE 2
 
-Next command will find some indented part in LICENSE document.
+Der nächste Befehl wird einen eingerückten Teil im LICENSE-Dokument finden.
 
     greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
 
@@ -98,8 +74,7 @@ Next command will find some indented part in LICENSE document.
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
     
-You can reformat this part by using B<tee> module with B<ansifold>
-command:
+Sie können diesen Teil umformatieren, indem Sie das Modul B<tee> mit dem Befehl B<ansifold> verwenden:
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
 

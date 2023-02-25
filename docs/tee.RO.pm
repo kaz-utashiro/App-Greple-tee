@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-App::Greple::tee - module to replace matched text by the external command result
+App::Greple::tee - modul de înlocuire a textului cu rezultatul unei comenzi externe
 
 =head1 SYNOPSIS
 
@@ -10,36 +10,22 @@ App::Greple::tee - module to replace matched text by the external command result
 
 =head1 DESCRIPTION
 
-Greple's B<-Mtee> module sends matched text part to the given filter
-command, and replace them by the command result.  The idea is derived
-from the command called B<teip>.  It is like bypassing partial data to
-the external filter command.
+Modulul B<-Mtee> al lui Greple trimite partea de text potrivit la comanda de filtrare dată și le înlocuiește cu rezultatul comenzii. Ideea este derivată din comanda numită B<teip>. Este ca și cum ar ocoli datele parțiale către comanda de filtrare externă.
 
-Filter command is specified as following arguments after the module
-option ending with C<-->.  For example, next command call command
-C<tr> command with C<a-z A-Z> arguments for the matched word in the
-data.
+Comanda de filtrare este specificată ca următoarele argumente după opțiunea modulului care se termină cu C<-->. De exemplu, comanda următoare apelează comanda C<tr> comanda C<a-z A-Z> cu argumentele C<a-z A-Z> pentru cuvântul potrivit din date.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Above command convert all matched words from lower-case to upper-case.
-Actually this example is not useful because B<greple> can do the same
-thing more effectively with B<--cm> option.
+Comanda de mai sus convertește toate cuvintele potrivite din minusculă în majusculă. De fapt, acest exemplu nu este util, deoarece B<greple> poate face același lucru mai eficient cu opțiunea B<--cm>.
 
-By default, the command is executed as a single process, and all
-matched data is sent to it mixed together.  If the matched text does
-not end with newline, it is added before and removed after.  Data are
-mapped line by line, so the number of lines of input and output data
-must be identical.
+În mod implicit, comanda este executată ca un singur proces, iar toate datele potrivite sunt trimise către acesta amestecate împreună. În cazul în care textul potrivit nu se termină cu newline, acesta este adăugat înainte și eliminat după. Datele sunt mapate linie cu linie, astfel încât numărul de linii de date de intrare și de ieșire trebuie să fie identic.
 
-Using B<--discrete> option, individual command is called for each
-matched part.  You can notice the difference by following commands.
+Utilizând opțiunea B<--discrete>, se apelează o comandă individuală pentru fiecare piesă care se potrivește. Puteți observa diferența prin următoarele comenzi.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
 
-Lines of input and output data do not have to be identical when used
-with B<--discrete> option.
+Liniile de date de intrare și de ieșire nu trebuie să fie identice atunci când se utilizează opțiunea B<--discrete>.
 
 =head1 OPTIONS
 
@@ -47,47 +33,37 @@ with B<--discrete> option.
 
 =item B<--discrete>
 
-Invoke new command for every matched part.
+Invocarea unei noi comenzi pentru fiecare piesă care se potrivește.
 
 =back
 
 =head1 WHY DO NOT USE TEIP
 
-First of all, whenever you can do it with the B<teip> command, use
-it. It is an excellent tool and much faster than B<greple>.
+În primul rând, ori de câte ori puteți face acest lucru cu comanda B<teip>, utilizați-o. Este un instrument excelent și mult mai rapid decât B<greple>.
 
-Because B<greple> is designed to process document files, it has many
-features that are appropriate for it, such as match area controls. It
-might be worth using B<greple> to take advantage of those features.
+Deoarece B<greple> este concepută pentru a procesa fișiere document, are multe caracteristici care îi sunt adecvate, cum ar fi controalele zonei de potrivire. Ar putea merita să utilizați B<greple> pentru a profita de aceste caracteristici.
 
-Also, B<teip> cannot handle multiple lines of data as a single unit,
-while B<greple> can execute individual commands on a data chunk
-consisting of multiple lines.
+De asemenea, B<teip> nu poate trata mai multe linii de date ca o singură unitate, în timp ce B<greple> poate executa comenzi individuale pe un fragment de date format din mai multe linii.
 
 =head1 EXAMPLE
 
-Next command will find text blocks inside L<perlpod(1)> style document
-included in Perl module file.
+Următoarea comandă va găsi blocuri de text în interiorul documentului de stil L<perlpod(1)> inclus în fișierul modul Perl.
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-You can translate them by DeepL service by executing above command
-with B<-Mtee> module calling B<deepl> command like this:
+Le puteți traduce prin serviciul DeepL executând comanda de mai sus cu modulul B<-Mtee> care apelează comanda B<deepl> astfel:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 
-Because B<deepl> works better for single line input, you can change
-command part as this:
+Deoarece B<deepl> funcționează mai bine pentru introducerea unei singure linii, puteți schimba partea de comandă astfel::
 
     sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
 
-The dedicated module L<App::Greple::xlate::deepl> is more effective
-for this purpose, though.  In fact, the implementation hint of B<tee>
-module came from B<xlate> module.
+Totuși, modulul dedicat L<App::Greple::xlate::deepl> este mai eficient în acest scop. De fapt, sugestia de implementare a modulului B<tee> a venit de la modulul B<xlate>.
 
 =head1 EXAMPLE 2
 
-Next command will find some indented part in LICENSE document.
+Următoarea comandă va găsi o parte indentată în documentul LICENȚĂ.
 
     greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
 
@@ -98,8 +74,7 @@ Next command will find some indented part in LICENSE document.
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
     
-You can reformat this part by using B<tee> module with B<ansifold>
-command:
+Puteți reformata această parte utilizând modulul B<tee> cu comanda B<ansifold>:
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
 

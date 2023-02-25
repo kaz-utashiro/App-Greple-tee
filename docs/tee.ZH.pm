@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-App::Greple::tee - module to replace matched text by the external command result
+App::Greple::tee - 用外部命令结果替换匹配文本的模块
 
 =head1 SYNOPSIS
 
@@ -10,36 +10,22 @@ App::Greple::tee - module to replace matched text by the external command result
 
 =head1 DESCRIPTION
 
-Greple's B<-Mtee> module sends matched text part to the given filter
-command, and replace them by the command result.  The idea is derived
-from the command called B<teip>.  It is like bypassing partial data to
-the external filter command.
+Greple的B<-Mtee>模块将匹配的文本部分发送到给定的过滤命令，并以命令结果替换它们。这个想法来自于名为B<teip>的命令。它就像绕过部分数据到外部过滤命令。
 
-Filter command is specified as following arguments after the module
-option ending with C<-->.  For example, next command call command
-C<tr> command with C<a-z A-Z> arguments for the matched word in the
-data.
+过滤命令被指定为模块选项后面的参数，以C<-->结尾。例如，下一个命令调用C<tr>命令，参数为C<a-z A-Z>，用于数据中的匹配字。
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Above command convert all matched words from lower-case to upper-case.
-Actually this example is not useful because B<greple> can do the same
-thing more effectively with B<--cm> option.
+上述命令将所有匹配的词从小写转换为大写。实际上这个例子并不有用，因为B<greple>可以用B<--cm>选项更有效地做同样的事情。
 
-By default, the command is executed as a single process, and all
-matched data is sent to it mixed together.  If the matched text does
-not end with newline, it is added before and removed after.  Data are
-mapped line by line, so the number of lines of input and output data
-must be identical.
+默认情况下，该命令是作为一个单独的进程执行的，所有匹配的数据被混合在一起发送给它。如果匹配的文本不以换行结尾，就会在前面添加，后面删除。数据是逐行映射的，所以输入和输出数据的行数必须是相同的。
 
-Using B<--discrete> option, individual command is called for each
-matched part.  You can notice the difference by following commands.
+使用B<--discrete>选项，对每个匹配的部分都调用单独的命令。你可以通过以下命令注意到其中的差别。
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
 
-Lines of input and output data do not have to be identical when used
-with B<--discrete> option.
+使用B<--discrete>选项时，输入和输出数据的行数不一定相同。
 
 =head1 OPTIONS
 
@@ -47,47 +33,37 @@ with B<--discrete> option.
 
 =item B<--discrete>
 
-Invoke new command for every matched part.
+为每个匹配的部分调用新的命令。
 
 =back
 
 =head1 WHY DO NOT USE TEIP
 
-First of all, whenever you can do it with the B<teip> command, use
-it. It is an excellent tool and much faster than B<greple>.
+首先，只要你能用B<teip>命令做，就使用它。它是一个优秀的工具，比B<greple>快得多。
 
-Because B<greple> is designed to process document files, it has many
-features that are appropriate for it, such as match area controls. It
-might be worth using B<greple> to take advantage of those features.
+因为B<greple>是为处理文档文件而设计的，它有许多适合于它的功能，如匹配区控制。也许值得使用B<greple>来利用这些功能。
 
-Also, B<teip> cannot handle multiple lines of data as a single unit,
-while B<greple> can execute individual commands on a data chunk
-consisting of multiple lines.
+另外，B<teip>不能将多行数据作为一个单元来处理，而B<greple>可以在由多行组成的数据块上执行单个命令。
 
 =head1 EXAMPLE
 
-Next command will find text blocks inside L<perlpod(1)> style document
-included in Perl module file.
+下一个命令将找到包含在Perl模块文件中的L<perlpod(1)>风格文件内的文本块。
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-You can translate them by DeepL service by executing above command
-with B<-Mtee> module calling B<deepl> command like this:
+你可以用B<-Mtee>模块执行上述命令，像这样调用B<deepl>命令，通过DeepL 服务来翻译它们。
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 
-Because B<deepl> works better for single line input, you can change
-command part as this:
+因为B<deepl>对单行输入效果更好，你可以把命令部分改成这样。
 
     sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
 
-The dedicated module L<App::Greple::xlate::deepl> is more effective
-for this purpose, though.  In fact, the implementation hint of B<tee>
-module came from B<xlate> module.
+不过，专用模块L<App::Greple::xlate::deepl>对这个目的更有效。事实上，B<tee>模块的实现提示来自B<xlate>模块。
 
 =head1 EXAMPLE 2
 
-Next command will find some indented part in LICENSE document.
+接下来的命令会发现LICENSE文件中有一些缩进的部分。
 
     greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
 
@@ -98,8 +74,7 @@ Next command will find some indented part in LICENSE document.
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
     
-You can reformat this part by using B<tee> module with B<ansifold>
-command:
+你可以通过使用B<tee>模块和B<ansifold>命令来重新格式化这部分内容。
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
 
@@ -127,7 +102,7 @@ L<App::Greple>, L<https://github.com/kaz-utashiro/greple>
 
 L<https://github.com/tecolicom/Greple>
 
-L<App::Greple::xlate>
+L<App::Greple::xlate>.
 
 =head1 AUTHOR
 

@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-App::Greple::tee - module to replace matched text by the external command result
+App::Greple::tee - module om gematchte tekst te vervangen door het externe opdrachtresultaat
 
 =head1 SYNOPSIS
 
@@ -10,36 +10,22 @@ App::Greple::tee - module to replace matched text by the external command result
 
 =head1 DESCRIPTION
 
-Greple's B<-Mtee> module sends matched text part to the given filter
-command, and replace them by the command result.  The idea is derived
-from the command called B<teip>.  It is like bypassing partial data to
-the external filter command.
+Greple's B<-Mtee> module stuurt gematchte tekstdelen naar het gegeven filtercommando, en vervangt ze door het resultaat van het commando. Het idee is afgeleid van het commando B<teip>. Het is als het omzeilen van gedeeltelijke gegevens naar het externe filtercommando.
 
-Filter command is specified as following arguments after the module
-option ending with C<-->.  For example, next command call command
-C<tr> command with C<a-z A-Z> arguments for the matched word in the
-data.
+Het filtercommando wordt opgegeven als volgende argumenten na de module-optie die eindigt met C<-->. Bijvoorbeeld, het volgende commando roept commando C<tr> op met C<a-z A-Z> argumenten voor het gezochte woord in de gegevens.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Above command convert all matched words from lower-case to upper-case.
-Actually this example is not useful because B<greple> can do the same
-thing more effectively with B<--cm> option.
+Bovenstaand commando zet alle gevonden woorden om van kleine letters naar hoofdletters. Eigenlijk is dit voorbeeld niet nuttig omdat B<greple> hetzelfde effectiever kan doen met de optie B<--cm>.
 
-By default, the command is executed as a single process, and all
-matched data is sent to it mixed together.  If the matched text does
-not end with newline, it is added before and removed after.  Data are
-mapped line by line, so the number of lines of input and output data
-must be identical.
+Standaard wordt het commando uitgevoerd als een enkel proces, en alle gematchte gegevens worden erdoor gemengd. Als de gematchte tekst niet eindigt met een newline, wordt hij ervoor toegevoegd en erna verwijderd. De gegevens worden regel voor regel in kaart gebracht, dus het aantal regels invoer- en uitvoergegevens moet identiek zijn.
 
-Using B<--discrete> option, individual command is called for each
-matched part.  You can notice the difference by following commands.
+Met de optie B<--discreet> wordt voor elk gematcht deel een afzonderlijk commando opgeroepen. U kunt het verschil merken aan de hand van de volgende commando's.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
 
-Lines of input and output data do not have to be identical when used
-with B<--discrete> option.
+Bij gebruik van de optie B<--discreet> hoeven de regels invoer- en uitvoergegevens niet identiek te zijn.
 
 =head1 OPTIONS
 
@@ -47,47 +33,37 @@ with B<--discrete> option.
 
 =item B<--discrete>
 
-Invoke new command for every matched part.
+Roep nieuw commando op voor elk gematcht deel.
 
 =back
 
 =head1 WHY DO NOT USE TEIP
 
-First of all, whenever you can do it with the B<teip> command, use
-it. It is an excellent tool and much faster than B<greple>.
+Allereerst, wanneer u het kunt doen met het commando B<-teip>, gebruik het. Het is een uitstekend hulpmiddel en veel sneller dan B<greple>.
 
-Because B<greple> is designed to process document files, it has many
-features that are appropriate for it, such as match area controls. It
-might be worth using B<greple> to take advantage of those features.
+Omdat B<greple> is ontworpen om documentbestanden te verwerken, heeft het veel functies die daarvoor geschikt zijn, zoals controles van het matchgebied. Het kan de moeite waard zijn om B<greple> te gebruiken om van die functies te profiteren.
 
-Also, B<teip> cannot handle multiple lines of data as a single unit,
-while B<greple> can execute individual commands on a data chunk
-consisting of multiple lines.
+Ook kan B<teip> niet omgaan met meerdere regels gegevens als een enkele eenheid, terwijl B<greple> individuele opdrachten kan uitvoeren op een gegevensbrok die uit meerdere regels bestaat.
 
 =head1 EXAMPLE
 
-Next command will find text blocks inside L<perlpod(1)> style document
-included in Perl module file.
+Het volgende commando vindt tekstblokken in L<perlpod(1)> stijldocument opgenomen in het Perl-modulebestand.
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-You can translate them by DeepL service by executing above command
-with B<-Mtee> module calling B<deepl> command like this:
+U kunt ze vertalen door DeepL service door bovenstaand commando uit te voeren met B<-Mtee> module die B<deepl> commando aanroept zoals dit:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 
-Because B<deepl> works better for single line input, you can change
-command part as this:
+Omdat B<deepl> beter werkt voor invoer op één regel, kunt u het commandogedeelte als volgt wijzigen:
 
     sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
 
-The dedicated module L<App::Greple::xlate::deepl> is more effective
-for this purpose, though.  In fact, the implementation hint of B<tee>
-module came from B<xlate> module.
+De speciale module L<App::Greple::xlate::deepl> is echter effectiever voor dit doel. In feite kwam de implementatiehint van de module B<tee> van de module B<xlate>.
 
 =head1 EXAMPLE 2
 
-Next command will find some indented part in LICENSE document.
+Het volgende commando vindt een ingesprongen deel in het LICENSE document.
 
     greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
 
@@ -98,8 +74,7 @@ Next command will find some indented part in LICENSE document.
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
     
-You can reformat this part by using B<tee> module with B<ansifold>
-command:
+U kunt dit deel opnieuw formatteren door de module B<tee> te gebruiken met het commando B<ansifold>:
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
 
