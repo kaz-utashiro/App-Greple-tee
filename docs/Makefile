@@ -4,8 +4,8 @@ PM     := $(notdir $(MODS))
 SRC    := $(patsubst %,src/%,$(PM))
 LANG   := DE EL ET FR ID JA KO NL RO RU TR UK ZH
 IGNORE := AUTHOR LICENSE
-PMS    := $(foreach lang,$(LANG),$(patsubst %.pm,%.$(lang).pm,$(PM)))
-MDS    := $(patsubst %.pm,%.md,$(PMS))
+PMS    := $(foreach lang,$(LANG),$(patsubst %.pm,src/%.$(lang).pm,$(PM)))
+MDS    := $(foreach lang,$(LANG),$(patsubst %.pm,%.$(lang).md,$(PM)))
 ALL    := $(PMS) $(MDS) README.md
 
 all: $(ALL)
@@ -28,7 +28,7 @@ JA_FILTER := greple \
 	--desumasu 
 
 define LANG_PM
-  %.$1.pm: src/%.pm Makefile
+  src/%.$1.pm: src/%.pm Makefile
   ifdef $1_FILTER
 	$$(XLATE) --xlate-to $1 $$< | $($1_FILTER) > $$@
   else
@@ -38,7 +38,7 @@ endef
 
 $(foreach lang,$(LANG),$(eval $(call LANG_PM,$(lang))))
 
-%.md: %.pm
+%.md: src/%.pm
 	pod2markdown $< > $@
 
 README.md: Makefile
