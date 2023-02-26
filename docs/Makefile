@@ -1,18 +1,25 @@
+LANGS  := DE EL ET FR ID JA KO NL RO RU TR UK ZH
+IGNORE := AUTHOR LICENSE
+
 LIB    := ../lib/App/Greple
+SRCDIR := src
+
 MODS   := $(wildcard $(LIB)/*.pm)
 PM     := $(notdir $(MODS))
-SRC    := $(patsubst %,src/%,$(PM))
-LANG   := DE EL ET FR ID JA KO NL RO RU TR UK ZH
-IGNORE := AUTHOR LICENSE
-PMS    := $(foreach lang,$(LANG),$(patsubst %.pm,src/%.$(lang).pm,$(PM)))
-MDS    := $(foreach lang,$(LANG),$(patsubst %.pm,%.$(lang).md,$(PM)))
+SRC    := $(PM:%=$(if $(SRCDIR),$(SRCDIR)/,)%)
+PMS    := $(foreach lang,$(LANGS),$(SRC:.pm=.$(lang).pm))
+MDS    := $(foreach lang,$(LANGS),$(PM:.pm=.$(lang).md))
 ALL    := $(PMS) $(MDS) README.md
 
 all: $(ALL)
 
-src: ; mkdir -p src
+ifdef SRCDIR
+  $(SRCDIR):
+	mkdir -p $(SRCDIR)
+endif
+SRCPATH := $(if $(SRCDIR),$(SRCDIR)/,)
 
-$(foreach mod,$(MODS),$(eval src/$(notdir $(mod)): $(mod) src; cp $$< src/ ))
+$(foreach mod,$(MODS),$(eval $(SRCPATH)$(notdir $(mod)): $(mod); cp $$< $(if $(SRCPATH),$(SRCPATH),.) ))
 
 XLATE := greple -Mxlate::deepl --match-podtext --xlate-format=none --xlate --xlate-cache=yes --all
 
@@ -22,31 +29,33 @@ $(foreach ignore,$(IGNORE),$(eval \
 ))
 endif
 
-JA_FILTER := greple \
-	-Mperl -Msubst::desumasu \
+JA_FORM   ?= dearu
+JA_DICT   := $(wildcard *.dict)
+JA_FILTER := greple -Mperl -Msubst::desumasu \
+	$(if $(findstring $(JA_FORM).dict,$(JA_DICT)), --dict $(JA_FORM).dict) \
 	--pod --subst --all --no-color --need=0 \
-	--desumasu 
+	--$(JA_FORM) 
 
 define LANG_PM
-  src/%.$1.pm: src/%.pm Makefile
+  $(SRCPATH)%.$1.pm: $(SRCPATH)%.pm Makefile
   ifdef $1_FILTER
-	$$(XLATE) --xlate-to $1 $$< | $($1_FILTER) > $$@
+	$$(XLATE) --xlate-to $1 $$< | $$($1_FILTER) > $$@
   else
 	$$(XLATE) --xlate-to $1 $$< > $$@
   endif
 endef
 
-$(foreach lang,$(LANG),$(eval $(call LANG_PM,$(lang))))
+$(foreach lang,$(LANGS),$(eval $(call LANG_PM,$(lang))))
 
-%.md: src/%.pm
+%.md: $(SRCPATH)%.pm
 	pod2markdown $< > $@
 
 README.md: Makefile
 	exec > $@ && \
 	printf '## Languages\n\n' && \
-	for lang in $(LANG) ; \
+	for md in $(MDS) ; \
 	do \
-	    echo "- [tee.$$lang.md](tee.$$lang.md)" ; \
+	    echo "- [$$md]($$md)" ; \
 	done
 
 clean:
