@@ -120,6 +120,8 @@ command:
 
 =head1 SEE ALSO
 
+L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>
+
 L<https://github.com/greymd/teip>
 
 L<App::Greple>, L<https://github.com/kaz-utashiro/greple>
@@ -143,7 +145,7 @@ it under the same terms as Perl itself.
 
 package App::Greple::tee;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 use v5.14;
 use warnings;
