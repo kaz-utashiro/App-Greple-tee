@@ -92,6 +92,8 @@ DeepL 서비스에서 위 명령어를 **-Mtee** 모듈과 결합하여 실행�
 
 # SEE ALSO
 
+[App::Greple::tee](https://metacpan.org/pod/App%3A%3AGreple%3A%3Atee), [https://github.com/kaz-utashiro/App-Greple-tee](https://github.com/kaz-utashiro/App-Greple-tee)
+
 [https://github.com/greymd/teip](https://github.com/greymd/teip)
 
 [App::Greple](https://metacpan.org/pod/App%3A%3AGreple), [https://github.com/kaz-utashiro/greple](https://github.com/kaz-utashiro/greple)

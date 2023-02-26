@@ -92,6 +92,8 @@ Greple的**-Mtee**模块将匹配的文本部分发送到给定的过滤命令�
 
 # SEE ALSO
 
+[App::Greple::Tee](https://metacpan.org/pod/App%3A%3AGreple%3A%3ATee), [https://github.com/kaz-utashiro/App-Greple-tee](https://github.com/kaz-utashiro/App-Greple-tee)
+
 [https://github.com/greymd/teip](https://github.com/greymd/teip)
 
 [App::Greple](https://metacpan.org/pod/App%3A%3AGreple), [https://github.com/kaz-utashiro/greple](https://github.com/kaz-utashiro/greple)
