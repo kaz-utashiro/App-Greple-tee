@@ -12,15 +12,15 @@ App::Greple::tee - module om gematchte tekst te vervangen door het externe opdra
 
 Greple's B<-Mtee> module stuurt gematchte tekstdelen naar het gegeven filtercommando, en vervangt ze door het resultaat van het commando. Het idee is afgeleid van het commando B<teip>. Het is als het omzeilen van gedeeltelijke gegevens naar het externe filtercommando.
 
-Het filtercommando wordt opgegeven als volgende argumenten na de module-optie die eindigt met C<-->. Bijvoorbeeld, het volgende commando roept commando C<tr> op met C<a-z A-Z> argumenten voor het gezochte woord in de gegevens.
+Het filtercommando volgt op de moduleverklaring (C<-Mtee>) en eindigt met twee streepjes (C<-->). Bijvoorbeeld, het volgende commando roept commando C<tr> op met C<a-z A-Z> argumenten voor het gezochte woord in de gegevens.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Bovenstaand commando zet alle gevonden woorden om van kleine letters naar hoofdletters. Eigenlijk is dit voorbeeld niet nuttig omdat B<greple> hetzelfde effectiever kan doen met de optie B<--cm>.
+Bovenstaand commando zet alle overeenkomende woorden om van kleine letters naar hoofdletters. Eigenlijk is dit voorbeeld zelf niet zo nuttig omdat B<greple> hetzelfde effectiever kan doen met de optie B<--cm>.
 
 Standaard wordt het commando uitgevoerd als een enkel proces, en alle gematchte gegevens worden erdoor gemengd. Als de gematchte tekst niet eindigt met een newline, wordt hij ervoor toegevoegd en erna verwijderd. De gegevens worden regel voor regel in kaart gebracht, dus het aantal regels invoer- en uitvoergegevens moet identiek zijn.
 
-Met de optie B<--discreet> wordt voor elk gematcht deel een afzonderlijk commando opgeroepen. U kunt het verschil merken aan de hand van de volgende commando's.
+Met de optie B<--discreet> wordt voor elk gematcht onderdeel een afzonderlijk commando opgeroepen. U kunt het verschil zien aan de hand van de volgende commando's.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -33,7 +33,7 @@ Bij gebruik van de optie B<--discreet> hoeven de regels invoer- en uitvoergegeve
 
 =item B<--discrete>
 
-Roep nieuw commando op voor elk gematcht deel.
+Roep nieuw commando individueel op voor elk onderdeel.
 
 =back
 
@@ -51,7 +51,7 @@ Het volgende commando vindt tekstblokken in L<perlpod(1)> stijldocument opgenome
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-U kunt ze vertalen door DeepL service door bovenstaand commando uit te voeren met B<-Mtee> module die B<deepl> commando aanroept zoals dit:
+U kunt ze vertalen door DeepL service door het bovenstaande commando uit te voeren in combinatie met B<-Mtee> module die het commando B<deepl> als volgt oproept:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

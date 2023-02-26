@@ -12,15 +12,15 @@ App::Greple::tee - Modul zum Ersetzen von übereinstimmendem Text durch das Erge
 
 Greple's B<-Mtee> Modul sendet übereinstimmende Textteile an den angegebenen Filterbefehl, und ersetzt sie durch das Ergebnis des Befehls. Die Idee ist von dem Befehl B<teip> abgeleitet. Es ist wie das Umgehen von Teildaten an den externen Filterbefehl.
 
-Der Filterbefehl wird als folgendes Argument nach der Moduloption angegeben und endet mit C<-->. Zum Beispiel ruft der nächste Befehl den Befehl C<tr> mit den Argumenten C<a-z A-Z> für das übereinstimmende Wort in den Daten auf.
+Der Filterbefehl folgt auf die Moduldeklaration (C<-Mtee>) und wird durch zwei Bindestriche (C<-->) abgeschlossen. Zum Beispiel ruft der nächste Befehl den Befehl C<tr> mit den Argumenten C<a-z A-Z> für das passende Wort in den Daten auf.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Der obige Befehl konvertiert alle übereinstimmenden Wörter von Kleinbuchstaben in Großbuchstaben. Eigentlich ist dieses Beispiel nicht sinnvoll, denn B<greple> kann dasselbe mit der Option B<--cm> effektiver erledigen.
+Der obige Befehl wandelt alle übereinstimmenden Wörter von Kleinbuchstaben in Großbuchstaben um. Eigentlich ist dieses Beispiel nicht so nützlich, weil B<greple> dasselbe mit der Option B<--cm> effektiver machen kann.
 
 Standardmäßig wird der Befehl als ein einziger Prozess ausgeführt, und alle übereinstimmenden Daten werden gemischt an ihn gesendet. Wenn der übereinstimmende Text nicht mit einem Zeilenumbruch endet, wird er davor eingefügt und danach entfernt. Die Daten werden zeilenweise zugeordnet, so dass die Anzahl der Zeilen der Eingabe- und Ausgabedaten identisch sein muss.
 
-Mit der Option B<--diskret> wird für jeden übereinstimmenden Teil ein eigener Befehl aufgerufen. Sie können den Unterschied an den folgenden Befehlen erkennen.
+Mit der Option B<--diskret> wird für jedes übereinstimmende Teil ein eigener Befehl aufgerufen. Sie können den Unterschied anhand der folgenden Befehle erkennen.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -33,7 +33,7 @@ Die Zeilen der Ein- und Ausgabedaten müssen nicht identisch sein, wenn die Opti
 
 =item B<--discrete>
 
-Aufruf eines neuen Befehls für jedes übereinstimmende Teil.
+Rufen Sie den neuen Befehl einzeln für jedes übereinstimmende Teil auf.
 
 =back
 
@@ -51,7 +51,7 @@ Der nächste Befehl findet Textblöcke innerhalb des L<perlpod(1)> Stildokuments
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-Sie können sie mit dem Dienst DeepL übersetzen, indem Sie den obigen Befehl mit dem Modul B<-Mtee> ausführen und den Befehl B<deepl> wie folgt aufrufen:
+Sie können sie mit dem Dienst DeepL übersetzen, indem Sie den obigen Befehl zusammen mit dem Modul B<-Mtee> ausführen, das den Befehl B<deepl> wie folgt aufruft:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

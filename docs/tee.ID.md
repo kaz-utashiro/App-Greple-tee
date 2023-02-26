@@ -10,15 +10,15 @@ App::Greple::tee - modul untuk mengganti teks yang cocok dengan hasil perintah e
 
 Modul **-Mtee** dari Greple mengirimkan bagian teks yang cocok dengan perintah filter yang diberikan, dan menggantinya dengan hasil perintah. Idenya berasal dari perintah yang disebut **teip**. Ini seperti melewatkan sebagian data ke perintah filter eksternal.
 
-Perintah filter ditentukan sebagai argumen berikut setelah opsi modul yang diakhiri dengan `--`. Sebagai contoh, perintah berikutnya memanggil perintah `tr` dengan argumen `a-z A-Z` untuk kata yang cocok dalam data.
+Perintah filter mengikuti deklarasi modul (`-Mtee`) dan diakhiri dengan dua tanda hubung (`--`). Sebagai contoh, perintah berikutnya memanggil perintah `tr` dengan argumen `a-z A-Z` untuk kata yang cocok dalam data.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Perintah di atas mengubah semua kata yang cocok dari huruf kecil menjadi huruf besar. Sebenarnya contoh ini tidak berguna karena **greple** dapat melakukan hal yang sama secara lebih efektif dengan opsi **--cm**.
+Perintah di atas mengubah semua kata yang cocok dari huruf kecil menjadi huruf besar. Sebenarnya contoh ini sendiri tidak begitu berguna karena **greple** dapat melakukan hal yang sama secara lebih efektif dengan opsi **--cm**.
 
 Secara default, perintah ini dijalankan sebagai satu proses, dan semua data yang cocok dikirim ke proses tersebut secara bersamaan. Jika teks yang dicocokkan tidak diakhiri dengan baris baru, maka teks tersebut akan ditambahkan sebelum dan dihapus setelahnya. Data dipetakan baris demi baris, sehingga jumlah baris data input dan output harus sama.
 
-Dengan menggunakan opsi **--discrete**, perintah individual dipanggil untuk setiap bagian yang dicocokkan. Anda dapat melihat perbedaannya dengan perintah berikut.
+Dengan menggunakan opsi **--discrete**, perintah individual dipanggil untuk setiap bagian yang cocok. Anda dapat mengetahui perbedaannya dengan perintah berikut.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -29,7 +29,7 @@ Baris data input dan output tidak harus identik ketika digunakan dengan opsi **-
 
 - **--discrete**
 
-    Memanggil perintah baru untuk setiap bagian yang cocok.
+    Memanggil perintah baru satu per satu untuk setiap bagian yang cocok.
 
 # WHY DO NOT USE TEIP
 
@@ -45,7 +45,7 @@ Perintah berikutnya akan menemukan blok teks di dalam dokumen gaya [perlpod(1)](
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-Anda dapat menerjemahkannya melalui layanan DeepL dengan menjalankan perintah di atas dengan modul **-Mtee** yang memanggil perintah **deepl** seperti ini:
+Anda dapat menerjemahkannya melalui layanan DeepL dengan menjalankan perintah di atas yang diyakinkan dengan modul **-Mtee** yang memanggil perintah **deepl** seperti ini:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

@@ -10,15 +10,15 @@ App::Greple::tee - modul de înlocuire a textului cu rezultatul unei comenzi ext
 
 Modulul **-Mtee** al lui Greple trimite partea de text potrivit la comanda de filtrare dată și le înlocuiește cu rezultatul comenzii. Ideea este derivată din comanda numită **teip**. Este ca și cum ar ocoli datele parțiale către comanda de filtrare externă.
 
-Comanda de filtrare este specificată ca următoarele argumente după opțiunea modulului care se termină cu `--`. De exemplu, comanda următoare apelează comanda `tr` comanda `a-z A-Z` cu argumentele `a-z A-Z` pentru cuvântul potrivit din date.
+Comanda de filtrare urmează după declarația modulului (`-Mtee`) și se termină prin două liniuțe (`--`). De exemplu, următoarea comandă apelează comanda `tr` comanda cu argumente `a-z A-Z` pentru cuvântul potrivit din date.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Comanda de mai sus convertește toate cuvintele potrivite din minusculă în majusculă. De fapt, acest exemplu nu este util, deoarece **greple** poate face același lucru mai eficient cu opțiunea **--cm**.
+Comanda de mai sus convertește toate cuvintele potrivite din minuscule în majuscule. De fapt, acest exemplu în sine nu este atât de util, deoarece **greple** poate face același lucru mai eficient cu opțiunea **--cm**.
 
 În mod implicit, comanda este executată ca un singur proces, iar toate datele potrivite sunt trimise către acesta amestecate împreună. În cazul în care textul potrivit nu se termină cu newline, acesta este adăugat înainte și eliminat după. Datele sunt mapate linie cu linie, astfel încât numărul de linii de date de intrare și de ieșire trebuie să fie identic.
 
-Utilizând opțiunea **--discrete**, se apelează o comandă individuală pentru fiecare piesă care se potrivește. Puteți observa diferența prin următoarele comenzi.
+Utilizând opțiunea **--discret**, se apelează o comandă individuală pentru fiecare piesă care se potrivește. Puteți face diferența prin următoarele comenzi.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -29,7 +29,7 @@ Liniile de date de intrare și de ieșire nu trebuie să fie identice atunci câ
 
 - **--discrete**
 
-    Invocarea unei noi comenzi pentru fiecare piesă care se potrivește.
+    Invocarea unei noi comenzi individuale pentru fiecare piesă care se potrivește.
 
 # WHY DO NOT USE TEIP
 
@@ -45,7 +45,7 @@ Următoarea comandă va găsi blocuri de text în interiorul documentului de sti
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-Le puteți traduce prin serviciul DeepL executând comanda de mai sus cu modulul **-Mtee** care apelează comanda **deepl** astfel:
+Puteți să le traduceți prin serviciul DeepL executând comanda de mai sus convinsă cu modulul **-Mtee** care apelează comanda **deepl** astfel:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

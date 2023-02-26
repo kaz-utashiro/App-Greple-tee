@@ -10,15 +10,15 @@ App::Greple::tee - eşleşen metni harici komut sonucu ile değiştiren modül
 
 Greple'ın **-Mtee** modülü, eşleşen metin parçasını verilen filtre komutuna gönderir ve bunları komut sonucuyla değiştirir. Bu fikir **teip** adlı komuttan türetilmiştir. Kısmi verileri harici filtre komutuna atlamak gibidir.
 
-Filtre komutu, `--` ile biten modül seçeneğinden sonra aşağıdaki argümanlar olarak belirtilir. Örneğin, bir sonraki komut verideki eşleşen kelime için `a-z A-Z` argümanları ile `tr` komutunu çağırır.
+Filtre komutu modül bildirimini (`-Mtee`) takip eder ve iki tire (`--`) ile sonlanır. Örneğin, bir sonraki komut verideki eşleşen kelime için `a-z A-Z` argümanları ile `tr` komutunu çağırır.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Yukarıdaki komut eşleşen tüm kelimeleri küçük harften büyük harfe dönüştürür. Aslında bu örnek kullanışlı değildir çünkü **greple** aynı şeyi **--cm** seçeneği ile daha etkili bir şekilde yapabilir.
+Yukarıdaki komut eşleşen tüm kelimeleri küçük harften büyük harfe dönüştürür. Aslında bu örneğin kendisi çok kullanışlı değildir çünkü **greple** aynı şeyi **--cm** seçeneği ile daha etkili bir şekilde yapabilir.
 
 Varsayılan olarak, komut tek bir işlem olarak yürütülür ve eşleşen tüm veriler karışık olarak gönderilir. Eşleşen metin satırsonu ile bitmiyorsa, önce eklenir ve sonra kaldırılır. Veriler satır satır eşlenir, bu nedenle girdi ve çıktı verilerinin satır sayısı aynı olmalıdır.
 
-**--discrete** seçeneği kullanıldığında, eşleşen her parça için ayrı bir komut çağrılır. Farkı aşağıdaki komutlarla fark edebilirsiniz.
+**--discrete** seçeneği kullanıldığında, eşleşen her parça için ayrı bir komut çağrılır. Farkı aşağıdaki komutlarla anlayabilirsiniz.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -29,7 +29,7 @@ Varsayılan olarak, komut tek bir işlem olarak yürütülür ve eşleşen tüm 
 
 - **--discrete**
 
-    Her eşleşen parça için yeni komut çağırın.
+    Eşleşen her parça için ayrı ayrı yeni komut çağırın.
 
 # WHY DO NOT USE TEIP
 
@@ -45,7 +45,7 @@ Sonraki komut, Perl modül dosyasında bulunan [perlpod(1)](http://man.he.net/ma
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-Yukarıdaki komutu **-Mtee** modülü ile çalıştırarak **deepl** komutunu bu şekilde çağırarak bunları DeepL servisi ile çevirebilirsiniz:
+Yukarıdaki komutu **deepl** komutunu çağıran **-Mtee** modülü ile birlikte çalıştırarak DeepL servisi ile çevirebilirsiniz:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

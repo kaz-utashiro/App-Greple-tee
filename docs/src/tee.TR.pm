@@ -12,15 +12,15 @@ App::Greple::tee - eşleşen metni harici komut sonucu ile değiştiren modül
 
 Greple'ın B<-Mtee> modülü, eşleşen metin parçasını verilen filtre komutuna gönderir ve bunları komut sonucuyla değiştirir. Bu fikir B<teip> adlı komuttan türetilmiştir. Kısmi verileri harici filtre komutuna atlamak gibidir.
 
-Filtre komutu, C<--> ile biten modül seçeneğinden sonra aşağıdaki argümanlar olarak belirtilir. Örneğin, bir sonraki komut verideki eşleşen kelime için C<a-z A-Z> argümanları ile C<tr> komutunu çağırır.
+Filtre komutu modül bildirimini (C<-Mtee>) takip eder ve iki tire (C<-->) ile sonlanır. Örneğin, bir sonraki komut verideki eşleşen kelime için C<a-z A-Z> argümanları ile C<tr> komutunu çağırır.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Yukarıdaki komut eşleşen tüm kelimeleri küçük harften büyük harfe dönüştürür. Aslında bu örnek kullanışlı değildir çünkü B<greple> aynı şeyi B<--cm> seçeneği ile daha etkili bir şekilde yapabilir.
+Yukarıdaki komut eşleşen tüm kelimeleri küçük harften büyük harfe dönüştürür. Aslında bu örneğin kendisi çok kullanışlı değildir çünkü B<greple> aynı şeyi B<--cm> seçeneği ile daha etkili bir şekilde yapabilir.
 
 Varsayılan olarak, komut tek bir işlem olarak yürütülür ve eşleşen tüm veriler karışık olarak gönderilir. Eşleşen metin satırsonu ile bitmiyorsa, önce eklenir ve sonra kaldırılır. Veriler satır satır eşlenir, bu nedenle girdi ve çıktı verilerinin satır sayısı aynı olmalıdır.
 
-B<--discrete> seçeneği kullanıldığında, eşleşen her parça için ayrı bir komut çağrılır. Farkı aşağıdaki komutlarla fark edebilirsiniz.
+B<--discrete> seçeneği kullanıldığında, eşleşen her parça için ayrı bir komut çağrılır. Farkı aşağıdaki komutlarla anlayabilirsiniz.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -33,7 +33,7 @@ B<--discrete> seçeneği kullanıldığında giriş ve çıkış verilerinin sat
 
 =item B<--discrete>
 
-Her eşleşen parça için yeni komut çağırın.
+Eşleşen her parça için ayrı ayrı yeni komut çağırın.
 
 =back
 
@@ -51,7 +51,7 @@ Sonraki komut, Perl modül dosyasında bulunan L<perlpod(1)> tarzı belge içind
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-Yukarıdaki komutu B<-Mtee> modülü ile çalıştırarak B<deepl> komutunu bu şekilde çağırarak bunları DeepL servisi ile çevirebilirsiniz:
+Yukarıdaki komutu B<deepl> komutunu çağıran B<-Mtee> modülü ile birlikte çalıştırarak DeepL servisi ile çevirebilirsiniz:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

@@ -15,16 +15,15 @@ command, and replace them by the command result.  The idea is derived
 from the command called B<teip>.  It is like bypassing partial data to
 the external filter command.
 
-Filter command is specified as following arguments after the module
-option ending with C<-->.  For example, next command call command
-C<tr> command with C<a-z A-Z> arguments for the matched word in the
-data.
+Filter command follows module declaration (C<-Mtee>) and terminates by
+two dashes (C<-->).  For example, next command call command C<tr>
+command with C<a-z A-Z> arguments for the matched word in the data.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
 Above command convert all matched words from lower-case to upper-case.
-Actually this example is not useful because B<greple> can do the same
-thing more effectively with B<--cm> option.
+Actually this example itself is not so useful because B<greple> can do
+the same thing more effectively with B<--cm> option.
 
 By default, the command is executed as a single process, and all
 matched data is sent to it mixed together.  If the matched text does
@@ -33,7 +32,7 @@ mapped line by line, so the number of lines of input and output data
 must be identical.
 
 Using B<--discrete> option, individual command is called for each
-matched part.  You can notice the difference by following commands.
+matched part.  You can tell the difference by following commands.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -47,7 +46,7 @@ with B<--discrete> option.
 
 =item B<--discrete>
 
-Invoke new command for every matched part.
+Invoke new command individually for every matched part.
 
 =back
 
@@ -71,8 +70,8 @@ included in Perl module file.
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-You can translate them by DeepL service by executing above command
-with B<-Mtee> module calling B<deepl> command like this:
+You can translate them by DeepL service by executing the above command
+convined with B<-Mtee> module which calls B<deepl> command like this:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

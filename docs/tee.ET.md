@@ -10,15 +10,15 @@ App::Greple::tee - moodul sobitatud teksti asendamiseks välise käsu tulemusega
 
 Greple'i **-Mtee** moodul saadab sobitatud tekstiosa antud filtrikomandole ja asendab need käsu tulemusega. Idee on tuletatud käsust nimega **teip**. See on nagu osaliste andmete edastamine välise filtri käsule.
 
-Filterkäsk antakse järgmiste argumentidena pärast mooduli valikut, mis lõpeb `--`. Näiteks järgmine käsk kutsub käsu `tr` käsu `a-z A-Z` argumentidega sobiva sõna andmete jaoks.
+Filtri käsk järgneb moodulideklaratsioonile (`-Mtee`) ja lõpeb kahe kriipsuga (`--`). Näiteks järgmine käsk kutsub käsu `tr` käsu `a-z A-Z` argumentidega sobiva sõna andmete jaoks.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Ülaltoodud käsk teisendab kõik leitud sõnad väiketähest suurtähestikku. Tegelikult ei ole see näide kasulik, sest **greple** saab sama asja tõhusamalt teha valikuga **--cm**.
+Ülaltoodud käsk teisendab kõik sobitatud sõnad väiketähtedest suurtähtedeks. Tegelikult ei ole see näide iseenesest nii kasulik, sest **greple** saab sama asja tõhusamalt teha valikuga **--cm**.
 
 Vaikimisi täidetakse käsk ühe protsessina ja kõik sobitatud andmed saadetakse sellele segamini. Kui sobitatud tekst ei lõpe newline'iga, lisatakse see enne ja eemaldatakse pärast. Andmed kaardistatakse rea kaupa, nii et sisend- ja väljundandmete ridade arv peab olema identne.
 
-Valiku **--diskreetne** abil kutsutakse iga sobitatud osa jaoks eraldi käsk. Erinevust võib märgata järgmiste käskude järgi.
+Valiku **--diskreetne** abil kutsutakse iga sobitatud osa jaoks eraldi käsk. Erinevust saab eristada järgmiste käskude abil.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -29,7 +29,7 @@ Sisend- ja väljundandmete read ei pea olema identsed, kui kasutatakse valikut *
 
 - **--discrete**
 
-    Iga sobitatud osa jaoks kutsutakse uus käsk.
+    Kutsuge uus käsk eraldi iga sobitatud osa jaoks.
 
 # WHY DO NOT USE TEIP
 
@@ -45,7 +45,7 @@ Järgmine käsk leiab tekstiplokid Perli moodulifailis sisalduva [perlpod(1)](ht
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-Neid saab tõlkida DeepL teenuse abil, kui täidetakse ülaltoodud käsk koos **-Mtee** mooduliga, mis kutsub käsku **deepl** niimoodi:
+Saate neid tõlkida DeepL teenuse abil, kui täidate ülaltoodud käsu koos mooduliga **-Mtee**, mis kutsub käsu **deepl** järgmiselt:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

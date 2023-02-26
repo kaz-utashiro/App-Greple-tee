@@ -10,15 +10,15 @@ App::Greple::tee - module permettant de remplacer le texte correspondant par le 
 
 Le module **-Mtee** de Greple envoie les parties de texte correspondantes à la commande de filtrage donnée, et les remplace par le résultat de la commande. L'idée est dérivée de la commande appelée **teip**. C'est comme si on contournait des données partielles vers la commande de filtrage externe.
 
-La commande de filtrage est spécifiée comme arguments suivants après l'option de module se terminant par `--`. Par exemple, la commande suivante appelle la commande `tr` avec les arguments `a-z A-Z` pour le mot correspondant dans les données.
+La commande de filtrage suit la déclaration du module (`-Mtee`) et se termine par deux tirets (`--`). Par exemple, la commande suivante appelle la commande `tr` avec les arguments `a-z A-Z` pour le mot correspondant dans les données.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-La commande ci-dessus convertit tous les mots correspondants de minuscules en majuscules. En fait, cet exemple n'est pas utile car **greple** peut faire la même chose plus efficacement avec l'option **--cm**.
+La commande ci-dessus convertit tous les mots correspondants des minuscules aux majuscules. En fait, cet exemple n'est pas très utile car **greple** peut faire la même chose plus efficacement avec l'option **--cm**.
 
 Par défaut, la commande est exécutée comme un seul processus, et toutes les données correspondantes lui sont envoyées mélangées. Si le texte correspondant ne se termine pas par une nouvelle ligne, il est ajouté avant et supprimé après. Les données sont mappées ligne par ligne, le nombre de lignes de données d'entrée et de sortie doit donc être identique.
 
-En utilisant l'option **--discret**, une commande individuelle est appelée pour chaque partie appariée. Vous pouvez remarquer la différence en suivant les commandes.
+En utilisant l'option **--discrete**, une commande individuelle est appelée pour chaque pièce appariée. Vous pouvez faire la différence avec les commandes suivantes.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -29,7 +29,7 @@ Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soien
 
 - **--discrete**
 
-    Invoquer une nouvelle commande pour chaque partie appariée.
+    Lancez une nouvelle commande individuellement pour chaque pièce correspondante.
 
 # WHY DO NOT USE TEIP
 
@@ -45,7 +45,7 @@ La commande suivante trouvera des blocs de texte dans le document de style [perl
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-Vous pouvez les traduire par le service DeepL en exécutant la commande ci-dessus avec le module **-Mtee** en appelant la commande **deepl** comme ceci :
+Vous pouvez les traduire par le service DeepL en exécutant la commande ci-dessus combinée avec le module **-Mtee** qui appelle la commande **deepl** comme ceci :
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 

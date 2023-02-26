@@ -10,15 +10,15 @@ App::Greple::tee - module om gematchte tekst te vervangen door het externe opdra
 
 Greple's **-Mtee** module stuurt gematchte tekstdelen naar het gegeven filtercommando, en vervangt ze door het resultaat van het commando. Het idee is afgeleid van het commando **teip**. Het is als het omzeilen van gedeeltelijke gegevens naar het externe filtercommando.
 
-Het filtercommando wordt opgegeven als volgende argumenten na de module-optie die eindigt met `--`. Bijvoorbeeld, het volgende commando roept commando `tr` op met `a-z A-Z` argumenten voor het gezochte woord in de gegevens.
+Het filtercommando volgt op de moduleverklaring (`-Mtee`) en eindigt met twee streepjes (`--`). Bijvoorbeeld, het volgende commando roept commando `tr` op met `a-z A-Z` argumenten voor het gezochte woord in de gegevens.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Bovenstaand commando zet alle gevonden woorden om van kleine letters naar hoofdletters. Eigenlijk is dit voorbeeld niet nuttig omdat **greple** hetzelfde effectiever kan doen met de optie **--cm**.
+Bovenstaand commando zet alle overeenkomende woorden om van kleine letters naar hoofdletters. Eigenlijk is dit voorbeeld zelf niet zo nuttig omdat **greple** hetzelfde effectiever kan doen met de optie **--cm**.
 
 Standaard wordt het commando uitgevoerd als een enkel proces, en alle gematchte gegevens worden erdoor gemengd. Als de gematchte tekst niet eindigt met een newline, wordt hij ervoor toegevoegd en erna verwijderd. De gegevens worden regel voor regel in kaart gebracht, dus het aantal regels invoer- en uitvoergegevens moet identiek zijn.
 
-Met de optie **--discreet** wordt voor elk gematcht deel een afzonderlijk commando opgeroepen. U kunt het verschil merken aan de hand van de volgende commando's.
+Met de optie **--discreet** wordt voor elk gematcht onderdeel een afzonderlijk commando opgeroepen. U kunt het verschil zien aan de hand van de volgende commando's.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -29,7 +29,7 @@ Bij gebruik van de optie **--discreet** hoeven de regels invoer- en uitvoergegev
 
 - **--discrete**
 
-    Roep nieuw commando op voor elk gematcht deel.
+    Roep nieuw commando individueel op voor elk onderdeel.
 
 # WHY DO NOT USE TEIP
 
@@ -45,7 +45,7 @@ Het volgende commando vindt tekstblokken in [perlpod(1)](http://man.he.net/man1/
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-U kunt ze vertalen door DeepL service door bovenstaand commando uit te voeren met **-Mtee** module die **deepl** commando aanroept zoals dit:
+U kunt ze vertalen door DeepL service door het bovenstaande commando uit te voeren in combinatie met **-Mtee** module die het commando **deepl** als volgt oproept:
 
     greple -Mtee deepl text --to JA - -- --discrete ...
 
