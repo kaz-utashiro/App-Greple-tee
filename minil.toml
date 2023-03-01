@@ -9,4 +9,4 @@ static_install = "auto"
 branch = "main"
 
 [FileGatherer]
-exclude_match = [ '^images/.*' ]
+exclude_match = [ '^images/.*', 'docs' ]
