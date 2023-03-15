@@ -186,7 +186,7 @@ sub call {
     if (ref $command ne 'ARRAY') {
 	$command = [ shellwords $command ];
     }
-    $exec->command($command)->setstdin($data)->update->data;
+    $exec->command($command)->setstdin($data)->update->data // '';
 }
 
 use Unicode::EastAsianWidth;
