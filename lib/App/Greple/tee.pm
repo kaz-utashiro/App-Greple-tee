@@ -48,6 +48,13 @@ with B<--discrete> option.
 
 Invoke new command individually for every matched part.
 
+=item B<--fillup>
+
+Combine a sequence of non-blank lines into a single line before
+passing them to the filter command.  Newline characters between wide
+characters are deleted, and other newline characters are replaced with
+spaces.
+
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -73,12 +80,7 @@ included in Perl module file.
 You can translate them by DeepL service by executing the above command
 convined with B<-Mtee> module which calls B<deepl> command like this:
 
-    greple -Mtee deepl text --to JA - -- --discrete ...
-
-Because B<deepl> works better for single line input, you can change
-command part as this:
-
-    sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
+    greple -Mtee deepl text --to JA - -- --fillup ...
 
 The dedicated module L<App::Greple::xlate::deepl> is more effective
 for this purpose, though.  In fact, the implementation hint of B<tee>
@@ -130,6 +132,10 @@ L<https://github.com/tecolicom/Greple>
 
 L<App::Greple::xlate>
 
+=head1 BUGS
+
+The C<--fillup> option may not work correctly for Korean text.
+
 =head1 AUTHOR
 
 Kazumasa Utashiro
@@ -158,6 +164,7 @@ use Data::Dumper;
 our $command;
 our $blockmatch;
 our $discrete;
+our $fillup;
 
 my @jammed;
 my($mod, $argv);
@@ -182,9 +189,25 @@ sub call {
     $exec->command($command)->setstdin($data)->update->data;
 }
 
+use Unicode::EastAsianWidth;
+
+sub fillup_paragraph {
+    (my $s1, local $_, my $s2) = $_[0] =~ /\A(\s*)(.*?)(\s*)\z/s or die;
+    s/(?<=\p{InFullwidth})\n(?=\p{InFullwidth})//g;
+    s/\s+/ /g;
+    $s1 . $_ . $s2;
+}
+
 sub jammed_call {
     my @need_nl = grep { $_[$_] !~ /\n\z/ } 0 .. $#_;
     my @from = @_;
+    if ($fillup) {
+	for (@from) {
+	    s{^.+(?:\n.+)*}{
+		fillup_paragraph ${^MATCH}
+	    }pmge;
+	}
+    }
     $from[$_] .= "\n" for @need_nl;
     my @lines = map { int tr/\n/\n/ } @from;
     my $from = join '', @from;
@@ -234,6 +257,7 @@ __DATA__
 
 builtin --blockmatch $blockmatch
 builtin --discrete!  $discrete
+builtin --fillup!    $fillup
 
 option default \
 	--postgrep &__PACKAGE__::postgrep \

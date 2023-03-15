@@ -45,6 +45,13 @@ with **--discrete** option.
 
     Invoke new command individually for every matched part.
 
+- **--fillup**
+
+    Combine a sequence of non-blank lines into a single line before
+    passing them to the filter command.  Newline characters between wide
+    characters are deleted, and other newline characters are replaced with
+    spaces.
+
 # WHY DO NOT USE TEIP
 
 First of all, whenever you can do it with the **teip** command, use
@@ -68,12 +75,7 @@ included in Perl module file.
 You can translate them by DeepL service by executing the above command
 convined with **-Mtee** module which calls **deepl** command like this:
 
-    greple -Mtee deepl text --to JA - -- --discrete ...
-
-Because **deepl** works better for single line input, you can change
-command part as this:
-
-    sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
+    greple -Mtee deepl text --to JA - -- --fillup ...
 
 The dedicated module [App::Greple::xlate::deepl](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate%3A%3Adeepl) is more effective
 for this purpose, though.  In fact, the implementation hint of **tee**
@@ -126,6 +128,10 @@ command:
 [https://github.com/tecolicom/Greple](https://github.com/tecolicom/Greple)
 
 [App::Greple::xlate](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate)
+
+# BUGS
+
+The `--fillup` option may not work correctly for Korean text.
 
 # AUTHOR
 
