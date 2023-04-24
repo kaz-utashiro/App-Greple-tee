@@ -109,7 +109,33 @@ command:
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.
-    
+
+Using `--discrete` option is time consuming.  So you can use
+`--separate '\r'` option with `ansifold` which produce single line
+using CR character instead of NL.
+
+    greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
+
+Then convert CR char to NL after by [tr(1)](http://man.he.net/man1/tr) command or some.
+
+    ... | tr '\r' '\n'
+
+# EXAMPLE 3
+
+Consider a situation where you want to grep for strings from
+non-header lines. For example, you may want to search for images from
+the `docker image ls` command, but leave the header line.  You can do
+it by following command.
+
+    greple -Mtee grep perl -- -Mline -L 2: --discrete --all
+
+Option `-Mline -L 2:` retrieves the second to last lines and sends
+them to the `grep perl` command. Option `--discrete` is required,
+but this is called only once, so there is no performance drawback.
+
+In this case, `teip -l 2- -- grep` produces error because the number
+of lines in the output is less than input. However, result is quite
+satisfactory :)
 
 # INSTALL
 
