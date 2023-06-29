@@ -193,7 +193,6 @@ our $blockmatch;
 our $discrete;
 our $fillup;
 
-my @jammed;
 my($mod, $argv);
 
 sub initialize {
@@ -248,18 +247,20 @@ sub jammed_call {
     return @to;
 }
 
+my @jammed;
+
 sub postgrep {
     my $grep = shift;
-    @jammed = my @block = ();
     if ($blockmatch) {
 	$grep->{RESULT} = [
 	    [ [ 0, length ],
 	      map {
-		  [ $_->[0][0], $_->[0][1], 0, $grep->{callback} ]
+		  [ $_->[0][0], $_->[0][1], 0, $grep->{callback}->[0] ]
 	      } $grep->result
 	    ] ];
     }
     return if $discrete;
+    @jammed = my @block = ();
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
 	for my $m (@match) {
