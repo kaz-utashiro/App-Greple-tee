@@ -178,7 +178,7 @@ it under the same terms as Perl itself.
 
 package App::Greple::tee;
 
-our $VERSION = "0.05";
+our $VERSION = "0.99";
 
 use v5.14;
 use warnings;
