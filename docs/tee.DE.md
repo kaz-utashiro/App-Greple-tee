@@ -25,11 +25,19 @@ Mit der Option **--diskret** wird für jedes übereinstimmende Teil ein eigener 
 
 Die Zeilen der Ein- und Ausgabedaten müssen nicht identisch sein, wenn die Option **--diskret** verwendet wird.
 
+# VERSION
+
+Version 0.99
+
 # OPTIONS
 
 - **--discrete**
 
     Rufen Sie den neuen Befehl einzeln für jedes übereinstimmende Teil auf.
+
+- **--fillup**
+
+    Kombiniert eine Folge von nicht leeren Zeilen zu einer einzigen Zeile, bevor sie an den Filterbefehl übergeben wird. Zeilenumbrüche zwischen breiten Zeichen werden gelöscht, und andere Zeilenumbrüche werden durch Leerzeichen ersetzt.
 
 # WHY DO NOT USE TEIP
 
@@ -47,11 +55,7 @@ Der nächste Befehl findet Textblöcke innerhalb des [perlpod(1)](http://man.he.
 
 Sie können sie mit dem Dienst DeepL übersetzen, indem Sie den obigen Befehl zusammen mit dem Modul **-Mtee** ausführen, das den Befehl **deepl** wie folgt aufruft:
 
-    greple -Mtee deepl text --to JA - -- --discrete ...
-
-Da **deepl** besser für einzeilige Eingaben funktioniert, können Sie den Befehlsteil wie folgt ändern:
-
-    sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
+    greple -Mtee deepl text --to JA - -- --fillup ...
 
 Das spezielle Modul [App::Greple::xlate::deepl](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate%3A%3Adeepl) ist für diesen Zweck jedoch effektiver. Tatsächlich stammt der Implementierungshinweis des Moduls **tee** aus dem Modul **xlate**.
 
@@ -82,7 +86,24 @@ Sie können diesen Teil umformatieren, indem Sie das Modul **tee** mit dem Befeh
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.
-    
+
+Die Verwendung der Option `--diskret` ist zeitaufwendig. Sie können daher die Option `--separate '\r'` mit `ansifold` verwenden, die eine einzelne Zeile mit CR-Zeichen anstelle von NL erzeugt.
+
+    greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
+
+Dann konvertieren Sie das CR-Zeichen mit dem Befehl [tr(1)](http://man.he.net/man1/tr) oder ähnlichem in NL.
+
+    ... | tr '\r' '\n'
+
+# EXAMPLE 3
+
+Stellen Sie sich eine Situation vor, in der Sie nach Zeichenketten in Nicht-Kopfzeilen suchen wollen. Zum Beispiel könnten Sie nach Bildern aus dem Befehl `docker image ls` suchen, aber die Kopfzeile weglassen. Sie können dies mit folgendem Befehl tun.
+
+    greple -Mtee grep perl -- -Mline -L 2: --discrete --all
+
+Option `-Mline -L 2:` holt die vorletzte Zeile und sendet sie an den Befehl `grep perl`. Die Option `--discrete` ist erforderlich, aber sie wird nur einmal aufgerufen, so dass es keine Leistungseinbußen gibt.
+
+In diesem Fall erzeugt `teip -l 2- -- grep` einen Fehler, weil die Anzahl der Zeilen in der Ausgabe geringer ist als die der Eingabe. Das Ergebnis ist jedoch recht zufriedenstellend :)
 
 # INSTALL
 
@@ -101,6 +122,10 @@ Sie können diesen Teil umformatieren, indem Sie das Modul **tee** mit dem Befeh
 [https://github.com/tecolicom/Greple](https://github.com/tecolicom/Greple)
 
 [App::Greple::xlate](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate)
+
+# BUGS
+
+Die Option `--fillup` funktioniert möglicherweise nicht korrekt für koreanischen Text.
 
 # AUTHOR
 

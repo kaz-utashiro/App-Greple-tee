@@ -40,6 +40,10 @@ matched part.  You can tell the difference by following commands.
 Lines of input and output data do not have to be identical when used
 with B<--discrete> option.
 
+=head1 VERSION
+
+Version 0.99
+
 =head1 OPTIONS
 
 =over 7

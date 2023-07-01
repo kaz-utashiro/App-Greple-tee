@@ -27,6 +27,10 @@ En utilisant l'option B<--discrete>, une commande individuelle est appelée pour
 
 Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soient identiques lorsque l'option B<--discrete> est utilisée.
 
+=head1 VERSION
+
+Version 0.99
+
 =head1 OPTIONS
 
 =over 7
@@ -34,6 +38,10 @@ Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soien
 =item B<--discrete>
 
 Lancez une nouvelle commande individuellement pour chaque pièce correspondante.
+
+=item B<--fillup>
+
+Combine une séquence de lignes non vides en une seule ligne avant de les transmettre à la commande de filtrage. Les caractères de nouvelle ligne entre les caractères larges sont supprimés et les autres caractères de nouvelle ligne sont remplacés par des espaces.
 
 =back
 
@@ -53,11 +61,7 @@ La commande suivante trouvera des blocs de texte dans le document de style L<per
 
 Vous pouvez les traduire par le service DeepL en exécutant la commande ci-dessus combinée avec le module B<-Mtee> qui appelle la commande B<deepl> comme ceci :
 
-    greple -Mtee deepl text --to JA - -- --discrete ...
-
-Comme B<deepl> fonctionne mieux pour la saisie sur une seule ligne, vous pouvez modifier la partie de la commande comme ceci :
-
-    sh -c 'perl -00pE "s/\s+/ /g" | deepl text --to JA -'
+    greple -Mtee deepl text --to JA - -- --fillup ...
 
 Le module dédié L<App::Greple::xlate::deepl> est plus efficace dans ce but, cependant. En fait, l'indice d'implémentation du module B<tee> vient du module B<xlate>.
 
@@ -87,7 +91,25 @@ Vous pouvez reformater cette partie en utilisant le module B<tee> avec la comman
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.
-    
+
+L'utilisation de l'option C<--discrete> prend du temps. Vous pouvez donc utiliser l'option C<--separate '\r'> avec C<ansifold> qui produit une seule ligne en utilisant le caractère CR au lieu de NL.
+
+    greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
+
+Ensuite, convertissez le caractère CR en NL à l'aide de la commande L<tr(1)> ou d'une autre commande.
+
+    ... | tr '\r' '\n'
+
+=head1 EXAMPLE 3
+
+Considérons une situation dans laquelle vous souhaitez rechercher des chaînes de caractères dans des lignes autres que les lignes d'en-tête. Par exemple, vous pouvez rechercher des images à partir de la commande C<docker image ls>, mais en laissant la ligne d'en-tête. Vous pouvez le faire en utilisant la commande suivante.
+
+    greple -Mtee grep perl -- -Mline -L 2: --discrete --all
+
+L'option C<-Mline -L 2:> récupère l'avant-dernière ligne et l'envoie à la commande C<grep perl>. L'option C<--discrete> est nécessaire, mais elle n'est appelée qu'une seule fois, de sorte qu'il n'y a pas d'inconvénient en termes de performances.
+
+Dans ce cas, C<teip -l 2- -- grep> produit une erreur car le nombre de lignes en sortie est inférieur au nombre de lignes en entrée. Cependant, le résultat est tout à fait satisfaisant :)
+
 =head1 INSTALL
 
 =head2 CPANMINUS
@@ -106,6 +128,10 @@ L<https://github.com/tecolicom/Greple>
 
 L<App::Greple::xlate>
 
+=head1 BUGS
+
+L'option C<--fillup> peut ne pas fonctionner correctement pour le texte coréen.
+
 =head1 AUTHOR
 
 Kazumasa Utashiro
@@ -121,7 +147,7 @@ it under the same terms as Perl itself.
 
 package App::Greple::tee;
 
-our $VERSION = "0.03";
+our $VERSION = "0.99";
 
 use v5.14;
 use warnings;
@@ -134,8 +160,8 @@ use Data::Dumper;
 our $command;
 our $blockmatch;
 our $discrete;
+our $fillup;
 
-my @jammed;
 my($mod, $argv);
 
 sub initialize {
@@ -155,12 +181,28 @@ sub call {
     if (ref $command ne 'ARRAY') {
 	$command = [ shellwords $command ];
     }
-    $exec->command($command)->setstdin($data)->update->data;
+    $exec->command($command)->setstdin($data)->update->data // '';
+}
+
+use Unicode::EastAsianWidth;
+
+sub fillup_paragraph {
+    (my $s1, local $_, my $s2) = $_[0] =~ /\A(\s*)(.*?)(\s*)\z/s or die;
+    s/(?<=\p{InFullwidth})\n(?=\p{InFullwidth})//g;
+    s/\s+/ /g;
+    $s1 . $_ . $s2;
 }
 
 sub jammed_call {
     my @need_nl = grep { $_[$_] !~ /\n\z/ } 0 .. $#_;
     my @from = @_;
+    if ($fillup) {
+	for (@from) {
+	    s{^.+(?:\n.+)*}{
+		fillup_paragraph ${^MATCH}
+	    }pmge;
+	}
+    }
     $from[$_] .= "\n" for @need_nl;
     my @lines = map { int tr/\n/\n/ } @from;
     my $from = join '', @from;
@@ -174,18 +216,20 @@ sub jammed_call {
     return @to;
 }
 
+my @jammed;
+
 sub postgrep {
     my $grep = shift;
-    @jammed = my @block = ();
     if ($blockmatch) {
 	$grep->{RESULT} = [
 	    [ [ 0, length ],
 	      map {
-		  [ $_->[0][0], $_->[0][1], 0, $grep->{callback} ]
+		  [ $_->[0][0], $_->[0][1], 0, $grep->{callback}->[0] ]
 	      } $grep->result
 	    ] ];
     }
     return if $discrete;
+    @jammed = my @block = ();
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
 	for my $m (@match) {
@@ -210,6 +254,7 @@ __DATA__
 
 builtin --blockmatch $blockmatch
 builtin --discrete!  $discrete
+builtin --fillup!    $fillup
 
 option default \
 	--postgrep &__PACKAGE__::postgrep \
