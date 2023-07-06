@@ -59,6 +59,26 @@ passing them to the filter command.  Newline characters between wide
 characters are deleted, and other newline characters are replaced with
 spaces.
 
+=item B<--blockmatch>
+
+Normally, the area matching the specified search pattern is sent to the 
+external command. If this option is specified, not the matched area but 
+the entire block containing it will be processed.
+
+For example, to send lines containing the pattern C<foo> to the
+external command, you need to specify the pattern which matches to
+entire line:
+
+    greple -Mtee cat -n -- '^.*foo.*\n'
+
+But with the B<--blockmatch> option, it can be done as simply as
+follows:
+
+    greple -Mtee cat -n -- foo
+
+With B<--blockmatch> option, this module behave more like L<teip(1)>'s
+B<-g> option.
+
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -209,16 +229,6 @@ sub initialize {
     }
 }
 
-sub call {
-    my $data = shift;
-    $command // return $data;
-    state $exec = App::cdif::Command->new;
-    if (ref $command ne 'ARRAY') {
-	$command = [ shellwords $command ];
-    }
-    $exec->command($command)->setstdin($data)->update->data // '';
-}
-
 use Unicode::EastAsianWidth;
 
 sub fillup_paragraph {
@@ -228,16 +238,22 @@ sub fillup_paragraph {
     $s1 . $_ . $s2;
 }
 
+sub call {
+    my $data = shift;
+    $command // return $data;
+    state $exec = App::cdif::Command->new;
+    if ($fillup) {
+	$data =~ s/^.+(?:\n.+)*/fillup_paragraph(${^MATCH})/pmge;
+    }
+    if (ref $command ne 'ARRAY') {
+	$command = [ shellwords $command ];
+    }
+    $exec->command($command)->setstdin($data)->update->data // '';
+}
+
 sub jammed_call {
     my @need_nl = grep { $_[$_] !~ /\n\z/ } 0 .. $#_;
     my @from = @_;
-    if ($fillup) {
-	for (@from) {
-	    s{^.+(?:\n.+)*}{
-		fillup_paragraph ${^MATCH}
-	    }pmge;
-	}
-    }
     $from[$_] .= "\n" for @need_nl;
     my @lines = map { int tr/\n/\n/ } @from;
     my $from = join '', @from;
