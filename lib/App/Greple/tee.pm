@@ -231,19 +231,24 @@ sub initialize {
 
 use Unicode::EastAsianWidth;
 
-sub fillup_paragraph {
+sub fillup_block {
     (my $s1, local $_, my $s2) = $_[0] =~ /\A(\s*)(.*?)(\s*)\z/s or die;
     s/(?<=\p{InFullwidth})\n(?=\p{InFullwidth})//g;
     s/\s+/ /g;
     $s1 . $_ . $s2;
 }
 
+sub fillup_paragraphs {
+    local *_ = @_ > 0 ? \$_[0] : \$_;
+    s{^.+(?:\n.+)*}{ fillup_block ${^MATCH} }pmge;
+}
+
 sub call {
     my $data = shift;
     $command // return $data;
     state $exec = App::cdif::Command->new;
-    if ($fillup) {
-	$data =~ s/^.+(?:\n.+)*/fillup_paragraph(${^MATCH})/pmge;
+    if ($discrete and $fillup) {
+	fillup_paragraphs $data;
     }
     if (ref $command ne 'ARRAY') {
 	$command = [ shellwords $command ];
@@ -254,6 +259,9 @@ sub call {
 sub jammed_call {
     my @need_nl = grep { $_[$_] !~ /\n\z/ } keys @_;
     my @from = @_;
+    if ($fillup) {
+	fillup_paragraphs for @from;
+    }
     $from[$_] .= "\n" for @need_nl;
     my @lines = map { int tr/\n/\n/ } @from;
     my $from = join '', @from;
