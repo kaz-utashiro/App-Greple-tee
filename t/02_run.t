@@ -68,15 +68,15 @@ __DATA__
      2	jumps over the lazy dog.
      3	1234567890
 
-いろはにほへと　ちりぬるを
-　わかよたれそ　つねならむ
-　　うゐのおくやま　けふこえて
-　　　あさきゆめみし　ゑひもせすん
+いろはにほへとちりぬるを
+わかよたれそつねならむ
+うゐのおくやまけふこえて
+あさきゆめみしゑひもせすん
 
-色は匂へど　散りぬるを
-　我が世誰そ　常ならむ
-　　有為の奥山　今日越えて
-　　　浅き夢見じ　酔ひもせず.
+色は匂へど散りぬるを
+我が世誰そ常ならむ
+有為の奥山今日越えて
+浅き夢見じ酔ひもせず.
 
      4	Ma la volpe col suo balzo ha raggiunto il quieto Fido.
 
@@ -95,15 +95,15 @@ __DATA__
      2	jumps over the lazy dog.
      3	1234567890
 
-いろはにほへと　ちりぬるを
-　わかよたれそ　つねならむ
-　　うゐのおくやま　けふこえて
-　　　あさきゆめみし　ゑひもせすん
+いろはにほへとちりぬるを
+わかよたれそつねならむ
+うゐのおくやまけふこえて
+あさきゆめみしゑひもせすん
 
-色は匂へど　散りぬるを
-　我が世誰そ　常ならむ
-　　有為の奥山　今日越えて
-　　　浅き夢見じ　酔ひもせず.
+色は匂へど散りぬるを
+我が世誰そ常ならむ
+有為の奥山今日越えて
+浅き夢見じ酔ひもせず.
 
      1	Ma la volpe col suo balzo ha raggiunto il quieto Fido.
 
@@ -117,26 +117,26 @@ __DATA__
 
      1	El veloz murciélago hindú comía feliz cardillo y kiwi.
      2	La cigüeña tocaba el saxofón detrás del palenque de paja.
-@@ greple -Mtee tr "[:lower:]" "[:upper:]" -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all
+@@ greple -Mtee perl -CSAD -pE '$_=uc' -- '\S+' t/SAMPLE.txt --all
 THE QUICK BROWN FOX
 JUMPS OVER THE LAZY DOG.
 1234567890
 
-いろはにほへと　ちりぬるを
-　わかよたれそ　つねならむ
-　　うゐのおくやま　けふこえて
-　　　あさきゆめみし　ゑひもせすん
+いろはにほへとちりぬるを
+わかよたれそつねならむ
+うゐのおくやまけふこえて
+あさきゆめみしゑひもせすん
 
-色は匂へど　散りぬるを
-　我が世誰そ　常ならむ
-　　有為の奥山　今日越えて
-　　　浅き夢見じ　酔ひもせず.
+色は匂へど散りぬるを
+我が世誰そ常ならむ
+有為の奥山今日越えて
+浅き夢見じ酔ひもせず.
 
 MA LA VOLPE COL SUO BALZO HA RAGGIUNTO IL QUIETO FIDO.
 
 SYLVIA WAGT QUICK DEN JUX BEI PFORZHEIM.
 
-VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROßEN SYLTER DEICH.
+VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROSSEN SYLTER DEICH.
 
 LE CŒUR DÉÇU MAIS L'ÂME PLUTÔT NAÏVE,
 LOUŸS RÊVA DE CRAPAÜTER EN CANOË AU DELÀ DES ÎLES,
@@ -144,26 +144,26 @@ PRÈS DU MÄLSTRÖN OÙ BRÛLENT LES NOVÆ.
 
 EL VELOZ MURCIÉLAGO HINDÚ COMÍA FELIZ CARDILLO Y KIWI.
 LA CIGÜEÑA TOCABA EL SAXOFÓN DETRÁS DEL PALENQUE DE PAJA.
-@@ greple -Mtee tr "[:lower:]" "[:upper:]" -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all --discrete
+@@ greple -Mtee perl -CSAD -pE '$_=uc' -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all
 THE QUICK BROWN FOX
 JUMPS OVER THE LAZY DOG.
 1234567890
 
-いろはにほへと　ちりぬるを
-　わかよたれそ　つねならむ
-　　うゐのおくやま　けふこえて
-　　　あさきゆめみし　ゑひもせすん
+いろはにほへとちりぬるを
+わかよたれそつねならむ
+うゐのおくやまけふこえて
+あさきゆめみしゑひもせすん
 
-色は匂へど　散りぬるを
-　我が世誰そ　常ならむ
-　　有為の奥山　今日越えて
-　　　浅き夢見じ　酔ひもせず.
+色は匂へど散りぬるを
+我が世誰そ常ならむ
+有為の奥山今日越えて
+浅き夢見じ酔ひもせず.
 
 MA LA VOLPE COL SUO BALZO HA RAGGIUNTO IL QUIETO FIDO.
 
 SYLVIA WAGT QUICK DEN JUX BEI PFORZHEIM.
 
-VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROßEN SYLTER DEICH.
+VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROSSEN SYLTER DEICH.
 
 LE CŒUR DÉÇU MAIS L'ÂME PLUTÔT NAÏVE,
 LOUŸS RÊVA DE CRAPAÜTER EN CANOË AU DELÀ DES ÎLES,
@@ -171,47 +171,106 @@ PRÈS DU MÄLSTRÖN OÙ BRÛLENT LES NOVÆ.
 
 EL VELOZ MURCIÉLAGO HINDÚ COMÍA FELIZ CARDILLO Y KIWI.
 LA CIGÜEÑA TOCABA EL SAXOFÓN DETRÁS DEL PALENQUE DE PAJA.
-@@ greple -Mtee tr "[:lower:]" "[:upper:]" -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all --fillup
-THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG. 1234567890
+@@ greple -Mtee perl -CSAD -pE '$_=uc' -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all --discrete
+THE QUICK BROWN FOX
+JUMPS OVER THE LAZY DOG.
+1234567890
 
-いろはにほへと　ちりぬるを
-　わかよたれそ　つねならむ
-　　うゐのおくやま　けふこえて
-　　　あさきゆめみし　ゑひもせすん
+いろはにほへとちりぬるを
+わかよたれそつねならむ
+うゐのおくやまけふこえて
+あさきゆめみしゑひもせすん
 
-色は匂へど　散りぬるを
-　我が世誰そ　常ならむ
-　　有為の奥山　今日越えて
-　　　浅き夢見じ　酔ひもせず.
-
-MA LA VOLPE COL SUO BALZO HA RAGGIUNTO IL QUIETO FIDO.
-
-SYLVIA WAGT QUICK DEN JUX BEI PFORZHEIM.
-
-VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROßEN SYLTER DEICH.
-
-LE CŒUR DÉÇU MAIS L'ÂME PLUTÔT NAÏVE, LOUŸS RÊVA DE CRAPAÜTER EN CANOË AU DELÀ DES ÎLES, PRÈS DU MÄLSTRÖN OÙ BRÛLENT LES NOVÆ.
-
-EL VELOZ MURCIÉLAGO HINDÚ COMÍA FELIZ CARDILLO Y KIWI. LA CIGÜEÑA TOCABA EL SAXOFÓN DETRÁS DEL PALENQUE DE PAJA.
-@@ greple -Mtee tr "[:lower:]" "[:upper:]" -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all --fillup --discrete
-THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG. 1234567890
-
-いろはにほへと　ちりぬるを
-　わかよたれそ　つねならむ
-　　うゐのおくやま　けふこえて
-　　　あさきゆめみし　ゑひもせすん
-
-色は匂へど　散りぬるを
-　我が世誰そ　常ならむ
-　　有為の奥山　今日越えて
-　　　浅き夢見じ　酔ひもせず.
+色は匂へど散りぬるを
+我が世誰そ常ならむ
+有為の奥山今日越えて
+浅き夢見じ酔ひもせず.
 
 MA LA VOLPE COL SUO BALZO HA RAGGIUNTO IL QUIETO FIDO.
 
 SYLVIA WAGT QUICK DEN JUX BEI PFORZHEIM.
 
-VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROßEN SYLTER DEICH.
+VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROSSEN SYLTER DEICH.
+
+LE CŒUR DÉÇU MAIS L'ÂME PLUTÔT NAÏVE,
+LOUŸS RÊVA DE CRAPAÜTER EN CANOË AU DELÀ DES ÎLES,
+PRÈS DU MÄLSTRÖN OÙ BRÛLENT LES NOVÆ.
+
+EL VELOZ MURCIÉLAGO HINDÚ COMÍA FELIZ CARDILLO Y KIWI.
+LA CIGÜEÑA TOCABA EL SAXOFÓN DETRÁS DEL PALENQUE DE PAJA.
+@@ greple -Mtee perl -CSAD -pE '$_=uc' -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all --fillup
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG. 1234567890
+
+いろはにほへとちりぬるを
+わかよたれそつねならむ
+うゐのおくやまけふこえて
+あさきゆめみしゑひもせすん
+
+色は匂へど散りぬるを
+我が世誰そ常ならむ
+有為の奥山今日越えて
+浅き夢見じ酔ひもせず.
+
+MA LA VOLPE COL SUO BALZO HA RAGGIUNTO IL QUIETO FIDO.
+
+SYLVIA WAGT QUICK DEN JUX BEI PFORZHEIM.
+
+VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROSSEN SYLTER DEICH.
 
 LE CŒUR DÉÇU MAIS L'ÂME PLUTÔT NAÏVE, LOUŸS RÊVA DE CRAPAÜTER EN CANOË AU DELÀ DES ÎLES, PRÈS DU MÄLSTRÖN OÙ BRÛLENT LES NOVÆ.
 
 EL VELOZ MURCIÉLAGO HINDÚ COMÍA FELIZ CARDILLO Y KIWI. LA CIGÜEÑA TOCABA EL SAXOFÓN DETRÁS DEL PALENQUE DE PAJA.
+@@ greple -Mtee perl -CSAD -pE '$_=uc' -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all --fillup --discrete
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG. 1234567890
+
+いろはにほへとちりぬるを
+わかよたれそつねならむ
+うゐのおくやまけふこえて
+あさきゆめみしゑひもせすん
+
+色は匂へど散りぬるを
+我が世誰そ常ならむ
+有為の奥山今日越えて
+浅き夢見じ酔ひもせず.
+
+MA LA VOLPE COL SUO BALZO HA RAGGIUNTO IL QUIETO FIDO.
+
+SYLVIA WAGT QUICK DEN JUX BEI PFORZHEIM.
+
+VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROSSEN SYLTER DEICH.
+
+LE CŒUR DÉÇU MAIS L'ÂME PLUTÔT NAÏVE, LOUŸS RÊVA DE CRAPAÜTER EN CANOË AU DELÀ DES ÎLES, PRÈS DU MÄLSTRÖN OÙ BRÛLENT LES NOVÆ.
+
+EL VELOZ MURCIÉLAGO HINDÚ COMÍA FELIZ CARDILLO Y KIWI. LA CIGÜEÑA TOCABA EL SAXOFÓN DETRÁS DEL PALENQUE DE PAJA.
+@@ greple -Mtee cat -n -- '^(.+\n)+' t/SAMPLE.txt --all --fillup
+     1	The quick brown fox jumps over the lazy dog. 1234567890
+
+     2	いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせすん
+
+     3	色は匂へど散りぬるを我が世誰そ常ならむ有為の奥山今日越えて浅き夢見じ酔ひもせず.
+
+     4	Ma la volpe col suo balzo ha raggiunto il quieto Fido.
+
+     5	Sylvia wagt quick den Jux bei Pforzheim.
+
+     6	Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.
+
+     7	Le cœur déçu mais l'âme plutôt naïve, Louÿs rêva de crapaüter en canoë au delà des îles, près du mälströn où brûlent les novæ.
+
+     8	El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.
+@@ greple -Mtee cat -n -- '^(.+\n)+' t/SAMPLE.txt --all --fillup --discrete
+     1	The quick brown fox jumps over the lazy dog. 1234567890
+
+     1	いろはにほへとちりぬるをわかよたれそつねならむうゐのおくやまけふこえてあさきゆめみしゑひもせすん
+
+     1	色は匂へど散りぬるを我が世誰そ常ならむ有為の奥山今日越えて浅き夢見じ酔ひもせず.
+
+     1	Ma la volpe col suo balzo ha raggiunto il quieto Fido.
+
+     1	Sylvia wagt quick den Jux bei Pforzheim.
+
+     1	Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.
+
+     1	Le cœur déçu mais l'âme plutôt naïve, Louÿs rêva de crapaüter en canoë au delà des îles, près du mälströn où brûlent les novæ.
+
+     1	El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.
