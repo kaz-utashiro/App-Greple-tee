@@ -221,7 +221,7 @@ my($mod, $argv);
 
 sub initialize {
     ($mod, $argv) = @_;
-    if (defined (my $i = first { $argv->[$_] eq '--' } 0 .. $#{$argv})) {
+    if (defined (my $i = first { $argv->[$_] eq '--' } keys @$argv)) {
 	if (my @command = splice @$argv, 0, $i) {
 	    $command = \@command;
 	}
@@ -252,7 +252,7 @@ sub call {
 }
 
 sub jammed_call {
-    my @need_nl = grep { $_[$_] !~ /\n\z/ } 0 .. $#_;
+    my @need_nl = grep { $_[$_] !~ /\n\z/ } keys @_;
     my @from = @_;
     $from[$_] .= "\n" for @need_nl;
     my @lines = map { int tr/\n/\n/ } @from;
