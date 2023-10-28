@@ -29,7 +29,7 @@ Sisend- ja väljundandmete read ei pea olema identsed, kui kasutatakse valikut B
 
 =head1 VERSION
 
-Version 0.99
+Version 0.9901
 
 =head1 OPTIONS
 
@@ -42,6 +42,20 @@ Kutsuge uus käsk eraldi iga sobitatud osa jaoks.
 =item B<--fillup>
 
 Kombineerib mittetühjad read üheks reaks enne nende edastamist käsule filter. Laiade tähemärkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.
+
+=item B<--blockmatch>
+
+Tavaliselt saadetakse määratud otsingumustrile vastav ala välisele käsule. Kui see valik on määratud, ei töödelda mitte sobivat ala, vaid kogu seda sisaldavat plokki.
+
+Näiteks, et saata väliskäsule mustrit C<foo> sisaldavad read, tuleb määrata kogu reale vastav muster:
+
+    greple -Mtee cat -n -- '^.*foo.*\n'
+
+Kuid valikuga B<--blockmatch> saab seda teha lihtsalt järgmiselt:
+
+    greple -Mtee cat -n -- foo
+
+B<--blockmatch> valikuga käitub see moodul rohkem nagu L<teip(1)> valik B<-g>.
 
 =back
 
@@ -147,7 +161,7 @@ it under the same terms as Perl itself.
 
 package App::Greple::tee;
 
-our $VERSION = "0.99";
+our $VERSION = "0.9901";
 
 use v5.14;
 use warnings;
@@ -166,22 +180,12 @@ my($mod, $argv);
 
 sub initialize {
     ($mod, $argv) = @_;
-    if (defined (my $i = first { $argv->[$_] eq '--' } 0 .. $#{$argv})) {
+    if (defined (my $i = first { $argv->[$_] eq '--' } keys @$argv)) {
 	if (my @command = splice @$argv, 0, $i) {
 	    $command = \@command;
 	}
 	shift @$argv;
     }
-}
-
-sub call {
-    my $data = shift;
-    $command // return $data;
-    state $exec = App::cdif::Command->new;
-    if (ref $command ne 'ARRAY') {
-	$command = [ shellwords $command ];
-    }
-    $exec->command($command)->setstdin($data)->update->data // '';
 }
 
 use Unicode::EastAsianWidth;
@@ -193,16 +197,22 @@ sub fillup_paragraph {
     $s1 . $_ . $s2;
 }
 
-sub jammed_call {
-    my @need_nl = grep { $_[$_] !~ /\n\z/ } 0 .. $#_;
-    my @from = @_;
+sub call {
+    my $data = shift;
+    $command // return $data;
+    state $exec = App::cdif::Command->new;
     if ($fillup) {
-	for (@from) {
-	    s{^.+(?:\n.+)*}{
-		fillup_paragraph ${^MATCH}
-	    }pmge;
-	}
+	$data =~ s/^.+(?:\n.+)*/fillup_paragraph(${^MATCH})/pmge;
     }
+    if (ref $command ne 'ARRAY') {
+	$command = [ shellwords $command ];
+    }
+    $exec->command($command)->setstdin($data)->update->data // '';
+}
+
+sub jammed_call {
+    my @need_nl = grep { $_[$_] !~ /\n\z/ } keys @_;
+    my @from = @_;
     $from[$_] .= "\n" for @need_nl;
     my @lines = map { int tr/\n/\n/ } @from;
     my $from = join '', @from;

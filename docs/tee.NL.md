@@ -27,7 +27,7 @@ Bij gebruik van de optie **--discreet** hoeven de regels invoer- en uitvoergegev
 
 # VERSION
 
-Version 0.99
+Version 0.9901
 
 # OPTIONS
 
@@ -38,6 +38,20 @@ Version 0.99
 - **--fillup**
 
     Combineer een reeks niet lege regels tot één regel voordat je ze doorgeeft aan de filteropdracht. Newline-tekens tussen brede tekens worden verwijderd en andere newline-tekens worden vervangen door spaties.
+
+- **--blockmatch**
+
+    Normaal gesproken wordt het gebied dat overeenkomt met het opgegeven zoekpatroon naar de externe opdracht gestuurd. Als deze optie is opgegeven, wordt niet het gebied dat overeenkomt, maar het hele blok dat het bevat, verwerkt.
+
+    Om bijvoorbeeld regels met het patroon `foo` naar de externe opdracht te sturen, moet je het patroon opgeven dat overeenkomt met de hele regel:
+
+        greple -Mtee cat -n -- '^.*foo.*\n'
+
+    Maar met de optie **--blockmatch** kan het als volgt eenvoudig:
+
+        greple -Mtee cat -n -- foo
+
+    Met de **--blockmatch** optie gedraagt deze module zich meer als de **-g** optie van [teip(1)](http://man.he.net/man1/teip).
 
 # WHY DO NOT USE TEIP
 

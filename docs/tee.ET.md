@@ -27,7 +27,7 @@ Sisend- ja väljundandmete read ei pea olema identsed, kui kasutatakse valikut *
 
 # VERSION
 
-Version 0.99
+Version 0.9901
 
 # OPTIONS
 
@@ -38,6 +38,20 @@ Version 0.99
 - **--fillup**
 
     Kombineerib mittetühjad read üheks reaks enne nende edastamist käsule filter. Laiade tähemärkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.
+
+- **--blockmatch**
+
+    Tavaliselt saadetakse määratud otsingumustrile vastav ala välisele käsule. Kui see valik on määratud, ei töödelda mitte sobivat ala, vaid kogu seda sisaldavat plokki.
+
+    Näiteks, et saata väliskäsule mustrit `foo` sisaldavad read, tuleb määrata kogu reale vastav muster:
+
+        greple -Mtee cat -n -- '^.*foo.*\n'
+
+    Kuid valikuga **--blockmatch** saab seda teha lihtsalt järgmiselt:
+
+        greple -Mtee cat -n -- foo
+
+    **--blockmatch** valikuga käitub see moodul rohkem nagu [teip(1)](http://man.he.net/man1/teip) valik **-g**.
 
 # WHY DO NOT USE TEIP
 

@@ -23,7 +23,7 @@ SRCPATH := $(if $(SRCDIR),$(SRCDIR)/,)
 
 $(foreach mod,$(MODS),$(eval $(SRCPATH)$(notdir $(mod)): $(mod); cp $$< $(if $(SRCPATH),$(SRCPATH),.) ))
 
-XLATE := xlate
+XLATE := xlate $(if $(USEAPI),-a)
 
 JA_FORM   ?= dearu
 JA_DICT   := $(wildcard *.dict)

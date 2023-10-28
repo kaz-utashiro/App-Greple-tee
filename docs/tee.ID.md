@@ -27,7 +27,7 @@ Baris data input dan output tidak harus identik ketika digunakan dengan opsi **-
 
 # VERSION
 
-Version 0.99
+Version 0.9901
 
 # OPTIONS
 
@@ -38,6 +38,20 @@ Version 0.99
 - **--fillup**
 
     Menggabungkan urutan baris yang tidak kosong menjadi satu baris sebelum meneruskannya ke perintah filter. Karakter baris baru di antara karakter lebar dihapus, dan karakter baris baru lainnya diganti dengan spasi.
+
+- **--blockmatch**
+
+    Biasanya, area yang cocok dengan pola pencarian yang ditentukan dikirim ke perintah eksternal. Jika opsi ini ditentukan, bukan area yang cocok tetapi seluruh blok yang berisi area tersebut yang akan diproses.
+
+    Misalnya, untuk mengirim baris yang berisi pola `foo` ke perintah eksternal, Anda perlu menentukan pola yang cocok untuk seluruh baris:
+
+        greple -Mtee cat -n -- '^.*foo.*\n'
+
+    Tetapi dengan opsi **--blockmatch**, hal ini dapat dilakukan dengan mudah sebagai berikut:
+
+        greple -Mtee cat -n -- foo
+
+    Dengan opsi **--blockmatch**, modul ini berperilaku seperti opsi **-g** milik [teip(1)](http://man.he.net/man1/teip).
 
 # WHY DO NOT USE TEIP
 

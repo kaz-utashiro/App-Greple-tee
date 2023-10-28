@@ -27,7 +27,7 @@ Greple的**-Mtee**模块将匹配的文本部分发送到给定的过滤命令�
 
 # VERSION
 
-Version 0.99
+Version 0.9901
 
 # OPTIONS
 
@@ -38,6 +38,20 @@ Version 0.99
 - **--fillup**
 
     将一连串的非空行合并为一行，然后再传递给过滤命令。宽字符之间的换行符被删除，其他换行符被替换成空格。
+
+- **--blockmatch**
+
+    通常，与指定搜索模式匹配的区域将被发送到外部命令。如果指定了该选项，将处理的不是匹配区域，而是包含该区域的整个块。
+
+    例如，要将包含`foo`模式的行发送到外部命令，需要指定与整行匹配的模式：
+
+        greple -Mtee cat -n -- '^.*foo.*\n'
+
+    但是使用**--blockmatch**选项，可以简单地完成如下操作：
+
+        greple -Mtee cat -n -- foo
+
+    使用**-blockmatch**选项，该模块的行为更像[teip(1)](http://man.he.net/man1/teip)的**-g**选项。
 
 # WHY DO NOT USE TEIP
 

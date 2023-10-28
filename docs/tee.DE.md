@@ -27,7 +27,7 @@ Die Zeilen der Ein- und Ausgabedaten müssen nicht identisch sein, wenn die Opti
 
 # VERSION
 
-Version 0.99
+Version 0.9901
 
 # OPTIONS
 
@@ -38,6 +38,20 @@ Version 0.99
 - **--fillup**
 
     Kombiniert eine Folge von nicht leeren Zeilen zu einer einzigen Zeile, bevor sie an den Filterbefehl übergeben wird. Zeilenumbrüche zwischen breiten Zeichen werden gelöscht, und andere Zeilenumbrüche werden durch Leerzeichen ersetzt.
+
+- **--blockmatch**
+
+    Normalerweise wird der Bereich, der dem angegebenen Suchmuster entspricht, an den externen Befehl gesendet. Wenn diese Option angegeben wird, wird nicht der übereinstimmende Bereich, sondern der gesamte Block, der ihn enthält, verarbeitet.
+
+    Um zum Beispiel Zeilen mit dem Muster `foo` an das externe Kommando zu senden, müssen Sie das Muster angeben, das auf die gesamte Zeile passt:
+
+        greple -Mtee cat -n -- '^.*foo.*\n'
+
+    Mit der Option **--blockmatch** kann dies jedoch ganz einfach wie folgt geschehen:
+
+        greple -Mtee cat -n -- foo
+
+    Mit der Option **--blockmatch** verhält sich dieses Modul eher wie die Option **-g** von [teip(1)](http://man.he.net/man1/teip).
 
 # WHY DO NOT USE TEIP
 
