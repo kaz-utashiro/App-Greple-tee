@@ -117,33 +117,33 @@ __DATA__
 
      1	El veloz murciélago hindú comía feliz cardillo y kiwi.
      2	La cigüeña tocaba el saxofón detrás del palenque de paja.
-@@ greple -Mtee perl -CSAD -pE '$_=uc' -- '\S+' t/SAMPLE.txt --all
-THE QUICK BROWN FOX
-JUMPS OVER THE LAZY DOG.
-1234567890
+@@ greple -Mtee perl -CSAD -pE '$_="($.)$_"' -- '\S+' t/SAMPLE.txt --all
+(1)The (2)quick (3)brown (4)fox
+(5)jumps (6)over (7)the (8)lazy (9)dog.
+(10)1234567890
 
-いろはにほへとちりぬるを
-わかよたれそつねならむ
-うゐのおくやまけふこえて
-あさきゆめみしゑひもせすん
+(11)いろはにほへとちりぬるを
+(12)わかよたれそつねならむ
+(13)うゐのおくやまけふこえて
+(14)あさきゆめみしゑひもせすん
 
-色は匂へど散りぬるを
-我が世誰そ常ならむ
-有為の奥山今日越えて
-浅き夢見じ酔ひもせず.
+(15)色は匂へど散りぬるを
+(16)我が世誰そ常ならむ
+(17)有為の奥山今日越えて
+(18)浅き夢見じ酔ひもせず.
 
-MA LA VOLPE COL SUO BALZO HA RAGGIUNTO IL QUIETO FIDO.
+(19)Ma (20)la (21)volpe (22)col (23)suo (24)balzo (25)ha (26)raggiunto (27)il (28)quieto (29)Fido.
 
-SYLVIA WAGT QUICK DEN JUX BEI PFORZHEIM.
+(30)Sylvia (31)wagt (32)quick (33)den (34)Jux (35)bei (36)Pforzheim.
 
-VICTOR JAGT ZWÖLF BOXKÄMPFER QUER ÜBER DEN GROSSEN SYLTER DEICH.
+(37)Victor (38)jagt (39)zwölf (40)Boxkämpfer (41)quer (42)über (43)den (44)großen (45)Sylter (46)Deich.
 
-LE CŒUR DÉÇU MAIS L'ÂME PLUTÔT NAÏVE,
-LOUŸS RÊVA DE CRAPAÜTER EN CANOË AU DELÀ DES ÎLES,
-PRÈS DU MÄLSTRÖN OÙ BRÛLENT LES NOVÆ.
+(47)Le (48)cœur (49)déçu (50)mais (51)l'âme (52)plutôt (53)naïve,
+(54)Louÿs (55)rêva (56)de (57)crapaüter (58)en (59)canoë (60)au (61)delà (62)des (63)îles,
+(64)près (65)du (66)mälströn (67)où (68)brûlent (69)les (70)novæ.
 
-EL VELOZ MURCIÉLAGO HINDÚ COMÍA FELIZ CARDILLO Y KIWI.
-LA CIGÜEÑA TOCABA EL SAXOFÓN DETRÁS DEL PALENQUE DE PAJA.
+(71)El (72)veloz (73)murciélago (74)hindú (75)comía (76)feliz (77)cardillo (78)y (79)kiwi.
+(80)La (81)cigüeña (82)tocaba (83)el (84)saxofón (85)detrás (86)del (87)palenque (88)de (89)paja.
 @@ greple -Mtee perl -CSAD -pE '$_=uc' -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all
 THE QUICK BROWN FOX
 JUMPS OVER THE LAZY DOG.
