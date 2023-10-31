@@ -20,6 +20,7 @@ GetOptions(\my %opt,
 
 use File::Spec;
 $ENV{HOME} = File::Spec->rel2abs('t/home');
+$ENV{NO_COLOR} = '1';
 
 use Data::Section::Simple qw(get_data_section);
 my $expected = get_data_section;

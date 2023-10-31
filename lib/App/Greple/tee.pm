@@ -225,7 +225,7 @@ sub initialize {
 	if (my @command = splice @$argv, 0, $i) {
 	    $command = \@command;
 	}
-	shift @$argv;
+	shift @$argv eq '--' or die;
     }
 }
 
@@ -256,26 +256,23 @@ sub call {
     $exec->command($command)->setstdin($data)->update->data // '';
 }
 
-sub jammed_call {
-    my @need_nl = grep { $_[$_] !~ /\n\z/ } keys @_;
-    my @from = @_;
+sub bundle_call {
     if ($fillup) {
-	fillup_paragraphs for @from;
+	fillup_paragraphs for @_;
     }
-    $from[$_] .= "\n" for @need_nl;
-    my @lines = map { int tr/\n/\n/ } @from;
-    my $from = join '', @from;
-    my $out = call $from;
+    my @chop = grep { $_[$_] =~ s/(?<!\n)\z/\n/ } keys @_;
+    my @lines = map { int tr/\n/\n/ } @_;
+    my $out = call join '', @_;
     my @out = $out =~ /.*\n/g;
-    if (@out < sum @lines) {
-	die "Unexpected response from command:\n\n$out\n";
+    if (@out != sum @lines) {
+	die "Unexpected response:\n\n$out\n";
     }
-    my @to = map { join '', splice @out, 0, $_ } @lines;
-    $to[$_] =~ s/\n\z// for @need_nl;
-    return @to;
+    my @ret = map { join '', splice @out, 0, $_ } @lines;
+    chop for @ret[@chop];
+    return @ret;
 }
 
-my @jammed;
+my @bundle;
 
 sub postgrep {
     my $grep = shift;
@@ -288,14 +285,14 @@ sub postgrep {
 	    ] ];
     }
     return if $discrete;
-    @jammed = my @block = ();
+    @bundle = my @block = ();
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
 	for my $m (@match) {
 	    push @block, $grep->cut(@$m);
 	}
     }
-    @jammed = jammed_call @block if @block;
+    @bundle = bundle_call @block if @block;
 }
 
 sub callback {
@@ -303,7 +300,7 @@ sub callback {
 	call { @_ }->{match};
     }
     else {
-	shift @jammed // die;
+	shift @bundle // die;
     }
 }
 
