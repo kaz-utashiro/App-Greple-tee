@@ -22,7 +22,8 @@ ifdef SRCDIR
 endif
 SRCPATH := $(if $(SRCDIR),$(SRCDIR)/,)
 
-$(foreach mod,$(MODS),$(eval $(SRCPATH)$(notdir $(mod)): $(mod); cp $$< $(if $(SRCPATH),$(SRCPATH),.) ))
+PODIFY := greple -Mperl --nocolor --le :pod
+$(foreach mod,$(MODS),$(eval $(SRCPATH)$(notdir $(mod)): $(mod) Makefile; $(PODIFY) $$< > $$@ ))
 
 ifdef IGNORE
 $(foreach ignore,$(IGNORE),$(eval \
