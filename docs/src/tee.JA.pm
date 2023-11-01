@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-App::Greple::tee - マッチしたテキストを外部コマンドの結果に置き換えるモジュール
+App::Greple::tee - マッチしたテキストを外部コマンドの結果に置き換えるモジュールです。
 
 =head1 SYNOPSIS
 
@@ -10,22 +10,22 @@ App::Greple::tee - マッチしたテキストを外部コマンドの結果に�
 
 =head1 DESCRIPTION
 
-Greple の B<-Mtee> モジュールは、マッチしたテキスト部分を指定されたフィルタコマンドに送り、その結果で置き換える。このアイデアは、B<teip>というコマンドから派生したものである。これは、外部のフィルタコマンドに部分的なデータをバイパスするようなものである。
+Greple の B<-Mtee> モジュールは、マッチしたテキスト部分を指定されたフィルタコマンドに送り、その結果で置き換えます。このアイデアは、B<teip>というコマンドから派生したものです。これは、外部のフィルタコマンドに部分的なデータをバイパスするようなものです。
 
-Filterコマンドはモジュール宣言(C<-Mtee>)に続き、2つのダッシュ(C<-->)で終了する。例えば、次のコマンドは、データ中の一致した単語に対して、C<a-z A-Z> の引数を持つコマンド C<tr> コマンドを呼び出する。
+Filterコマンドはモジュール宣言(C<-Mtee>)に続き、2つのダッシュ(C<-->)で終了します。例えば、次のコマンドは、データ中の一致した単語に対して、C<a-z A-Z> の引数を持つコマンド C<tr> コマンドを呼び出します。
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-上記のコマンドは、マッチした単語をすべて小文字から大文字に変換する。B<greple>はB<--cm>オプションでより効果的に同じことができるので、実はこの例自体はあまり意味がない。
+上記のコマンドは、マッチした単語をすべて小文字から大文字に変換します。B<greple>はB<--cm>オプションでより効果的に同じことができるので、実はこの例自体はあまり意味がありません。
 
-デフォルトでは、このコマンドは一つのプロセスとして実行され、マッチした データはすべて混ぜて送られる。マッチしたテキストが改行で終わっていない場合は、その前に追加され、後に削除される。データは一行ずつマップされるので、入力データと出力データの行数は同じでなければならない。
+デフォルトでは、このコマンドは一つのプロセスとして実行され、マッチした データはすべて混ぜて送られます。マッチしたテキストが改行で終わっていない場合は、その前に追加され、後に削除されます。データは一行ずつマップされるので、入力データと出力データの行数は同じでなければなりません。
 
-B<--discrete>オプションを使用すると、一致した部品ごとに個別のコマンドが呼び出される。以下のコマンドを実行すると、その違いが分かる。
+B<--discrete>オプションを使用すると、一致した部品ごとに個別のコマンドが呼び出されます。以下のコマンドを実行すると、その違いが分かります。
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
 
-B<--discrete>オプションを使用する場合、入出力データの行数は同一である必要はない。
+B<--discrete>オプションを使用する場合、入出力データの行数は同一である必要はありません。
 
 =head1 VERSION
 
@@ -37,51 +37,55 @@ Version 0.9901
 
 =item B<--discrete>
 
-一致した部品に対して、個別に新しいコマンドを起動する。
+一致した部品に対して、個別に新しいコマンドを起動します。
 
 =item B<--fillup>
 
-空白でない一連の行を、filterコマンドに渡す前に1行にまとめる。幅の広い文字の間の改行文字は削除され、その他の改行文字は空白に置き換えられる。
+空白でない一連の行を、filterコマンドに渡す前に1行にまとめます。幅の広い文字の間の改行文字は削除され、その他の改行文字は空白に置き換えられます。
 
 =item B<--blockmatch>
 
-通常、指定された検索パターンにマッチする領域が外部コマンドに送られる。このオプションが指定されると、マッチした領域ではなく、それを含むブロック全体が処理される。
+通常、指定された検索パターンにマッチする領域が外部コマンドに送られます。このオプションが指定されると、マッチした領域ではなく、それを含むブロック全体が処理されます。
 
-例えば、パターンC<foo>を含む行を外部コマンドに送るには、行全体にマッチするパターンを指定する必要がある：
+例えば、パターンC<foo>を含む行を外部コマンドに送るには、行全体にマッチするパターンを指定する必要があります：
 
     greple -Mtee cat -n -- '^.*foo.*\n'
 
-しかし、B<--blockmatch>オプションを使えば、次のように簡単に実行できる：
+しかし、B<--blockmatch>オプションを使えば、次のように簡単に実行できます：
 
     greple -Mtee cat -n -- foo
 
-B<--blockmatch> オプションをつけると、このモジュールは L<teip(1)> の B<-g> オプションのような動作をする。
+B<--blockmatch> オプションをつけると、このモジュールは L<teip(1)> の B<-g> オプションのような動作をします。
+
+=item B<--squeeze>
+
+2つ以上の連続する改行文字を1つにまとめます。
 
 =back
 
 =head1 WHY DO NOT USE TEIP
 
-まず第一に、B<teip>コマンドでできることは、いつでもそれを使ってください。これは優れたツールで、B<greple>よりずっと速い。
+まず第一に、B<teip>コマンドでできることは、いつでもそれを使ってください。これは優れたツールで、B<greple>よりずっと速いです。
 
-B<greple>は文書ファイルの処理を目的としているため、マッチエリアの制御など、それに適した機能を多く持っている。それらの機能を活用するために、B<greple>を使う価値はあるかもしれない。
+B<greple>は文書ファイルの処理を目的としているため、マッチエリアの制御など、それに適した機能を多く持っています。それらの機能を活用するために、B<greple>を使う価値はあるかもしれません。
 
-また、B<teip>は複数行のデータを1つの単位として扱うことができないが、B<greple>は複数行からなるデータチャンクに対して個別のコマンドを実行することが可能である。
+また、B<teip>は複数行のデータを1つの単位として扱うことができませんが、B<greple>は複数行からなるデータチャンクに対して個別のコマンドを実行することが可能です。
 
 =head1 EXAMPLE
 
-次のコマンドは，Perlモジュールファイルに含まれるL<perlpod(1)>スタイルドキュメント内のテキストブロックを検索する。
+次のコマンドは，Perlモジュールファイルに含まれるL<perlpod(1)>スタイルドキュメント内のテキストブロックを検索します。
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
 
-このようにB<Mtee>モジュールと組み合わせてB<deepl>コマンドを呼び出すと、DeepLサービスによって翻訳することができる。
+このようにB<Mtee>モジュールと組み合わせてB<deepl>コマンドを呼び出すと、DeepLサービスによって翻訳することができます。
 
     greple -Mtee deepl text --to JA - -- --fillup ...
 
-ただし、この場合は専用モジュール L<App::Greple::xlate::deepl> の方が効果的である。実は、B<tee>モジュールの実装のヒントはB<xlate>モジュールからきている。
+ただし、この場合は専用モジュール L<App::Greple::xlate::deepl> の方が効果的です。実は、B<tee>モジュールの実装のヒントはB<xlate>モジュールからきています。
 
 =head1 EXAMPLE 2
 
-次に、LICENSE文書にインデントされた部分がある。
+次に、LICENSE文書にインデントされた部分があります。
 
     greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
 
@@ -92,7 +96,7 @@ B<greple>は文書ファイルの処理を目的としているため、マッ�
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
     
-この部分はB<tee>モジュールとB<ansifold>コマンドで整形することができる。
+この部分はB<tee>モジュールとB<ansifold>コマンドで整形することができます。
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
 
@@ -106,23 +110,23 @@ B<greple>は文書ファイルの処理を目的としているため、マッ�
          machine-readable source of the
          Package with your modifications.
 
-C<--discrete> オプションを使うと時間がかかる。そこで、C<--separate ' \r'>オプションとC<ansifold>を併用することで、NLの代わりにCR文字を使って1行を生成することができる。
+C<--discrete> オプションを使うと時間がかかります。そこで、C<--separate ' \r'>オプションとC<ansifold>を併用することで、NLの代わりにCR文字を使って1行を生成することができます。
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
-その後、L<tr(1)>コマンドなどでCRをNLに変換する。
+その後、L<tr(1)>コマンドなどでCRをNLに変換します。
 
     ... | tr '\r' '\n'
 
 =head1 EXAMPLE 3
 
-ヘッダ行以外から文字列を grep したい場合を考えてみよう。例えば、C<docker image ls>コマンドから画像を検索したいが、ヘッダ行は残しておきたい場合である。以下のコマンドで可能である。
+ヘッダ行以外から文字列を grep したい場合を考えてみましょう。例えば、C<docker image ls>コマンドから画像を検索したいが、ヘッダ行は残しておきたい場合です。以下のコマンドで可能です。
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-オプションC<-Mline -L 2:>は2行目から最後の行を検索し、C<grep perl>コマンドに送る。オプションC<--discrete>が必要だが、これは一度しか呼ばれないので、性能上の欠点はない。
+オプションC<-Mline -L 2:>は2行目から最後の行を検索し、C<grep perl>コマンドに送ります。オプションC<--discrete>が必要ですが、これは一度しか呼ばれないので、性能上の欠点はありません。
 
-この場合、C<teip -l 2- -- grep> は出力行数が入力行数より少ないのでエラーになる。しかし、結果は非常に満足のいくものである :)
+この場合、C<teip -l 2- -- grep> は出力行数が入力行数より少ないのでエラーになります。しかし、結果は非常に満足のいくものであります :)
 
 =head1 INSTALL
 
@@ -140,11 +144,11 @@ L<App::Greple>, L<https://github.com/kaz-utashiro/greple>
 
 L<https://github.com/tecolicom/Greple>
 
-L<App::Greple::xlate>を使用する。
+L<App::Greple::xlate>を使用します。
 
 =head1 BUGS
 
-C<--fillup> オプションは韓国語テキストでは正しく動作しないかもしれない。
+C<--fillup> オプションは韓国語テキストでは正しく動作しないかもしれません。
 
 =head1 AUTHOR
 
@@ -175,6 +179,8 @@ our $command;
 our $blockmatch;
 our $discrete;
 our $fillup;
+our $debug;
+our $squeeze;
 
 my($mod, $argv);
 
@@ -184,49 +190,61 @@ sub initialize {
 	if (my @command = splice @$argv, 0, $i) {
 	    $command = \@command;
 	}
-	shift @$argv;
+	shift @$argv eq '--' or die;
     }
 }
 
 use Unicode::EastAsianWidth;
 
-sub fillup_paragraph {
+sub fillup_block {
     (my $s1, local $_, my $s2) = $_[0] =~ /\A(\s*)(.*?)(\s*)\z/s or die;
     s/(?<=\p{InFullwidth})\n(?=\p{InFullwidth})//g;
     s/\s+/ /g;
     $s1 . $_ . $s2;
 }
 
+sub fillup_paragraphs {
+    local *_ = @_ > 0 ? \$_[0] : \$_;
+    s{^.+(?:\n.+)*}{ fillup_block ${^MATCH} }pmge;
+}
+
 sub call {
     my $data = shift;
     $command // return $data;
     state $exec = App::cdif::Command->new;
-    if ($fillup) {
-	$data =~ s/^.+(?:\n.+)*/fillup_paragraph(${^MATCH})/pmge;
+    if ($discrete and $fillup) {
+	fillup_paragraphs $data;
     }
     if (ref $command ne 'ARRAY') {
 	$command = [ shellwords $command ];
     }
-    $exec->command($command)->setstdin($data)->update->data // '';
-}
-
-sub jammed_call {
-    my @need_nl = grep { $_[$_] !~ /\n\z/ } keys @_;
-    my @from = @_;
-    $from[$_] .= "\n" for @need_nl;
-    my @lines = map { int tr/\n/\n/ } @from;
-    my $from = join '', @from;
-    my $out = call $from;
-    my @out = $out =~ /.*\n/g;
-    if (@out < sum @lines) {
-	die "Unexpected response from command:\n\n$out\n";
+    my $out = $exec->command($command)->setstdin($data)->update->data // '';
+    if ($squeeze) {
+	$out =~ s/\n\n+/\n/g;
     }
-    my @to = map { join '', splice @out, 0, $_ } @lines;
-    $to[$_] =~ s/\n\z// for @need_nl;
-    return @to;
+    $out;
 }
 
-my @jammed;
+sub bundle_call {
+    if ($fillup) {
+	fillup_paragraphs for @_;
+    }
+    my @chop = grep { $_[$_] =~ s/(?<!\n)\z/\n/ } keys @_;
+    my @lines = map { int tr/\n/\n/ } @_;
+    my $lines = sum @lines;
+    my $out = call join '', @_;
+    my @out = $out =~ /.*\n/g;
+    if (@out < $lines) {
+	die "Unexpected short response:\n\n$out\n";
+    } elsif (@out > $lines) {
+	warn "Unexpected long response:\n\n$out\n";
+    }
+    my @ret = map { join '', splice @out, 0, $_ } @lines;
+    chop for @ret[@chop];
+    return @ret;
+}
+
+my @bundle;
 
 sub postgrep {
     my $grep = shift;
@@ -239,14 +257,14 @@ sub postgrep {
 	    ] ];
     }
     return if $discrete;
-    @jammed = my @block = ();
+    @bundle = my @block = ();
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
 	for my $m (@match) {
 	    push @block, $grep->cut(@$m);
 	}
     }
-    @jammed = jammed_call @block if @block;
+    @bundle = bundle_call @block if @block;
 }
 
 sub callback {
@@ -254,7 +272,7 @@ sub callback {
 	call { @_ }->{match};
     }
     else {
-	shift @jammed // die;
+	shift @bundle // die;
     }
 }
 
@@ -265,6 +283,8 @@ __DATA__
 builtin --blockmatch $blockmatch
 builtin --discrete!  $discrete
 builtin --fillup!    $fillup
+builtin --debug      $debug
+builtin --squeeze    $squeeze
 
 option default \
 	--postgrep &__PACKAGE__::postgrep \

@@ -53,6 +53,10 @@ Version 0.9901
 
     **--blockmatch** 옵션을 사용하면 이 모듈은 [teip(1)](http://man.he.net/man1/teip)의 **-g** 옵션과 비슷하게 동작합니다.
 
+- **--squeeze**
+
+    두 개 이상의 연속된 개행 문자를 하나로 결합합니다.
+
 # WHY DO NOT USE TEIP
 
 우선, **teip** 명령으로 할 수 있을 때마다 이 명령을 사용하세요. 이 명령은 훌륭한 도구이며 **greple**보다 훨씬 빠릅니다.

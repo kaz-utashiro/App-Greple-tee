@@ -53,6 +53,10 @@ Version 0.9901
 
     Avec l'option **--blockmatch**, ce module se comporte plus comme l'option **-g** de [teip(1)](http://man.he.net/man1/teip).
 
+- **--squeeze**
+
+    Combine deux ou plusieurs caractères de retour à la ligne consécutifs en un seul.
+
 # WHY DO NOT USE TEIP
 
 Tout d'abord, chaque fois que vous pouvez le faire avec la commande **teip**, utilisez-la. C'est un excellent outil et beaucoup plus rapide que **greple**.

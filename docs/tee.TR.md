@@ -53,6 +53,10 @@ Version 0.9901
 
     **--blockmatch** seçeneği ile bu modül daha çok [teip(1)](http://man.he.net/man1/teip)'in **-g** seçeneği gibi davranır.
 
+- **--squeeze**
+
+    İki veya daha fazla ardışık satırsonu karakterini tek bir karakterde birleştirir.
+
 # WHY DO NOT USE TEIP
 
 Öncelikle, **teip** komutu ile yapabildiğiniz her şeyi kullanın. Mükemmel bir araçtır ve **greple**'den çok daha hızlıdır.

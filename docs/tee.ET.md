@@ -53,6 +53,10 @@ Version 0.9901
 
     **--blockmatch** valikuga käitub see moodul rohkem nagu [teip(1)](http://man.he.net/man1/teip) valik **-g**.
 
+- **--squeeze**
+
+    Ühendab kaks või enam järjestikust uusjoonemärki üheks.
+
 # WHY DO NOT USE TEIP
 
 Kõigepealt, kui te saate seda teha käsuga **teip**, kasutage seda. See on suurepärane vahend ja palju kiirem kui **greple**.

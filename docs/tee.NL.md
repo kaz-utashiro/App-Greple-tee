@@ -53,6 +53,10 @@ Version 0.9901
 
     Met de **--blockmatch** optie gedraagt deze module zich meer als de **-g** optie van [teip(1)](http://man.he.net/man1/teip).
 
+- **--squeeze**
+
+    Combineert twee of meer opeenvolgende newline-tekens tot één.
+
 # WHY DO NOT USE TEIP
 
 Allereerst, wanneer u het kunt doen met het commando **-teip**, gebruik het. Het is een uitstekend hulpmiddel en veel sneller dan **greple**.

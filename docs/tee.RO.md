@@ -53,6 +53,10 @@ Version 0.9901
 
     Cu opțiunea **--blockmatch**, acest modul se comportă mai mult ca opțiunea **-g** a lui [teip(1)](http://man.he.net/man1/teip).
 
+- **--squeeze**
+
+    Combină două sau mai multe caractere de linie nouă consecutive într-unul singur.
+
 # WHY DO NOT USE TEIP
 
 În primul rând, ori de câte ori puteți face acest lucru cu comanda **teip**, utilizați-o. Este un instrument excelent și mult mai rapid decât **greple**.

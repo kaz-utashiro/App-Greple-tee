@@ -53,6 +53,10 @@ Version 0.9901
 
     Mit der Option **--blockmatch** verhält sich dieses Modul eher wie die Option **-g** von [teip(1)](http://man.he.net/man1/teip).
 
+- **--squeeze**
+
+    Kombiniert zwei oder mehr aufeinanderfolgende Zeilenumbruchzeichen zu einem.
+
 # WHY DO NOT USE TEIP
 
 Vor allem, wenn Sie den Befehl **teip** verwenden können, sollten Sie ihn einsetzen. Er ist ein hervorragendes Werkzeug und viel schneller als **greple**.

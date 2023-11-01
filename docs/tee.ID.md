@@ -53,6 +53,10 @@ Version 0.9901
 
     Dengan opsi **--blockmatch**, modul ini berperilaku seperti opsi **-g** milik [teip(1)](http://man.he.net/man1/teip).
 
+- **--squeeze**
+
+    Menggabungkan dua atau lebih karakter baris baru yang berurutan menjadi satu.
+
 # WHY DO NOT USE TEIP
 
 Pertama-tama, kapanpun Anda dapat melakukannya dengan perintah **teip**, gunakanlah. Ini adalah alat yang sangat baik dan jauh lebih cepat daripada **greple**.

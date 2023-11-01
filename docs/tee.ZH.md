@@ -53,6 +53,10 @@ Version 0.9901
 
     使用**-blockmatch**选项，该模块的行为更像[teip(1)](http://man.he.net/man1/teip)的**-g**选项。
 
+- **--squeeze**
+
+    将两个或多个连续换行符合并为一个。
+
 # WHY DO NOT USE TEIP
 
 首先，只要你能用**teip**命令做，就使用它。它是一个优秀的工具，比**greple**快得多。

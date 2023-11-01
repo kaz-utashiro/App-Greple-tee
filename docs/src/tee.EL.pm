@@ -57,6 +57,10 @@ Version 0.9901
 
 Με την επιλογή B<--blockmatch>, αυτή η ενότητα συμπεριφέρεται περισσότερο σαν την επιλογή B<-g> του L<teip(1)>.
 
+=item B<--squeeze>
+
+Συνδυάζει δύο ή περισσότερους διαδοχικούς χαρακτήρες νέας γραμμής σε έναν.
+
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -175,6 +179,8 @@ our $command;
 our $blockmatch;
 our $discrete;
 our $fillup;
+our $debug;
+our $squeeze;
 
 my($mod, $argv);
 
@@ -184,49 +190,61 @@ sub initialize {
 	if (my @command = splice @$argv, 0, $i) {
 	    $command = \@command;
 	}
-	shift @$argv;
+	shift @$argv eq '--' or die;
     }
 }
 
 use Unicode::EastAsianWidth;
 
-sub fillup_paragraph {
+sub fillup_block {
     (my $s1, local $_, my $s2) = $_[0] =~ /\A(\s*)(.*?)(\s*)\z/s or die;
     s/(?<=\p{InFullwidth})\n(?=\p{InFullwidth})//g;
     s/\s+/ /g;
     $s1 . $_ . $s2;
 }
 
+sub fillup_paragraphs {
+    local *_ = @_ > 0 ? \$_[0] : \$_;
+    s{^.+(?:\n.+)*}{ fillup_block ${^MATCH} }pmge;
+}
+
 sub call {
     my $data = shift;
     $command // return $data;
     state $exec = App::cdif::Command->new;
-    if ($fillup) {
-	$data =~ s/^.+(?:\n.+)*/fillup_paragraph(${^MATCH})/pmge;
+    if ($discrete and $fillup) {
+	fillup_paragraphs $data;
     }
     if (ref $command ne 'ARRAY') {
 	$command = [ shellwords $command ];
     }
-    $exec->command($command)->setstdin($data)->update->data // '';
-}
-
-sub jammed_call {
-    my @need_nl = grep { $_[$_] !~ /\n\z/ } keys @_;
-    my @from = @_;
-    $from[$_] .= "\n" for @need_nl;
-    my @lines = map { int tr/\n/\n/ } @from;
-    my $from = join '', @from;
-    my $out = call $from;
-    my @out = $out =~ /.*\n/g;
-    if (@out < sum @lines) {
-	die "Unexpected response from command:\n\n$out\n";
+    my $out = $exec->command($command)->setstdin($data)->update->data // '';
+    if ($squeeze) {
+	$out =~ s/\n\n+/\n/g;
     }
-    my @to = map { join '', splice @out, 0, $_ } @lines;
-    $to[$_] =~ s/\n\z// for @need_nl;
-    return @to;
+    $out;
 }
 
-my @jammed;
+sub bundle_call {
+    if ($fillup) {
+	fillup_paragraphs for @_;
+    }
+    my @chop = grep { $_[$_] =~ s/(?<!\n)\z/\n/ } keys @_;
+    my @lines = map { int tr/\n/\n/ } @_;
+    my $lines = sum @lines;
+    my $out = call join '', @_;
+    my @out = $out =~ /.*\n/g;
+    if (@out < $lines) {
+	die "Unexpected short response:\n\n$out\n";
+    } elsif (@out > $lines) {
+	warn "Unexpected long response:\n\n$out\n";
+    }
+    my @ret = map { join '', splice @out, 0, $_ } @lines;
+    chop for @ret[@chop];
+    return @ret;
+}
+
+my @bundle;
 
 sub postgrep {
     my $grep = shift;
@@ -239,14 +257,14 @@ sub postgrep {
 	    ] ];
     }
     return if $discrete;
-    @jammed = my @block = ();
+    @bundle = my @block = ();
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
 	for my $m (@match) {
 	    push @block, $grep->cut(@$m);
 	}
     }
-    @jammed = jammed_call @block if @block;
+    @bundle = bundle_call @block if @block;
 }
 
 sub callback {
@@ -254,7 +272,7 @@ sub callback {
 	call { @_ }->{match};
     }
     else {
-	shift @jammed // die;
+	shift @bundle // die;
     }
 }
 
@@ -265,6 +283,8 @@ __DATA__
 builtin --blockmatch $blockmatch
 builtin --discrete!  $discrete
 builtin --fillup!    $fillup
+builtin --debug      $debug
+builtin --squeeze    $squeeze
 
 option default \
 	--postgrep &__PACKAGE__::postgrep \
