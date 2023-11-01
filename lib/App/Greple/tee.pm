@@ -79,6 +79,10 @@ follows:
 With B<--blockmatch> option, this module behave more like L<teip(1)>'s
 B<-g> option.
 
+=item B<--squeeze>
+
+Combines two or more consecutive newline characters into one.
+
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -216,6 +220,8 @@ our $command;
 our $blockmatch;
 our $discrete;
 our $fillup;
+our $debug;
+our $squeeze;
 
 my($mod, $argv);
 
@@ -253,7 +259,11 @@ sub call {
     if (ref $command ne 'ARRAY') {
 	$command = [ shellwords $command ];
     }
-    $exec->command($command)->setstdin($data)->update->data // '';
+    my $out = $exec->command($command)->setstdin($data)->update->data // '';
+    if ($squeeze) {
+	$out =~ s/\n\n+/\n/g;
+    }
+    $out;
 }
 
 sub bundle_call {
@@ -262,10 +272,13 @@ sub bundle_call {
     }
     my @chop = grep { $_[$_] =~ s/(?<!\n)\z/\n/ } keys @_;
     my @lines = map { int tr/\n/\n/ } @_;
+    my $lines = sum @lines;
     my $out = call join '', @_;
     my @out = $out =~ /.*\n/g;
-    if (@out != sum @lines) {
-	die "Unexpected response:\n\n$out\n";
+    if (@out < $lines) {
+	die "Unexpected short response:\n\n$out\n";
+    } elsif (@out > $lines) {
+	warn "Unexpected long response:\n\n$out\n";
     }
     my @ret = map { join '', splice @out, 0, $_ } @lines;
     chop for @ret[@chop];
@@ -311,6 +324,8 @@ __DATA__
 builtin --blockmatch $blockmatch
 builtin --discrete!  $discrete
 builtin --fillup!    $fillup
+builtin --debug      $debug
+builtin --squeeze    $squeeze
 
 option default \
 	--postgrep &__PACKAGE__::postgrep \

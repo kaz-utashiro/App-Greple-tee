@@ -76,6 +76,10 @@ Version 0.9901
     With **--blockmatch** option, this module behave more like [teip(1)](http://man.he.net/man1/teip)'s
     **-g** option.
 
+- **--squeeze**
+
+    Combines two or more consecutive newline characters into one.
+
 # WHY DO NOT USE TEIP
 
 First of all, whenever you can do it with the **teip** command, use
