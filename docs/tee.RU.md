@@ -27,7 +27,7 @@ App::Greple::tee - модуль для замены совпадающего т�
 
 # VERSION
 
-Version 0.9901
+Version 0.9902
 
 # OPTIONS
 

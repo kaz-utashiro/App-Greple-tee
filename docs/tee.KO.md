@@ -27,7 +27,7 @@ Greple의 **-Mtee** 모듈은 지정된 필터 명령에 일치하는 텍스트 
 
 # VERSION
 
-Version 0.9901
+Version 0.9902
 
 # OPTIONS
 

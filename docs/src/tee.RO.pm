@@ -29,7 +29,7 @@ Liniile de date de intrare și de ieșire nu trebuie să fie identice atunci câ
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 

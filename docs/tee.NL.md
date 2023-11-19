@@ -27,7 +27,7 @@ Bij gebruik van de optie **--discreet** hoeven de regels invoer- en uitvoergegev
 
 # VERSION
 
-Version 0.9901
+Version 0.9902
 
 # OPTIONS
 

@@ -29,7 +29,7 @@ B<-- 불연속> 옵션과 함께 사용할 경우 입력 및 출력 데이터의
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 

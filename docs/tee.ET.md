@@ -27,7 +27,7 @@ Sisend- ja väljundandmete read ei pea olema identsed, kui kasutatakse valikut *
 
 # VERSION
 
-Version 0.9901
+Version 0.9902
 
 # OPTIONS
 

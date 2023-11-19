@@ -29,7 +29,7 @@ B<--discrete>オプションを使用する場合、入出力データの行数�
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 

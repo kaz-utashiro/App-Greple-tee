@@ -29,7 +29,7 @@ Bij gebruik van de optie B<--discreet> hoeven de regels invoer- en uitvoergegeve
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 

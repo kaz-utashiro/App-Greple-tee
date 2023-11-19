@@ -42,7 +42,7 @@ with B<--discrete> option.
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 
@@ -209,7 +209,7 @@ it under the same terms as Perl itself.
 
 package App::Greple::tee;
 
-our $VERSION = "0.9901";
+our $VERSION = "0.9902";
 
 use v5.14;
 use warnings;

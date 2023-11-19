@@ -29,7 +29,7 @@ App::Greple::tee - модуль для заміни знайденого тек�
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 

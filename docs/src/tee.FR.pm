@@ -29,7 +29,7 @@ Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soien
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 

@@ -29,7 +29,7 @@ Sisend- ja väljundandmete read ei pea olema identsed, kui kasutatakse valikut B
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 

@@ -29,7 +29,7 @@ Die Zeilen der Ein- und Ausgabedaten müssen nicht identisch sein, wenn die Opti
 
 =head1 VERSION
 
-Version 0.9901
+Version 0.9902
 
 =head1 OPTIONS
 

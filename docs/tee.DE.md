@@ -27,7 +27,7 @@ Die Zeilen der Ein- und Ausgabedaten müssen nicht identisch sein, wenn die Opti
 
 # VERSION
 
-Version 0.9901
+Version 0.9902
 
 # OPTIONS
 

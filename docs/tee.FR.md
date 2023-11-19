@@ -27,7 +27,7 @@ Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soien
 
 # VERSION
 
-Version 0.9901
+Version 0.9902
 
 # OPTIONS
 

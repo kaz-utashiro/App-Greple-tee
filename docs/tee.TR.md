@@ -27,7 +27,7 @@ Varsayılan olarak, komut tek bir işlem olarak yürütülür ve eşleşen tüm 
 
 # VERSION
 
-Version 0.9901
+Version 0.9902
 
 # OPTIONS
 
