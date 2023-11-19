@@ -324,11 +324,11 @@ sub callback {
 
 __DATA__
 
-builtin --blocks    $blocks
-builtin --discrete! $discrete
-builtin --fillup!   $fillup
-builtin --debug     $debug
-builtin --squeeze   $squeeze
+builtin blocks    $blocks
+builtin discrete! $discrete
+builtin fillup!   $fillup
+builtin debug     $debug
+builtin squeeze   $squeeze
 
 option default \
 	--postgrep &__PACKAGE__::postgrep \
