@@ -18,9 +18,9 @@ Filtre komutu modül bildirimini (C<-Mtee>) takip eder ve iki tire (C<-->) ile s
 
 Yukarıdaki komut eşleşen tüm kelimeleri küçük harften büyük harfe dönüştürür. Aslında bu örneğin kendisi çok kullanışlı değildir çünkü B<greple> aynı şeyi B<--cm> seçeneği ile daha etkili bir şekilde yapabilir.
 
-Varsayılan olarak, komut tek bir işlem olarak yürütülür ve eşleşen tüm veriler karışık olarak gönderilir. Eşleşen metin satırsonu ile bitmiyorsa, önce eklenir ve sonra kaldırılır. Veriler satır satır eşlenir, bu nedenle girdi ve çıktı verilerinin satır sayısı aynı olmalıdır.
+Varsayılan olarak, komut tek bir süreç olarak yürütülür ve eşleşen tüm veriler sürece karışık olarak gönderilir. Eşleşen metin satırsonu ile bitmiyorsa, gönderilmeden önce eklenir ve alındıktan sonra kaldırılır. Girdi ve çıktı verileri satır satır eşleştirilir, bu nedenle girdi ve çıktı satırlarının sayısı aynı olmalıdır.
 
-B<--discrete> seçeneği kullanıldığında, eşleşen her parça için ayrı bir komut çağrılır. Farkı aşağıdaki komutlarla anlayabilirsiniz.
+B<--discrete> seçeneği kullanıldığında, eşleşen her metin alanı için ayrı bir komut çağrılır. Farkı aşağıdaki komutlarla anlayabilirsiniz.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -41,7 +41,7 @@ Eşleşen her parça için ayrı ayrı yeni komut çağırın.
 
 =item B<--fillup>
 
-Bir dizi boş olmayan satırı filtre komutuna geçirmeden önce tek bir satırda birleştirir. Geniş karakterler arasındaki yeni satır karakterleri silinir ve diğer yeni satır karakterleri boşluklarla değiştirilir.
+Bir dizi boş olmayan satırı filtre komutuna geçirmeden önce tek bir satırda birleştirin. Geniş karakterler arasındaki yeni satır karakterleri silinir ve diğer yeni satır karakterleri boşluklarla değiştirilir.
 
 =item B<--blocks>
 
@@ -112,7 +112,7 @@ Bu kısmı B<tee> modülünü B<ansifold> komutu ile kullanarak yeniden biçimle
          machine-readable source of the
          Package with your modifications.
 
-C<--ayrık> seçeneğini kullanmak zaman alıcıdır. Bu nedenle, NL yerine CR karakteri kullanarak tek satır üreten C<ansifold> ile C<--separate '\r'> seçeneğini kullanabilirsiniz.
+Ayrık seçeneği birden fazla işlem başlatır, bu nedenle işlemin yürütülmesi daha uzun sürer. Bu yüzden NL yerine CR karakterini kullanarak tek satır üreten C<ansifold> ile C<--separate '\r'> seçeneğini kullanabilirsiniz.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -122,13 +122,13 @@ Daha sonra CR karakterini L<tr(1)> komutu veya başka bir komutla NL'ye dönüş
 
 =head1 EXAMPLE 3
 
-Başlık olmayan satırlardaki dizeler için grep yapmak istediğiniz bir durumu düşünün. Örneğin, C<docker image ls> komutundaki resimleri aramak, ancak başlık satırını bırakmak isteyebilirsiniz. Bunu aşağıdaki komutla yapabilirsiniz.
+Başlık olmayan satırlardaki dizeler için grep yapmak istediğiniz bir durumu düşünün. Örneğin, C<docker image ls> komutundan Docker görüntü adlarını aramak, ancak başlık satırını bırakmak isteyebilirsiniz. Bunu aşağıdaki komutla yapabilirsiniz.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-C<-Mline -L 2:> seçeneği sondan ikinci satırları alır ve bunları C<grep perl> komutuna gönderir. C<--discrete> seçeneği gereklidir, ancak bu yalnızca bir kez çağrılır, bu nedenle performans dezavantajı yoktur.
+C<-Mline -L 2:> seçeneği sondan ikinci satırları alır ve bunları C<grep perl> komutuna gönderir. Girdi ve çıktı satırlarının sayısı değiştiği için --discrete seçeneği gereklidir, ancak komut yalnızca bir kez çalıştırıldığı için performans açısından bir dezavantajı yoktur.
 
-Bu durumda, C<teip -l 2- -- grep> hata üretir çünkü çıktıdaki satır sayısı girdiden azdır. Ancak sonuç oldukça tatmin edicidir :)
+Aynı şeyi B<teip> komutuyla yapmaya çalışırsanız, C<teip -l 2- -- grep> hata verecektir çünkü çıktı satırlarının sayısı girdi satırlarının sayısından azdır. Ancak elde edilen sonuçta bir sorun yoktur.
 
 =head1 INSTALL
 
@@ -150,7 +150,7 @@ L<App::Greple::xlate>
 
 =head1 BUGS
 
-C<--fillup> seçeneği Korece metin için doğru çalışmayabilir.
+C<--fillup> seçeneği Korece metni birleştirirken Hangul karakterleri arasındaki boşlukları kaldıracaktır.
 
 =head1 AUTHOR
 

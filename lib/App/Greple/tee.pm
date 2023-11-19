@@ -26,13 +26,13 @@ Actually this example itself is not so useful because B<greple> can do
 the same thing more effectively with B<--cm> option.
 
 By default, the command is executed as a single process, and all
-matched data is sent to it mixed together.  If the matched text does
-not end with newline, it is added before and removed after.  Data are
-mapped line by line, so the number of lines of input and output data
-must be identical.
+matched data is sent to the process mixed together.  If the matched
+text does not end with newline, it is added before sending and removed
+after receiving.  Input and output data are mapped line by line, so
+the number of lines of input and output must be identical.
 
 Using B<--discrete> option, individual command is called for each
-matched part.  You can tell the difference by following commands.
+matched text area.  You can tell the difference by following commands.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -56,8 +56,8 @@ Invoke new command individually for every matched part.
 
 Combine a sequence of non-blank lines into a single line before
 passing them to the filter command.  Newline characters between wide
-characters are deleted, and other newline characters are replaced with
-spaces.
+width characters are deleted, and other newline characters are
+replaced with spaces.
 
 =item B<--blocks>
 
@@ -145,9 +145,10 @@ command:
          machine-readable source of the
          Package with your modifications.
 
-Using C<--discrete> option is time consuming.  So you can use
-C<--separate '\r'> option with C<ansifold> which produce single line
-using CR character instead of NL.
+The --discrete option will start multiple processes, so the process
+will take longer to execute.  So you can use C<--separate '\r'> option
+with C<ansifold> which produce single line using CR character instead
+of NL.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -158,19 +159,21 @@ Then convert CR char to NL after by L<tr(1)> command or some.
 =head1 EXAMPLE 3
 
 Consider a situation where you want to grep for strings from
-non-header lines. For example, you may want to search for images from
-the C<docker image ls> command, but leave the header line.  You can do
-it by following command.
+non-header lines. For example, you may want to search for Docker image
+names from the C<docker image ls> command, but leave the header line.
+You can do it by following command.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
 Option C<-Mline -L 2:> retrieves the second to last lines and sends
-them to the C<grep perl> command. Option C<--discrete> is required,
-but this is called only once, so there is no performance drawback.
+them to the C<grep perl> command.  The option --discrete is required
+because the number of lines of input and output changes, but since the
+command is only executed once, there is no performance drawback.
 
-In this case, C<teip -l 2- -- grep> produces error because the number
-of lines in the output is less than input. However, result is quite
-satisfactory :)
+If you try to do the same thing with the B<teip> command,
+C<teip -l 2- -- grep> will give an error because the number of output
+lines is less than the number of input lines. However, there is no
+problem with the result obtained.
 
 =head1 INSTALL
 
@@ -192,7 +195,8 @@ L<App::Greple::xlate>
 
 =head1 BUGS
 
-The C<--fillup> option may not work correctly for Korean text.
+The C<--fillup> option will remove spaces between Hangul characters when 
+concatenating Korean text.
 
 =head1 AUTHOR
 

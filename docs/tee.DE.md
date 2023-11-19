@@ -16,9 +16,9 @@ Der Filterbefehl folgt auf die Moduldeklaration (`-Mtee`) und wird durch zwei Bi
 
 Der obige Befehl wandelt alle übereinstimmenden Wörter von Kleinbuchstaben in Großbuchstaben um. Eigentlich ist dieses Beispiel nicht so nützlich, weil **greple** dasselbe mit der Option **--cm** effektiver machen kann.
 
-Standardmäßig wird der Befehl als ein einziger Prozess ausgeführt, und alle übereinstimmenden Daten werden gemischt an ihn gesendet. Wenn der übereinstimmende Text nicht mit einem Zeilenumbruch endet, wird er davor eingefügt und danach entfernt. Die Daten werden zeilenweise zugeordnet, so dass die Anzahl der Zeilen der Eingabe- und Ausgabedaten identisch sein muss.
+Standardmäßig wird der Befehl in einem einzigen Prozess ausgeführt, und alle übereinstimmenden Daten werden gemischt an den Prozess gesendet. Wenn der übereinstimmende Text nicht mit einem Zeilenumbruch endet, wird er vor dem Senden hinzugefügt und nach dem Empfang entfernt. Ein- und Ausgabedaten werden zeilenweise zugeordnet, so dass die Anzahl der Zeilen von Ein- und Ausgabe identisch sein muss.
 
-Mit der Option **--diskret** wird für jedes übereinstimmende Teil ein eigener Befehl aufgerufen. Sie können den Unterschied anhand der folgenden Befehle erkennen.
+Mit der Option **--discrete** wird für jeden übereinstimmenden Textbereich ein eigener Befehl aufgerufen. Sie können den Unterschied anhand der folgenden Befehle erkennen.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -37,7 +37,7 @@ Version 0.9902
 
 - **--fillup**
 
-    Kombiniert eine Folge von nicht leeren Zeilen zu einer einzigen Zeile, bevor sie an den Filterbefehl übergeben wird. Zeilenumbrüche zwischen breiten Zeichen werden gelöscht, und andere Zeilenumbrüche werden durch Leerzeichen ersetzt.
+    Kombinieren Sie eine Folge von Nicht-Leerzeilen zu einer einzigen Zeile, bevor Sie sie an den Filterbefehl weitergeben. Zeilenumbrüche zwischen breiten Zeichen werden gelöscht, und andere Zeilenumbrüche werden durch Leerzeichen ersetzt.
 
 - **--blocks**
 
@@ -107,7 +107,7 @@ Sie können diesen Teil umformatieren, indem Sie das Modul **tee** mit dem Befeh
          machine-readable source of the
          Package with your modifications.
 
-Die Verwendung der Option `--diskret` ist zeitaufwendig. Sie können daher die Option `--separate '\r'` mit `ansifold` verwenden, die eine einzelne Zeile mit CR-Zeichen anstelle von NL erzeugt.
+Mit der Option --discrete werden mehrere Prozesse gestartet, so dass die Ausführung länger dauert. Daher können Sie die Option `--separate '\r'` mit `ansifold` verwenden, die eine einzelne Zeile mit CR-Zeichen anstelle von NL erzeugt.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -117,13 +117,13 @@ Dann konvertieren Sie das CR-Zeichen mit dem Befehl [tr(1)](http://man.he.net/ma
 
 # EXAMPLE 3
 
-Stellen Sie sich eine Situation vor, in der Sie nach Zeichenketten in Nicht-Kopfzeilen suchen wollen. Zum Beispiel könnten Sie nach Bildern aus dem Befehl `docker image ls` suchen, aber die Kopfzeile weglassen. Sie können dies mit folgendem Befehl tun.
+Stellen Sie sich eine Situation vor, in der Sie nach Zeichenfolgen aus Nicht-Kopfzeilen suchen wollen. Sie könnten zum Beispiel nach Docker-Image-Namen aus dem Befehl `docker image ls` suchen, aber die Kopfzeile weglassen. Sie können dies mit folgendem Befehl tun.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-Option `-Mline -L 2:` holt die vorletzte Zeile und sendet sie an den Befehl `grep perl`. Die Option `--discrete` ist erforderlich, aber sie wird nur einmal aufgerufen, so dass es keine Leistungseinbußen gibt.
+Die Option `-Mline -L 2:` ruft die vorletzte Zeile ab und sendet sie an den Befehl `grep perl`. Die Option --discrete ist erforderlich, weil sich die Anzahl der Ein- und Ausgabezeilen ändert, aber da der Befehl nur einmal ausgeführt wird, gibt es keine Leistungseinbußen.
 
-In diesem Fall erzeugt `teip -l 2- -- grep` einen Fehler, weil die Anzahl der Zeilen in der Ausgabe geringer ist als die der Eingabe. Das Ergebnis ist jedoch recht zufriedenstellend :)
+Wenn Sie versuchen, dasselbe mit dem Befehl **teip** zu tun, gibt `teip -l 2- -- grep` einen Fehler aus, weil die Anzahl der Ausgabezeilen geringer ist als die Anzahl der Eingabezeilen. Das erhaltene Ergebnis ist jedoch unproblematisch.
 
 # INSTALL
 
@@ -145,7 +145,7 @@ In diesem Fall erzeugt `teip -l 2- -- grep` einen Fehler, weil die Anzahl der Ze
 
 # BUGS
 
-Die Option `--fillup` funktioniert möglicherweise nicht korrekt für koreanischen Text.
+Die Option `--fillup` entfernt beim Verketten von koreanischem Text die Leerzeichen zwischen den Hangul-Zeichen.
 
 # AUTHOR
 

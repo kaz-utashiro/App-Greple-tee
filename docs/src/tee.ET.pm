@@ -18,9 +18,9 @@ Filtri käsk järgneb moodulideklaratsioonile (C<-Mtee>) ja lõpeb kahe kriipsug
 
 Ülaltoodud käsk teisendab kõik sobitatud sõnad väiketähtedest suurtähtedeks. Tegelikult ei ole see näide iseenesest nii kasulik, sest B<greple> saab sama asja tõhusamalt teha valikuga B<--cm>.
 
-Vaikimisi täidetakse käsk ühe protsessina ja kõik sobitatud andmed saadetakse sellele segamini. Kui sobitatud tekst ei lõpe newline'iga, lisatakse see enne ja eemaldatakse pärast. Andmed kaardistatakse rea kaupa, nii et sisend- ja väljundandmete ridade arv peab olema identne.
+Vaikimisi täidetakse käsk ühe protsessina ja kõik sobivad andmed saadetakse protsessile segamini. Kui sobitatud tekst ei lõpe newline'iga, lisatakse see enne saatmist ja eemaldatakse pärast vastuvõtmist. Sisend- ja väljundandmed kaardistatakse rea kaupa, seega peab sisend- ja väljundridade arv olema identne.
 
-Valiku B<--diskreetne> abil kutsutakse iga sobitatud osa jaoks eraldi käsk. Erinevust saab eristada järgmiste käskude abil.
+Valiku B<--diskreetne> abil kutsutakse iga sobitatud tekstiala jaoks eraldi käsk. Erinevust saab eristada järgmiste käskude abil.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -41,7 +41,7 @@ Kutsuge uus käsk eraldi iga sobitatud osa jaoks.
 
 =item B<--fillup>
 
-Kombineerib mittetühjad read üheks reaks enne nende edastamist käsule filter. Laiade tähemärkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.
+Ühendage mittetäielike ridade jada üheks reaks enne nende edastamist filtri käsule. Laiade laiade märkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.
 
 =item B<--blocks>
 
@@ -112,7 +112,7 @@ Seda osa saab ümber vormindada, kasutades B<tee> moodulit koos B<ansifold> käs
          machine-readable source of the
          Package with your modifications.
 
-Valiku C<--diskreet> kasutamine on aeganõudev. Seega võite kasutada C<--separate '\r'> valikut koos C<ansifold>, mis toodab ühe rea, kasutades CR-märki NL-i asemel.
+Valikuga --diskreetne käivitatakse mitu protsessi, seega võtab protsessi täitmine kauem aega. Seega võite kasutada valikut C<--separate '\r'> koos C<ansifold>, mis toodab ühe rea, kasutades CR-märki NL-i asemel.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -122,13 +122,13 @@ Seejärel teisendage CR märk NL-ks pärast seda käsuga L<tr(1)> või mõnega.
 
 =head1 EXAMPLE 3
 
-Mõelge olukorrale, kus te soovite grep'i abil leida stringid mitte-pealkirjaridadest. Näiteks võite soovida otsida pilte C<docker image ls> käsust, kuid jätta pealkirjarida alles. Saate seda teha järgmise käsuga.
+Mõelge olukorrale, kus te soovite grep'i abil leida stringid mitte-pealkirjaridadest. Näiteks võite soovida otsida Docker image'i nimesid käsust C<docker image ls>, kuid jätta pealkirjarida alles. Saate seda teha järgmise käsuga.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-Valik C<-Mline -L 2:> otsib välja eelviimased read ja saadab need käsule C<grep perl>. Vajalik on valik C<--diskreet>, kuid seda kutsutakse ainult üks kord, nii et see ei kahjusta jõudlust.
+Valik C<-Mline -L 2:> otsib välja eelviimased read ja saadab need käsule C<grep perl>. Valik --diskreetne on vajalik, sest sisendi ja väljundi ridade arv muutub, kuid kuna käsk täidetakse ainult üks kord, ei ole tulemuslikkuse puudujääki.
 
-Sellisel juhul annab C<teip -l 2- -- grep> vea, sest väljundis olevate ridade arv on väiksem kui sisend. Tulemus on siiski üsna rahuldav :)
+Kui püüda sama asja teha käsuga B<teip>, annab C<teip -l 2- -- grep> vea, sest väljundridade arv on väiksem kui sisendridade arv. Saadud tulemusega ei ole aga mingit probleemi.
 
 =head1 INSTALL
 
@@ -150,7 +150,7 @@ L<App::Greple::xlate>
 
 =head1 BUGS
 
-Valik C<--fillup> ei pruugi koreakeelse teksti puhul korrektselt töötada.
+Valik C<--fillup> eemaldab korea keele teksti liidestamisel Hangul-märkide vahel olevad tühikud.
 
 =head1 AUTHOR
 

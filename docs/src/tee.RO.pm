@@ -18,9 +18,9 @@ Comanda de filtrare urmează după declarația modulului (C<-Mtee>) și se termi
 
 Comanda de mai sus convertește toate cuvintele potrivite din minuscule în majuscule. De fapt, acest exemplu în sine nu este atât de util, deoarece B<greple> poate face același lucru mai eficient cu opțiunea B<--cm>.
 
-În mod implicit, comanda este executată ca un singur proces, iar toate datele potrivite sunt trimise către acesta amestecate împreună. În cazul în care textul potrivit nu se termină cu newline, acesta este adăugat înainte și eliminat după. Datele sunt mapate linie cu linie, astfel încât numărul de linii de date de intrare și de ieșire trebuie să fie identic.
+În mod implicit, comanda este executată ca un singur proces, iar toate datele corespunzătoare sunt trimise la proces amestecate împreună. În cazul în care textul potrivit nu se termină cu newline, acesta este adăugat înainte de trimitere și eliminat după primire. Datele de intrare și de ieșire sunt mapate linie cu linie, astfel încât numărul de linii de intrare și de ieșire trebuie să fie identic.
 
-Utilizând opțiunea B<--discret>, se apelează o comandă individuală pentru fiecare piesă care se potrivește. Puteți face diferența prin următoarele comenzi.
+Utilizând opțiunea B<--discret>, comanda individuală este apelată pentru fiecare zonă de text potrivit. Puteți face diferența prin următoarele comenzi.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -41,7 +41,7 @@ Invocarea unei noi comenzi individuale pentru fiecare piesă care se potrivește
 
 =item B<--fillup>
 
-Combină o secvență de linii care nu sunt goale într-o singură linie înainte de a le transmite comenzii de filtrare. Caracterele newline dintre caracterele largi sunt șterse, iar alte caractere newline sunt înlocuite cu spații.
+Combină o secvență de linii care nu sunt goale într-o singură linie înainte de a le trece la comanda de filtrare. Caracterele newline dintre caracterele de lățime mare sunt șterse, iar celelalte caractere newline sunt înlocuite cu spații.
 
 =item B<--blocks>
 
@@ -112,7 +112,7 @@ Puteți reformata această parte utilizând modulul B<tee> cu comanda B<ansifold
          machine-readable source of the
          Package with your modifications.
 
-Utilizarea opțiunii C<--discrete> necesită mult timp. Deci, puteți utiliza opțiunea C<--separate '\r'> cu C<ansifold> care produce o singură linie folosind caracterul CR în loc de NL.
+Opțiunea --discrete va porni mai multe procese, astfel încât procesul va dura mai mult timp pentru a se executa. Astfel, puteți utiliza opțiunea C<--separate '\r'> cu C<ansifold> care produce o singură linie folosind caracterul CR în loc de NL.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -122,13 +122,13 @@ Apoi, convertiți caracterul CR în NL prin comanda L<tr(1)> sau alta.
 
 =head1 EXAMPLE 3
 
-Luați în considerare o situație în care doriți să căutați prin grep șiruri de caractere din liniile fără antet. De exemplu, este posibil să doriți să căutați imagini din comanda C<docker image ls>, dar să lăsați linia de antet. Puteți face acest lucru prin următoarea comandă.
+Luați în considerare o situație în care doriți să căutați prin grep șiruri de caractere din liniile fără antet. De exemplu, este posibil să doriți să căutați numele imaginilor Docker din comanda C<docker image ls>, dar să lăsați linia de antet. Puteți face acest lucru prin următoarea comandă.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-Opțiunea C<-Mline -L 2:> recuperează penultima linie și o trimite la comanda C<grep perl>. Opțiunea C<--discrete> este necesară, dar aceasta este apelată o singură dată, deci nu există niciun dezavantaj de performanță.
+Opțiunea C<-Mline -L 2:> recuperează penultima linie și o trimite la comanda C<grep perl>. Opțiunea --discrete este necesară deoarece numărul de linii de intrare și de ieșire se modifică, dar, deoarece comanda este executată o singură dată, nu există niciun dezavantaj de performanță.
 
-În acest caz, C<teip -l 2- -- grep> produce o eroare deoarece numărul de linii de la ieșire este mai mic decât cel de la intrare. Cu toate acestea, rezultatul este destul de satisfăcător :)
+Dacă încercați să faceți același lucru cu comanda B<teip>, C<teip -l 2- -- grep> va da o eroare deoarece numărul de linii de ieșire este mai mic decât numărul de linii de intrare. Cu toate acestea, nu există nicio problemă cu rezultatul obținut.
 
 =head1 INSTALL
 
@@ -150,7 +150,7 @@ L<App::Greple::xlate>
 
 =head1 BUGS
 
-Este posibil ca opțiunea C<--fillup> să nu funcționeze corect pentru textul coreean.
+Opțiunea C<--fillup> va elimina spațiile dintre caracterele Hangul la concatenarea textului coreean.
 
 =head1 AUTHOR
 

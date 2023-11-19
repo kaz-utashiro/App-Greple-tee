@@ -18,9 +18,9 @@ Perintah filter mengikuti deklarasi modul (C<-Mtee>) dan diakhiri dengan dua tan
 
 Perintah di atas mengubah semua kata yang cocok dari huruf kecil menjadi huruf besar. Sebenarnya contoh ini sendiri tidak begitu berguna karena B<greple> dapat melakukan hal yang sama secara lebih efektif dengan opsi B<--cm>.
 
-Secara default, perintah ini dijalankan sebagai satu proses, dan semua data yang cocok dikirim ke proses tersebut secara bersamaan. Jika teks yang dicocokkan tidak diakhiri dengan baris baru, maka teks tersebut akan ditambahkan sebelum dan dihapus setelahnya. Data dipetakan baris demi baris, sehingga jumlah baris data input dan output harus sama.
+Secara default, perintah ini dijalankan sebagai satu proses, dan semua data yang cocok akan dikirim ke proses yang digabungkan. Jika teks yang dicocokkan tidak diakhiri dengan baris baru, maka teks tersebut akan ditambahkan sebelum dikirim dan dihapus setelah diterima. Data input dan output dipetakan baris demi baris, sehingga jumlah baris input dan output harus identik.
 
-Dengan menggunakan opsi B<--discrete>, perintah individual dipanggil untuk setiap bagian yang cocok. Anda dapat mengetahui perbedaannya dengan perintah berikut.
+Dengan menggunakan opsi B<--discrete>, perintah individual dipanggil untuk setiap area teks yang cocok. Anda dapat mengetahui perbedaannya dengan perintah berikut.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -41,7 +41,7 @@ Memanggil perintah baru satu per satu untuk setiap bagian yang cocok.
 
 =item B<--fillup>
 
-Menggabungkan urutan baris yang tidak kosong menjadi satu baris sebelum meneruskannya ke perintah filter. Karakter baris baru di antara karakter lebar dihapus, dan karakter baris baru lainnya diganti dengan spasi.
+Gabungkan urutan baris yang tidak kosong menjadi satu baris sebelum meneruskannya ke perintah filter. Karakter baris baru di antara karakter lebar akan dihapus, dan karakter baris baru lainnya diganti dengan spasi.
 
 =item B<--blocks>
 
@@ -112,7 +112,7 @@ Anda dapat memformat ulang bagian ini dengan menggunakan modul B<tee> dengan per
          machine-readable source of the
          Package with your modifications.
 
-Menggunakan opsi C<--discrete> memakan waktu. Jadi, Anda dapat menggunakan opsi C<--pisah '\r'> dengan C<ansifold> yang menghasilkan satu baris menggunakan karakter CR, bukan NL.
+Opsi --discrete akan memulai beberapa proses, sehingga prosesnya akan memakan waktu lebih lama untuk dieksekusi. Jadi, Anda dapat menggunakan opsi C<--pisah '\r'> dengan C<ansifold> yang menghasilkan satu baris menggunakan karakter CR, bukan NL.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -122,13 +122,13 @@ Kemudian ubah karakter CR menjadi NL setelahnya dengan perintah L<tr(1)> atau ya
 
 =head1 EXAMPLE 3
 
-Pertimbangkan situasi di mana Anda ingin mencari string dari baris yang bukan header. Sebagai contoh, Anda mungkin ingin mencari gambar dari perintah C<docker image ls>, tetapi meninggalkan baris header. Anda dapat melakukannya dengan perintah berikut.
+Pertimbangkan situasi di mana Anda ingin mencari string dari baris non-header. Sebagai contoh, Anda mungkin ingin mencari nama citra Docker dari perintah C<docker image ls>, tetapi meninggalkan baris header. Anda dapat melakukannya dengan perintah berikut.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-Opsi C<-Mline -L 2:> mengambil baris kedua hingga terakhir dan mengirimkannya ke perintah C<grep perl>. Opsi C<--discrete> diperlukan, tetapi ini hanya dipanggil sekali, sehingga tidak ada kekurangan dalam hal performa.
+Opsi C<-Mline -L 2:> mengambil baris kedua hingga terakhir dan mengirimkannya ke perintah C<grep perl>. Opsi --discrete diperlukan karena jumlah baris dari input dan output berubah, tetapi karena perintah ini hanya dieksekusi satu kali, maka tidak ada kekurangan dalam hal performa.
 
-Dalam kasus ini, C<teip -l 2- - grep> menghasilkan kesalahan karena jumlah baris pada output lebih sedikit dari input. Namun, hasilnya cukup memuaskan :)
+Jika Anda mencoba melakukan hal yang sama dengan perintah B<teip>, C<teip -l 2- - grep> akan memberikan kesalahan karena jumlah baris output kurang dari jumlah baris input. Namun, tidak ada masalah dengan hasil yang diperoleh.
 
 =head1 INSTALL
 
@@ -150,7 +150,7 @@ L<App::Greple::xlate>
 
 =head1 BUGS
 
-Opsi C<--fillup> mungkin tidak bekerja dengan baik untuk teks bahasa Korea.
+Opsi C<--fillup> akan menghilangkan spasi di antara karakter Hangul saat menggabungkan teks bahasa Korea.
 
 =head1 AUTHOR
 

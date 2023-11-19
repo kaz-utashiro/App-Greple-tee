@@ -18,9 +18,9 @@ Het filtercommando volgt op de moduleverklaring (C<-Mtee>) en eindigt met twee s
 
 Bovenstaand commando zet alle overeenkomende woorden om van kleine letters naar hoofdletters. Eigenlijk is dit voorbeeld zelf niet zo nuttig omdat B<greple> hetzelfde effectiever kan doen met de optie B<--cm>.
 
-Standaard wordt het commando uitgevoerd als een enkel proces, en alle gematchte gegevens worden erdoor gemengd. Als de gematchte tekst niet eindigt met een newline, wordt hij ervoor toegevoegd en erna verwijderd. De gegevens worden regel voor regel in kaart gebracht, dus het aantal regels invoer- en uitvoergegevens moet identiek zijn.
+Standaard wordt de opdracht als een enkel proces uitgevoerd en worden alle gematchte gegevens door elkaar naar het proces gestuurd. Als de gematchte tekst niet eindigt met een newline, wordt deze toegevoegd voor het verzenden en verwijderd na het ontvangen. Invoer- en uitvoergegevens worden regel voor regel in kaart gebracht, dus het aantal regels invoer en uitvoer moet identiek zijn.
 
-Met de optie B<--discreet> wordt voor elk gematcht onderdeel een afzonderlijk commando opgeroepen. U kunt het verschil zien aan de hand van de volgende commando's.
+Met de optie B<--discrete> wordt voor elk gematcht tekstgebied een afzonderlijk commando aangeroepen. Je kunt het verschil zien aan de hand van de volgende opdrachten.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -41,7 +41,7 @@ Roep nieuw commando individueel op voor elk onderdeel.
 
 =item B<--fillup>
 
-Combineer een reeks niet lege regels tot één regel voordat je ze doorgeeft aan de filteropdracht. Newline-tekens tussen brede tekens worden verwijderd en andere newline-tekens worden vervangen door spaties.
+Combineer een reeks niet-blanke regels tot één regel voordat je ze doorgeeft aan de filteropdracht. Newline-tekens tussen tekens met een grote breedte worden verwijderd en andere newline-tekens worden vervangen door spaties.
 
 =item B<--blocks>
 
@@ -112,7 +112,7 @@ U kunt dit deel opnieuw formatteren door de module B<tee> te gebruiken met het c
          machine-readable source of the
          Package with your modifications.
 
-Het gebruik van de optie C<--discrete> is tijdrovend. Dus je kunt de optie C<--separate '\r'> gebruiken met C<ansifold> die een enkele regel produceert met CR-karakters in plaats van NL.
+De --discrete optie zal meerdere processen starten, dus het proces zal langer duren om uit te voeren. Je kunt dus de optie C<--separate '\r'> gebruiken met C<ansifold>, die een enkele regel produceert met het karakter CR in plaats van NL.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -122,13 +122,13 @@ Converteer vervolgens CR naar NL met L<tr(1)> of iets dergelijks.
 
 =head1 EXAMPLE 3
 
-Overweeg een situatie waarin je wilt grepen naar tekenreeksen buiten de koptekstregels. Bijvoorbeeld, je wilt zoeken naar afbeeldingen van het C<docker image ls> commando, maar laat de header regel staan. Je kunt dit doen met het volgende commando.
+Denk aan een situatie waarin je wilt grepen naar tekenreeksen buiten de kopregels. Bijvoorbeeld, je wilt zoeken naar Docker image namen van het C<docker image ls> commando, maar laat de header regel staan. Je kunt dit doen met het volgende commando.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-Optie C<-Mline -L 2:> haalt de voorlaatste regels op en stuurt ze naar het commando C<grep perl>. Optie C<--discrete> is vereist, maar deze wordt maar één keer aangeroepen, dus er is geen prestatieverlies.
+De optie C<-Mline -L 2:> haalt de voorlaatste regels op en stuurt ze naar het commando C<grep perl>. De optie --discrete is nodig omdat het aantal regels van invoer en uitvoer verandert, maar omdat het commando maar één keer wordt uitgevoerd, is er geen nadeel voor de prestaties.
 
-In dit geval geeft C<teip -l 2- -- grep> een foutmelding omdat het aantal regels in de uitvoer minder is dan de invoer. Het resultaat is echter heel bevredigend :)
+Als je hetzelfde probeert te doen met het B<teip> commando, zal C<teip -l 2- -- grep> een foutmelding geven omdat het aantal uitvoerregels minder is dan het aantal invoerregels. Er is echter geen probleem met het verkregen resultaat.
 
 =head1 INSTALL
 
@@ -150,7 +150,7 @@ L<App::Greple::xlate>
 
 =head1 BUGS
 
-De optie C<-fillup> werkt mogelijk niet correct voor Koreaanse tekst.
+De optie C<--fillup> verwijdert spaties tussen Hangul-tekens bij het aaneenschakelen van Koreaanse tekst.
 
 =head1 AUTHOR
 

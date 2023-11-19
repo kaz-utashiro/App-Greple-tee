@@ -18,9 +18,9 @@ Der Filterbefehl folgt auf die Moduldeklaration (C<-Mtee>) und wird durch zwei B
 
 Der obige Befehl wandelt alle übereinstimmenden Wörter von Kleinbuchstaben in Großbuchstaben um. Eigentlich ist dieses Beispiel nicht so nützlich, weil B<greple> dasselbe mit der Option B<--cm> effektiver machen kann.
 
-Standardmäßig wird der Befehl als ein einziger Prozess ausgeführt, und alle übereinstimmenden Daten werden gemischt an ihn gesendet. Wenn der übereinstimmende Text nicht mit einem Zeilenumbruch endet, wird er davor eingefügt und danach entfernt. Die Daten werden zeilenweise zugeordnet, so dass die Anzahl der Zeilen der Eingabe- und Ausgabedaten identisch sein muss.
+Standardmäßig wird der Befehl in einem einzigen Prozess ausgeführt, und alle übereinstimmenden Daten werden gemischt an den Prozess gesendet. Wenn der übereinstimmende Text nicht mit einem Zeilenumbruch endet, wird er vor dem Senden hinzugefügt und nach dem Empfang entfernt. Ein- und Ausgabedaten werden zeilenweise zugeordnet, so dass die Anzahl der Zeilen von Ein- und Ausgabe identisch sein muss.
 
-Mit der Option B<--diskret> wird für jedes übereinstimmende Teil ein eigener Befehl aufgerufen. Sie können den Unterschied anhand der folgenden Befehle erkennen.
+Mit der Option B<--discrete> wird für jeden übereinstimmenden Textbereich ein eigener Befehl aufgerufen. Sie können den Unterschied anhand der folgenden Befehle erkennen.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -41,7 +41,7 @@ Rufen Sie den neuen Befehl einzeln für jedes übereinstimmende Teil auf.
 
 =item B<--fillup>
 
-Kombiniert eine Folge von nicht leeren Zeilen zu einer einzigen Zeile, bevor sie an den Filterbefehl übergeben wird. Zeilenumbrüche zwischen breiten Zeichen werden gelöscht, und andere Zeilenumbrüche werden durch Leerzeichen ersetzt.
+Kombinieren Sie eine Folge von Nicht-Leerzeilen zu einer einzigen Zeile, bevor Sie sie an den Filterbefehl weitergeben. Zeilenumbrüche zwischen breiten Zeichen werden gelöscht, und andere Zeilenumbrüche werden durch Leerzeichen ersetzt.
 
 =item B<--blocks>
 
@@ -112,7 +112,7 @@ Sie können diesen Teil umformatieren, indem Sie das Modul B<tee> mit dem Befehl
          machine-readable source of the
          Package with your modifications.
 
-Die Verwendung der Option C<--diskret> ist zeitaufwendig. Sie können daher die Option C<--separate '\r'> mit C<ansifold> verwenden, die eine einzelne Zeile mit CR-Zeichen anstelle von NL erzeugt.
+Mit der Option --discrete werden mehrere Prozesse gestartet, so dass die Ausführung länger dauert. Daher können Sie die Option C<--separate '\r'> mit C<ansifold> verwenden, die eine einzelne Zeile mit CR-Zeichen anstelle von NL erzeugt.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -122,13 +122,13 @@ Dann konvertieren Sie das CR-Zeichen mit dem Befehl L<tr(1)> oder ähnlichem in 
 
 =head1 EXAMPLE 3
 
-Stellen Sie sich eine Situation vor, in der Sie nach Zeichenketten in Nicht-Kopfzeilen suchen wollen. Zum Beispiel könnten Sie nach Bildern aus dem Befehl C<docker image ls> suchen, aber die Kopfzeile weglassen. Sie können dies mit folgendem Befehl tun.
+Stellen Sie sich eine Situation vor, in der Sie nach Zeichenfolgen aus Nicht-Kopfzeilen suchen wollen. Sie könnten zum Beispiel nach Docker-Image-Namen aus dem Befehl C<docker image ls> suchen, aber die Kopfzeile weglassen. Sie können dies mit folgendem Befehl tun.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-Option C<-Mline -L 2:> holt die vorletzte Zeile und sendet sie an den Befehl C<grep perl>. Die Option C<--discrete> ist erforderlich, aber sie wird nur einmal aufgerufen, so dass es keine Leistungseinbußen gibt.
+Die Option C<-Mline -L 2:> ruft die vorletzte Zeile ab und sendet sie an den Befehl C<grep perl>. Die Option --discrete ist erforderlich, weil sich die Anzahl der Ein- und Ausgabezeilen ändert, aber da der Befehl nur einmal ausgeführt wird, gibt es keine Leistungseinbußen.
 
-In diesem Fall erzeugt C<teip -l 2- -- grep> einen Fehler, weil die Anzahl der Zeilen in der Ausgabe geringer ist als die der Eingabe. Das Ergebnis ist jedoch recht zufriedenstellend :)
+Wenn Sie versuchen, dasselbe mit dem Befehl B<teip> zu tun, gibt C<teip -l 2- -- grep> einen Fehler aus, weil die Anzahl der Ausgabezeilen geringer ist als die Anzahl der Eingabezeilen. Das erhaltene Ergebnis ist jedoch unproblematisch.
 
 =head1 INSTALL
 
@@ -150,7 +150,7 @@ L<App::Greple::xlate>
 
 =head1 BUGS
 
-Die Option C<--fillup> funktioniert möglicherweise nicht korrekt für koreanischen Text.
+Die Option C<--fillup> entfernt beim Verketten von koreanischem Text die Leerzeichen zwischen den Hangul-Zeichen.
 
 =head1 AUTHOR
 

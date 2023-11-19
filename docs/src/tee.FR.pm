@@ -18,9 +18,9 @@ La commande de filtrage suit la déclaration du module (C<-Mtee>) et se termine 
 
 La commande ci-dessus convertit tous les mots correspondants des minuscules aux majuscules. En fait, cet exemple n'est pas très utile car B<greple> peut faire la même chose plus efficacement avec l'option B<--cm>.
 
-Par défaut, la commande est exécutée comme un seul processus, et toutes les données correspondantes lui sont envoyées mélangées. Si le texte correspondant ne se termine pas par une nouvelle ligne, il est ajouté avant et supprimé après. Les données sont mappées ligne par ligne, le nombre de lignes de données d'entrée et de sortie doit donc être identique.
+Par défaut, la commande est exécutée en tant que processus unique, et toutes les données correspondantes sont envoyées au processus mélangées. Si le texte correspondant ne se termine pas par une nouvelle ligne, il est ajouté avant l'envoi et supprimé après la réception. Les données d'entrée et de sortie sont mises en correspondance ligne par ligne, de sorte que le nombre de lignes d'entrée et de sortie doit être identique.
 
-En utilisant l'option B<--discrete>, une commande individuelle est appelée pour chaque pièce appariée. Vous pouvez faire la différence avec les commandes suivantes.
+En utilisant l'option B<--discrete>, une commande individuelle est appelée pour chaque zone de texte correspondant. Les commandes suivantes permettent de faire la différence.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
@@ -41,7 +41,7 @@ Lancez une nouvelle commande individuellement pour chaque pièce correspondante.
 
 =item B<--fillup>
 
-Combine une séquence de lignes non vides en une seule ligne avant de les transmettre à la commande de filtrage. Les caractères de nouvelle ligne entre les caractères larges sont supprimés et les autres caractères de nouvelle ligne sont remplacés par des espaces.
+Combiner une séquence de lignes non vides en une seule ligne avant de les passer à la commande de filtrage. Les caractères de nouvelle ligne entre les caractères de grande largeur sont supprimés, et les autres caractères de nouvelle ligne sont remplacés par des espaces.
 
 =item B<--blocks>
 
@@ -112,7 +112,7 @@ Vous pouvez reformater cette partie en utilisant le module B<tee> avec la comman
          machine-readable source of the
          Package with your modifications.
 
-L'utilisation de l'option C<--discrete> prend du temps. Vous pouvez donc utiliser l'option C<--separate '\r'> avec C<ansifold> qui produit une seule ligne en utilisant le caractère CR au lieu de NL.
+L'option --discrete démarre plusieurs processus, ce qui allonge la durée d'exécution du processus. Vous pouvez donc utiliser l'option C<--separate '\r'> avec C<ansifold> qui produit une seule ligne en utilisant le caractère CR au lieu du caractère NL.
 
     greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
 
@@ -122,13 +122,13 @@ Ensuite, convertissez le caractère CR en NL à l'aide de la commande L<tr(1)> o
 
 =head1 EXAMPLE 3
 
-Considérons une situation dans laquelle vous souhaitez rechercher des chaînes de caractères dans des lignes autres que les lignes d'en-tête. Par exemple, vous pouvez rechercher des images à partir de la commande C<docker image ls>, mais en laissant la ligne d'en-tête. Vous pouvez le faire en utilisant la commande suivante.
+Considérons une situation dans laquelle vous souhaitez rechercher des chaînes de caractères dans des lignes autres que l'en-tête. Par exemple, vous pouvez rechercher les noms d'images Docker de la commande C<docker image ls>, mais laisser la ligne d'en-tête. Vous pouvez le faire à l'aide de la commande suivante.
 
     greple -Mtee grep perl -- -Mline -L 2: --discrete --all
 
-L'option C<-Mline -L 2:> récupère l'avant-dernière ligne et l'envoie à la commande C<grep perl>. L'option C<--discrete> est nécessaire, mais elle n'est appelée qu'une seule fois, de sorte qu'il n'y a pas d'inconvénient en termes de performances.
+L'option C<-Mline -L 2:> récupère l'avant-dernière ligne et l'envoie à la commande C<grep perl>. L'option --discrete est nécessaire parce que le nombre de lignes d'entrée et de sortie change, mais comme la commande n'est exécutée qu'une seule fois, il n'y a pas d'inconvénient en termes de performances.
 
-Dans ce cas, C<teip -l 2- -- grep> produit une erreur car le nombre de lignes en sortie est inférieur au nombre de lignes en entrée. Cependant, le résultat est tout à fait satisfaisant :)
+Si vous essayez de faire la même chose avec la commande B<teip>, C<teip -l 2- -- grep> donnera une erreur parce que le nombre de lignes de sortie est inférieur au nombre de lignes d'entrée. Le résultat obtenu ne pose cependant aucun problème.
 
 =head1 INSTALL
 
@@ -150,7 +150,7 @@ L<App::Greple::xlate>
 
 =head1 BUGS
 
-L'option C<--fillup> peut ne pas fonctionner correctement pour le texte coréen.
+L'option C<--fillup> supprime les espaces entre les caractères Hangul lors de la concaténation de textes coréens.
 
 =head1 AUTHOR
 
