@@ -328,10 +328,10 @@ sub callback {
 
 __DATA__
 
+builtin tee-debug $debug
 builtin blocks    $blocks
 builtin discrete! $discrete
 builtin fillup!   $fillup
-builtin debug     $debug
 builtin squeeze   $squeeze
 
 option default \
