@@ -59,25 +59,28 @@ passing them to the filter command.  Newline characters between wide
 characters are deleted, and other newline characters are replaced with
 spaces.
 
-=item B<--blockmatch>
+=item B<--blocks>
 
-Normally, the area matching the specified search pattern is sent to the 
-external command. If this option is specified, not the matched area but 
-the entire block containing it will be processed.
+Normally, the area matching the specified search pattern is sent to
+the external command. If this option is specified, not the matched
+area but the entire block containing it will be processed.
 
 For example, to send lines containing the pattern C<foo> to the
 external command, you need to specify the pattern which matches to
 entire line:
 
-    greple -Mtee cat -n -- '^.*foo.*\n'
+    greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-But with the B<--blockmatch> option, it can be done as simply as
-follows:
+But with the B<--blocks> option, it can be done as simply as follows:
 
-    greple -Mtee cat -n -- foo
+    greple -Mtee cat -n -- foo --blocks
 
-With B<--blockmatch> option, this module behave more like L<teip(1)>'s
-B<-g> option.
+With B<--blocks> option, this module behave more like L<teip(1)>'s
+B<-g> option.  Otherwise, the behavior is similar to L<teip(1)> with
+the B<-o> option.
+
+Do not use the B<--blocks> with the B<--all> option, since the block
+will be the entire data.
 
 =item B<--squeeze>
 
@@ -217,7 +220,7 @@ use App::cdif::Command;
 use Data::Dumper;
 
 our $command;
-our $blockmatch;
+our $blocks;
 our $discrete;
 our $fillup;
 our $debug;
@@ -289,7 +292,7 @@ my @bundle;
 
 sub postgrep {
     my $grep = shift;
-    if ($blockmatch) {
+    if ($blocks) {
 	$grep->{RESULT} = [
 	    [ [ 0, length ],
 	      map {
@@ -321,11 +324,11 @@ sub callback {
 
 __DATA__
 
-builtin --blockmatch $blockmatch
-builtin --discrete!  $discrete
-builtin --fillup!    $fillup
-builtin --debug      $debug
-builtin --squeeze    $squeeze
+builtin --blocks    $blocks
+builtin --discrete! $discrete
+builtin --fillup!   $fillup
+builtin --debug     $debug
+builtin --squeeze   $squeeze
 
 option default \
 	--postgrep &__PACKAGE__::postgrep \
