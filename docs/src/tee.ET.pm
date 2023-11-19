@@ -43,19 +43,21 @@ Kutsuge uus käsk eraldi iga sobitatud osa jaoks.
 
 Kombineerib mittetühjad read üheks reaks enne nende edastamist käsule filter. Laiade tähemärkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.
 
-=item B<--blockmatch>
+=item B<--blocks>
 
 Tavaliselt saadetakse määratud otsingumustrile vastav ala välisele käsule. Kui see valik on määratud, ei töödelda mitte sobivat ala, vaid kogu seda sisaldavat plokki.
 
 Näiteks, et saata väliskäsule mustrit C<foo> sisaldavad read, tuleb määrata kogu reale vastav muster:
 
-    greple -Mtee cat -n -- '^.*foo.*\n'
+    greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-Kuid valikuga B<--blockmatch> saab seda teha lihtsalt järgmiselt:
+Kuid valikuga B<--blocks> saab seda teha nii lihtsalt kui järgnevalt:
 
-    greple -Mtee cat -n -- foo
+    greple -Mtee cat -n -- foo --blocks
 
-B<--blockmatch> valikuga käitub see moodul rohkem nagu L<teip(1)> valik B<-g>.
+B<--blocks> valikuga käitub see moodul rohkem nagu L<teip(1)> B<-g> valik. Muidu on käitumine sarnane L<teip(1)> B<-o> valikuga.
+
+Ärge kasutage B<--blocks> koos valikuga B<--all>, sest plokk on kogu andmestik.
 
 =item B<--squeeze>
 

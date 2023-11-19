@@ -39,19 +39,21 @@ Version 0.9901
 
     Kombineerib mittetühjad read üheks reaks enne nende edastamist käsule filter. Laiade tähemärkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.
 
-- **--blockmatch**
+- **--blocks**
 
     Tavaliselt saadetakse määratud otsingumustrile vastav ala välisele käsule. Kui see valik on määratud, ei töödelda mitte sobivat ala, vaid kogu seda sisaldavat plokki.
 
     Näiteks, et saata väliskäsule mustrit `foo` sisaldavad read, tuleb määrata kogu reale vastav muster:
 
-        greple -Mtee cat -n -- '^.*foo.*\n'
+        greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-    Kuid valikuga **--blockmatch** saab seda teha lihtsalt järgmiselt:
+    Kuid valikuga **--blocks** saab seda teha nii lihtsalt kui järgnevalt:
 
-        greple -Mtee cat -n -- foo
+        greple -Mtee cat -n -- foo --blocks
 
-    **--blockmatch** valikuga käitub see moodul rohkem nagu [teip(1)](http://man.he.net/man1/teip) valik **-g**.
+    **--blocks** valikuga käitub see moodul rohkem nagu [teip(1)](http://man.he.net/man1/teip) **-g** valik. Muidu on käitumine sarnane [teip(1)](http://man.he.net/man1/teip) **-o** valikuga.
+
+    Ärge kasutage **--blocks** koos valikuga **--all**, sest plokk on kogu andmestik.
 
 - **--squeeze**
 

@@ -44,10 +44,10 @@ JA_FILTER := greple -Mperl -Msubst::desumasu \
 endif
 ifeq ($(DESUMASU),GPTY)
 JA_FILTER := perl -I../lib -S greple \
-	-Mtee gpty -s -t 0 \
-		-I '以下の項目に挙げる指示にしたがって、続く文章を変換してください' \
-		'語尾がない文については付け加えずにそのままにする' \
-		'語尾の部分だけを「である調」から「ですます調」に換える' \
+	-Mtee gpty -d -q -t 0 \
+		-s '以下の項目に挙げる指示にしたがって、続く日本語の文章を変換してください' \
+		-s '語尾がない文については付け加えずにそのままにする' \
+		-s '語尾の部分だけを「である調」から「ですます調」に換える' \
 		- -- \
 	-Mperl --pod -E '^(\w.*\n)+' \
 	--debug $(EXCLUDE) \

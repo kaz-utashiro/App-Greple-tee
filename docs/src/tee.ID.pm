@@ -43,19 +43,21 @@ Memanggil perintah baru satu per satu untuk setiap bagian yang cocok.
 
 Menggabungkan urutan baris yang tidak kosong menjadi satu baris sebelum meneruskannya ke perintah filter. Karakter baris baru di antara karakter lebar dihapus, dan karakter baris baru lainnya diganti dengan spasi.
 
-=item B<--blockmatch>
+=item B<--blocks>
 
 Biasanya, area yang cocok dengan pola pencarian yang ditentukan dikirim ke perintah eksternal. Jika opsi ini ditentukan, bukan area yang cocok tetapi seluruh blok yang berisi area tersebut yang akan diproses.
 
 Misalnya, untuk mengirim baris yang berisi pola C<foo> ke perintah eksternal, Anda perlu menentukan pola yang cocok untuk seluruh baris:
 
-    greple -Mtee cat -n -- '^.*foo.*\n'
+    greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-Tetapi dengan opsi B<--blockmatch>, hal ini dapat dilakukan dengan mudah sebagai berikut:
+Namun dengan opsi B<--blok>, hal ini dapat dilakukan dengan mudah sebagai berikut:
 
-    greple -Mtee cat -n -- foo
+    greple -Mtee cat -n -- foo --blocks
 
-Dengan opsi B<--blockmatch>, modul ini berperilaku seperti opsi B<-g> milik L<teip(1)>.
+Dengan opsi B<--blok>, modul ini berperilaku lebih mirip dengan opsi B<-g> dari L<teip(1)>. Jika tidak, perilakunya mirip dengan L<teip(1)> dengan opsi B<-o>.
+
+Jangan gunakan B<--blok> dengan opsi B<--all>, karena blok akan menjadi seluruh data.
 
 =item B<--squeeze>
 

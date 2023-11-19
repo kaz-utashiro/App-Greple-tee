@@ -43,19 +43,21 @@ Rufen Sie den neuen Befehl einzeln für jedes übereinstimmende Teil auf.
 
 Kombiniert eine Folge von nicht leeren Zeilen zu einer einzigen Zeile, bevor sie an den Filterbefehl übergeben wird. Zeilenumbrüche zwischen breiten Zeichen werden gelöscht, und andere Zeilenumbrüche werden durch Leerzeichen ersetzt.
 
-=item B<--blockmatch>
+=item B<--blocks>
 
 Normalerweise wird der Bereich, der dem angegebenen Suchmuster entspricht, an den externen Befehl gesendet. Wenn diese Option angegeben wird, wird nicht der übereinstimmende Bereich, sondern der gesamte Block, der ihn enthält, verarbeitet.
 
 Um zum Beispiel Zeilen mit dem Muster C<foo> an das externe Kommando zu senden, müssen Sie das Muster angeben, das auf die gesamte Zeile passt:
 
-    greple -Mtee cat -n -- '^.*foo.*\n'
+    greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-Mit der Option B<--blockmatch> kann dies jedoch ganz einfach wie folgt geschehen:
+Aber mit der Option B<--blocks> kann es so einfach wie folgt gemacht werden:
 
-    greple -Mtee cat -n -- foo
+    greple -Mtee cat -n -- foo --blocks
 
-Mit der Option B<--blockmatch> verhält sich dieses Modul eher wie die Option B<-g> von L<teip(1)>.
+Mit der Option B<--blocks> verhält sich dieses Modul eher wie L<teip(1)> mit der Option B<-g>. Ansonsten ist das Verhalten ähnlich wie bei L<teip(1)> mit der Option B<-o>.
+
+Verwenden Sie die Option B<--blocks> nicht mit der Option B<--all>, da der Block die gesamten Daten sein werden.
 
 =item B<--squeeze>
 

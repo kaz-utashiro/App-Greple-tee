@@ -43,19 +43,21 @@ Roep nieuw commando individueel op voor elk onderdeel.
 
 Combineer een reeks niet lege regels tot één regel voordat je ze doorgeeft aan de filteropdracht. Newline-tekens tussen brede tekens worden verwijderd en andere newline-tekens worden vervangen door spaties.
 
-=item B<--blockmatch>
+=item B<--blocks>
 
 Normaal gesproken wordt het gebied dat overeenkomt met het opgegeven zoekpatroon naar de externe opdracht gestuurd. Als deze optie is opgegeven, wordt niet het gebied dat overeenkomt, maar het hele blok dat het bevat, verwerkt.
 
 Om bijvoorbeeld regels met het patroon C<foo> naar de externe opdracht te sturen, moet je het patroon opgeven dat overeenkomt met de hele regel:
 
-    greple -Mtee cat -n -- '^.*foo.*\n'
+    greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-Maar met de optie B<--blockmatch> kan het als volgt eenvoudig:
+Maar met de optie B<-blokken> kan het als volgt:
 
-    greple -Mtee cat -n -- foo
+    greple -Mtee cat -n -- foo --blocks
 
-Met de B<--blockmatch> optie gedraagt deze module zich meer als de B<-g> optie van L<teip(1)>.
+Met de B<-blokken> optie gedraagt deze module zich meer als de B<-g> optie van L<teip(1)>. Anders is het gedrag gelijkaardig aan L<teip(1)> met de B<-o> optie.
+
+Gebruik de B<-blokken> niet met de B<--all> optie, aangezien het blok dan de volledige gegevens zijn.
 
 =item B<--squeeze>
 

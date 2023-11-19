@@ -43,19 +43,21 @@ Eşleşen her parça için ayrı ayrı yeni komut çağırın.
 
 Bir dizi boş olmayan satırı filtre komutuna geçirmeden önce tek bir satırda birleştirir. Geniş karakterler arasındaki yeni satır karakterleri silinir ve diğer yeni satır karakterleri boşluklarla değiştirilir.
 
-=item B<--blockmatch>
+=item B<--blocks>
 
 Normalde, belirtilen arama deseniyle eşleşen alan harici komuta gönderilir. Bu seçenek belirtilirse, eşleşen alan değil, onu içeren tüm blok işlenecektir.
 
 Örneğin, C<foo> kalıbını içeren satırları harici komuta göndermek için, tüm satırla eşleşen kalıbı belirtmeniz gerekir:
 
-    greple -Mtee cat -n -- '^.*foo.*\n'
+    greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-Ancak B<--blockmatch> seçeneği ile bu işlem aşağıdaki kadar basit bir şekilde yapılabilir:
+Ancak B<--blocks> seçeneği ile aşağıdaki kadar basit bir şekilde yapılabilir:
 
-    greple -Mtee cat -n -- foo
+    greple -Mtee cat -n -- foo --blocks
 
-B<--blockmatch> seçeneği ile bu modül daha çok L<teip(1)>'in B<-g> seçeneği gibi davranır.
+B<--blocks> seçeneği ile bu modül daha çok L<teip(1)>'in B<-g> seçeneği gibi davranır. Aksi takdirde, davranış B<-o> seçeneği ile L<teip(1)>'e benzer.
+
+B<--blocks> seçeneğini B<--all> seçeneği ile birlikte kullanmayın, çünkü blok tüm veri olacaktır.
 
 =item B<--squeeze>
 

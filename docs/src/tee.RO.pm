@@ -43,19 +43,21 @@ Invocarea unei noi comenzi individuale pentru fiecare piesă care se potrivește
 
 Combină o secvență de linii care nu sunt goale într-o singură linie înainte de a le transmite comenzii de filtrare. Caracterele newline dintre caracterele largi sunt șterse, iar alte caractere newline sunt înlocuite cu spații.
 
-=item B<--blockmatch>
+=item B<--blocks>
 
 În mod normal, zona care corespunde modelului de căutare specificat este trimisă la comanda externă. În cazul în care se specifică această opțiune, nu zona care corespunde, ci întregul bloc care o conține va fi procesat.
 
 De exemplu, pentru a trimite liniile care conțin modelul C<foo> la comanda externă, trebuie să specificați modelul care se potrivește cu întreaga linie:
 
-    greple -Mtee cat -n -- '^.*foo.*\n'
+    greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-Dar cu opțiunea B<<--blockmatch>, se poate face la fel de simplu, după cum urmează:
+Dar cu opțiunea B<--blocuri>, se poate face la fel de simplu, după cum urmează:
 
-    greple -Mtee cat -n -- foo
+    greple -Mtee cat -n -- foo --blocks
 
-Cu opțiunea B<--blockmatch>, acest modul se comportă mai mult ca opțiunea B<-g> a lui L<teip(1)>.
+Cu opțiunea B<--blocuri>, acest modul se comportă mai mult ca opțiunea B<-g> de la L<teip(1)>. În rest, comportamentul este similar cu cel al lui L<teip(1)> cu opțiunea B<-o>.
+
+Nu utilizați B<--blocks> cu opțiunea B<--all>, deoarece blocul va fi reprezentat de toate datele.
 
 =item B<--squeeze>
 

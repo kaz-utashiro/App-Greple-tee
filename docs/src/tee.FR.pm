@@ -43,19 +43,21 @@ Lancez une nouvelle commande individuellement pour chaque pièce correspondante.
 
 Combine une séquence de lignes non vides en une seule ligne avant de les transmettre à la commande de filtrage. Les caractères de nouvelle ligne entre les caractères larges sont supprimés et les autres caractères de nouvelle ligne sont remplacés par des espaces.
 
-=item B<--blockmatch>
+=item B<--blocks>
 
 Normalement, la zone correspondant au modèle de recherche spécifié est envoyée à la commande externe. Si cette option est spécifiée, ce n'est pas la zone correspondant au motif de recherche qui sera traitée, mais l'ensemble du bloc qui la contient.
 
 Par exemple, pour envoyer à la commande externe des lignes contenant le motif C<foo>, vous devez spécifier le motif correspondant à la ligne entière :
 
-    greple -Mtee cat -n -- '^.*foo.*\n'
+    greple -Mtee cat -n -- '^.*foo.*\n' --all
 
-Mais avec l'option B<--blockmatch>, cela peut être fait aussi simplement que suit :
+Mais avec l'option B<--blocks>, cela peut être fait aussi simplement que suit :
 
-    greple -Mtee cat -n -- foo
+    greple -Mtee cat -n -- foo --blocks
 
-Avec l'option B<--blockmatch>, ce module se comporte plus comme l'option B<-g> de L<teip(1)>.
+Avec l'option B<--blocs>, ce module se comporte plus comme l'option B<-g> de L<teip(1)>. Sinon, le comportement est similaire à celui de L<teip(1)> avec l'option B<-o>.
+
+N'utilisez pas l'option B<--blocks> avec l'option B<--all>, car le bloc sera la totalité des données.
 
 =item B<--squeeze>
 
