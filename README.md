@@ -49,6 +49,11 @@ Version 0.9902
 
     Invoke new command individually for every matched part.
 
+- **--bulkmode**
+
+    With the <--discrete> option, each command is executed on demand.  The
+    <--bulkmode> option causes all conversions to be performed at once.
+
 - **--fillup**
 
     Combine a sequence of non-blank lines into a single line before
@@ -121,10 +126,9 @@ Next command will find some indented part in LICENSE document.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 You can reformat this part by using **tee** module with **ansifold**
 command:
@@ -136,7 +140,7 @@ command:
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

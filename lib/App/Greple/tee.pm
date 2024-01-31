@@ -52,6 +52,11 @@ Version 0.9902
 
 Invoke new command individually for every matched part.
 
+=item B<--bulkmode>
+
+With the <--discrete> option, each command is executed on demand.  The
+<--bulkmode> option causes all conversions to be performed at once.
+
 =item B<--fillup>
 
 Combine a sequence of non-blank lines into a single line before
@@ -126,10 +131,10 @@ Next command will find some indented part in LICENSE document.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 You can reformat this part by using B<tee> module with B<ansifold>
 command:
 
@@ -140,7 +145,7 @@ command:
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.
@@ -229,6 +234,7 @@ our $discrete;
 our $fillup;
 our $debug;
 our $squeeze;
+our $bulkmode;
 
 my($mod, $argv);
 
@@ -259,7 +265,7 @@ sub fillup_paragraphs {
 sub call {
     my $data = shift;
     $command // return $data;
-    state $exec = App::cdif::Command->new;
+    my $exec = App::cdif::Command->new;
     if ($discrete and $fillup) {
 	fillup_paragraphs $data;
     }
@@ -304,7 +310,7 @@ sub postgrep {
 	      } $grep->result
 	    ] ];
     }
-    return if $discrete;
+    return if $discrete and not $bulkmode;
     @bundle = my @block = ();
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
@@ -312,11 +318,17 @@ sub postgrep {
 	    push @block, $grep->cut(@$m);
 	}
     }
-    @bundle = bundle_call @block if @block;
+    @bundle = do {
+	if ($discrete) {
+	    map { call $_ } @block;
+	} else {
+	    bundle_call @block;
+	}
+    } if @block;
 }
 
 sub callback {
-    if ($discrete) {
+    if ($discrete and not $bulkmode) {
 	call { @_ }->{match};
     }
     else {
@@ -331,6 +343,7 @@ __DATA__
 builtin tee-debug $debug
 builtin blocks    $blocks
 builtin discrete! $discrete
+builtin bulkmode! $bulkmode
 builtin fillup!   $fillup
 builtin squeeze   $squeeze
 
