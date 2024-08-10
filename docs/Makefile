@@ -50,7 +50,8 @@ JA_FILTER := perl -I../lib -S greple \
 		-s '語尾の部分だけを「である調」から「ですます調」に換える' \
 		- -- \
 	-Mperl --pod -E '^(\w.*\n)+' \
-	--debug $(EXCLUDE) \
+	--discrete --bulkmode \
+	$(EXCLUDE) \
 	--all --no-color
 endif
 

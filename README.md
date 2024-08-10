@@ -7,6 +7,10 @@ App::Greple::tee - module to replace matched text by the external command result
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9902
+
 # DESCRIPTION
 
 Greple's **-Mtee** module sends matched text part to the given filter
@@ -39,10 +43,6 @@ matched text area.  You can tell the difference by following commands.
 Lines of input and output data do not have to be identical when used
 with **--discrete** option.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
@@ -53,6 +53,14 @@ Version 0.9902
 
     With the <--discrete> option, each command is executed on demand.  The
     <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    This option replaces all newline characters in the middle of each
+    block with carriage return characters.  Carriage returns contained in
+    the result of executing the command are reverted back to the newline
+    character. Thus, blocks consisting of multiple lines can be processed
+    in batches without using the **--discrete** option.
 
 - **--fillup**
 

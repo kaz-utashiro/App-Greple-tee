@@ -8,6 +8,10 @@ App::Greple::tee - module to replace matched text by the external command result
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9902
+
 =head1 DESCRIPTION
 
 Greple's B<-Mtee> module sends matched text part to the given filter
@@ -40,10 +44,6 @@ matched text area.  You can tell the difference by following commands.
 Lines of input and output data do not have to be identical when used
 with B<--discrete> option.
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -56,6 +56,14 @@ Invoke new command individually for every matched part.
 
 With the <--discrete> option, each command is executed on demand.  The
 <--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+This option replaces all newline characters in the middle of each
+block with carriage return characters.  Carriage returns contained in
+the result of executing the command are reverted back to the newline
+character. Thus, blocks consisting of multiple lines can be processed
+in batches without using the B<--discrete> option.
 
 =item B<--fillup>
 
@@ -235,6 +243,7 @@ our $fillup;
 our $debug;
 our $squeeze;
 our $bulkmode;
+our $crmode;
 
 my($mod, $argv);
 
@@ -318,6 +327,11 @@ sub postgrep {
 	    push @block, $grep->cut(@$m);
 	}
     }
+
+    if ($crmode) {
+	s/\n(?!\z)/\r/g for @block;
+    }
+
     @bundle = do {
 	if ($discrete) {
 	    map { call $_ } @block;
@@ -325,6 +339,10 @@ sub postgrep {
 	    bundle_call @block;
 	}
     } if @block;
+
+    if ($crmode) {
+	s/\r/\n/g for @bundle;
+    }
 }
 
 sub callback {
@@ -344,6 +362,7 @@ builtin tee-debug $debug
 builtin blocks    $blocks
 builtin discrete! $discrete
 builtin bulkmode! $bulkmode
+builtin crmode!   $crmode
 builtin fillup!   $fillup
 builtin squeeze   $squeeze
 
