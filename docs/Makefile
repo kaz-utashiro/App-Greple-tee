@@ -33,7 +33,7 @@ endif
 
 XLATE := xlate $(if $(USEAPI),-a)
 
-DESUMASU := GPTY
+DESUMASU := NO
 ifeq ($(DESUMASU),GREPLE)
 JA_FORM   ?= dearu
 JA_DICT   := $(wildcard *.dict)
