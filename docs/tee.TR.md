@@ -6,6 +6,10 @@ App::Greple::tee - eşleşen metni harici komut sonucu ile değiştiren modül
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Greple'ın **-Mtee** modülü, eşleşen metin parçasını verilen filtre komutuna gönderir ve bunları komut sonucuyla değiştirir. Bu fikir **teip** adlı komuttan türetilmiştir. Kısmi verileri harici filtre komutuna atlamak gibidir.
@@ -25,15 +29,20 @@ Varsayılan olarak, komut tek bir süreç olarak yürütülür ve eşleşen tüm
 
 **--discrete** seçeneği kullanıldığında giriş ve çıkış verilerinin satırları aynı olmak zorunda değildir.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     Eşleşen her parça için ayrı ayrı yeni komut çağırın.
+
+- **--bulkmode**
+
+    <--ayrık> seçeneği ile her komut isteğe bağlı olarak yürütülür. Bu durumda
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    Bu seçenek, her bloğun ortasındaki tüm satırsonu karakterlerini satırbaşı karakterleriyle değiştirir. Komutun çalıştırılması sonucunda bulunan satır başları yeni satır karakterine geri döndürülür. Böylece, birden fazla satırdan oluşan bloklar **--ayrık** seçeneği kullanılmadan toplu olarak işlenebilir.
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ Sonraki komut LICENSE belgesinde bazı girintili kısımlar bulacaktır.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 Bu kısmı **tee** modülünü **ansifold** komutu ile kullanarak yeniden biçimlendirebilirsiniz:
 
@@ -102,7 +110,7 @@ Bu kısmı **tee** modülünü **ansifold** komutu ile kullanarak yeniden biçim
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

@@ -8,6 +8,10 @@ App::Greple::tee - 일치하는 텍스트를 외부 명령 결과로 대체하�
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9903
+
 =head1 DESCRIPTION
 
 Greple의 B<-Mtee> 모듈은 지정된 필터 명령에 일치하는 텍스트 부분을 전송하고 명령 결과로 대체합니다. 이 아이디어는 B<teip>이라는 명령에서 파생되었습니다. 일부 데이터를 외부 필터 명령으로 우회하는 것과 같습니다.
@@ -27,10 +31,6 @@ B<-- 불연속> 옵션을 사용하면 일치하는 각 텍스트 영역에 대�
 
 B<-- 불연속> 옵션과 함께 사용할 경우 입력 및 출력 데이터의 줄이 동일할 필요는 없습니다.
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -38,6 +38,15 @@ Version 0.9902
 =item B<--discrete>
 
 일치하는 모든 부분에 대해 개별적으로 새 명령을 호출합니다.
+
+=item B<--bulkmode>
+
+<-- 불연속> 옵션을 사용하면 각 명령이 필요에 따라 실행됩니다. 그리고
+<--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+이 옵션은 각 블록 중간에 있는 모든 개행 문자를 캐리지 리턴 문자로 바꿉니다. 명령 실행 결과에 포함된 캐리지 리턴은 다시 새 줄 문자로 되돌아갑니다. 따라서 여러 줄로 구성된 블록은 B<-- 불연속> 옵션을 사용하지 않고 일괄 처리할 수 있습니다.
 
 =item B<--fillup>
 
@@ -94,10 +103,10 @@ DeepL 서비스에서 위 명령어를 B<-Mtee> 모듈과 결합하여 실행하
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 이 부분은 B<tee> 모듈을 B<ansifold> 명령과 함께 사용하여 다시 포맷할 수 있습니다:
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
@@ -107,7 +116,7 @@ DeepL 서비스에서 위 명령어를 B<-Mtee> 모듈과 결합하여 실행하
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

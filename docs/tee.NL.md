@@ -6,6 +6,10 @@ App::Greple::tee - module om gematchte tekst te vervangen door het externe opdra
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Greple's **-Mtee** module stuurt gematchte tekstdelen naar het gegeven filtercommando, en vervangt ze door het resultaat van het commando. Het idee is afgeleid van het commando **teip**. Het is als het omzeilen van gedeeltelijke gegevens naar het externe filtercommando.
@@ -25,15 +29,20 @@ Met de optie **--discrete** wordt voor elk gematcht tekstgebied een afzonderlijk
 
 Bij gebruik van de optie **--discreet** hoeven de regels invoer- en uitvoergegevens niet identiek te zijn.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     Roep nieuw commando individueel op voor elk onderdeel.
+
+- **--bulkmode**
+
+    Met de optie <--discrete> wordt elk commando op verzoek uitgevoerd. De
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    Deze optie vervangt alle newline-tekens in het midden van elk blok door carriage return-tekens. Carriage returns in het resultaat van het uitvoeren van de opdracht worden teruggezet naar het newline karakter. Zo kunnen blokken die uit meerdere regels bestaan in batches worden verwerkt zonder de optie **--discrete** te gebruiken.
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ Het volgende commando vindt een ingesprongen deel in het LICENSE document.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 U kunt dit deel opnieuw formatteren door de module **tee** te gebruiken met het commando **ansifold**:
 
@@ -102,7 +110,7 @@ U kunt dit deel opnieuw formatteren door de module **tee** te gebruiken met het 
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

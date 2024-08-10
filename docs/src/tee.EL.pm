@@ -8,6 +8,10 @@ App::Greple::tee - ενότητα για την αντικατάσταση το�
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9903
+
 =head1 DESCRIPTION
 
 Η ενότητα B<-Mtee> του Greple στέλνει το τμήμα του κειμένου που ταιριάζει με την εντολή φίλτρου που έχει δοθεί και τα αντικαθιστά με το αποτέλεσμα της εντολής. Η ιδέα προέρχεται από την εντολή που ονομάζεται B<teip>. Είναι σαν να παρακάμπτουμε μερικά δεδομένα στην εξωτερική εντολή φίλτρου.
@@ -27,10 +31,6 @@ App::Greple::tee - ενότητα για την αντικατάσταση το�
 
 Οι γραμμές των δεδομένων εισόδου και εξόδου δεν χρειάζεται να είναι πανομοιότυπες όταν χρησιμοποιείται η επιλογή B<--discrete>.
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -38,6 +38,15 @@ Version 0.9902
 =item B<--discrete>
 
 Κλήση νέας εντολής ξεχωριστά για κάθε αντιστοιχισμένο τμήμα.
+
+=item B<--bulkmode>
+
+Με την επιλογή <--discrete>, κάθε εντολή εκτελείται κατά παραγγελία. Η επιλογή
+<--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+Αυτή η επιλογή αντικαθιστά όλους τους χαρακτήρες νέας γραμμής στη μέση κάθε μπλοκ με χαρακτήρες επιστροφής μεταφορέα. Οι επιστροφές μεταφορέα που περιέχονται στο αποτέλεσμα της εκτέλεσης της εντολής επανέρχονται σε χαρακτήρα νέας γραμμής. Έτσι, τα μπλοκ που αποτελούνται από πολλές γραμμές μπορούν να επεξεργαστούν σε παρτίδες χωρίς τη χρήση της επιλογής B<--discrete>.
 
 =item B<--fillup>
 
@@ -94,10 +103,10 @@ Version 0.9902
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 Μπορείτε να αναδιαμορφώσετε αυτό το τμήμα χρησιμοποιώντας την ενότητα B<tee> με την εντολή B<ansifold>:
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
@@ -107,7 +116,7 @@ Version 0.9902
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

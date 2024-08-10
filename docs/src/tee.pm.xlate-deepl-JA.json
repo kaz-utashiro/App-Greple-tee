@@ -15,11 +15,6 @@
    "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n" : "Greple の B<-Mtee> モジュールは、マッチしたテキスト部分を指定されたフィルタコマンドに送り、その結果で置き換えます。このアイデアは、B<teip>というコマンドから派生したものです。これは、外部のフィルタコマンドに部分的なデータをバイパスするようなものである。\n",
    "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n" : "B<teip>コマンドで同じことをしようとすると、C<teip -l 2- -- grep>は出力行数が入力行数より少ないのでエラーになる。しかし、得られる結果に問題はない。\n",
    "Invoke new command individually for every matched part.\n" : "一致した部品に対して、個別に新しいコマンドを起動する。\n",
-   "L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>\n" : "L<App::Greple::tee>、L<https://github.com/kaz-utashiro/App-Greple-tee>。\n",
-   "L<App::Greple::xlate>\n" : "L<App::Greple::xlate>を使用します。\n",
-   "L<App::Greple>, L<https://github.com/kaz-utashiro/greple>\n" : "L<App::Greple>, L<https://github.com/kaz-utashiro/greple>\n",
-   "L<https://github.com/greymd/teip>\n" : "L<https://github.com/greymd/teip>\n",
-   "L<https://github.com/tecolicom/Greple>\n" : "L<https://github.com/tecolicom/Greple>\n",
    "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n" : "B<--discrete>オプションを使用する場合、入出力データの行数は同一である必要はありません。\n",
    "Next command will find some indented part in LICENSE document.\n" : "次に、LICENSE文書にインデントされた部分があります。\n",
    "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n" : "次のコマンドは，Perlモジュールファイルに含まれるL<perlpod(1)>スタイルドキュメント内のテキストブロックを検索します。\n",
@@ -29,8 +24,10 @@
    "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n" : "C<--fillup> オプションは、韓国語テキストを連結する際に、ハングル文字間の空白を削除する。\n",
    "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n" : "ただし、この場合は専用モジュール L<App::Greple::xlate::deepl> の方が効果的です。実は、B<tee>モジュールの実装のヒントはB<xlate>モジュールからきています。\n",
    "Then convert CR char to NL after by L<tr(1)> command or some.\n" : "その後、L<tr(1)>コマンドなどでCRをNLに変換する。\n",
+   "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n" : "このオプションは、各ブロックの途中にある改行文字をすべてキャリッジリターン文字に置き換える。コマンドの実行結果に含まれるキャリッジリターンは改行文字に戻される。このように、複数行からなるブロックは、B<--discrete>オプションを使わずに一括して処理することができる。\n",
    "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n" : "B<--discrete>オプションを使うと、マッチしたテキスト・エリアごとにコマンドが呼び出されます。この違いは以下のコマンドでわかる。\n",
    "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n" : "B<--blocks> オプションをつけると、このモジュールは L<teip(1)> の B<-g> オプションに似た挙動をする。B<--blocks> オプションを使うと、このモジュールはより L<teip(1)> の B<-g> オプションに近い動作をする。\n",
+   "With the <--discrete> option, each command is executed on demand. The\n" : "<--discrete>オプションをつけると、各コマンドはオンデマンドで実行される。このオプションは\n",
    "You can reformat this part by using B<tee> module with B<ansifold> command:\n" : "この部分はB<tee>モジュールとB<ansifold>コマンドで整形することができます。\n",
    "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n" : "このようにB<Mtee>モジュールと組み合わせてB<deepl>コマンドを呼び出すと、DeepLサービスによって翻訳することができます。\n"
 }

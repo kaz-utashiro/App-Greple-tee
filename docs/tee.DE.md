@@ -6,6 +6,10 @@ App::Greple::tee - Modul zum Ersetzen von übereinstimmendem Text durch das Erge
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Greple's **-Mtee** Modul sendet übereinstimmende Textteile an den angegebenen Filterbefehl, und ersetzt sie durch das Ergebnis des Befehls. Die Idee ist von dem Befehl **teip** abgeleitet. Es ist wie das Umgehen von Teildaten an den externen Filterbefehl.
@@ -25,15 +29,20 @@ Mit der Option **--discrete** wird für jeden übereinstimmenden Textbereich ein
 
 Die Zeilen der Ein- und Ausgabedaten müssen nicht identisch sein, wenn die Option **--diskret** verwendet wird.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     Rufen Sie den neuen Befehl einzeln für jedes übereinstimmende Teil auf.
+
+- **--bulkmode**
+
+    Mit der Option <--discrete> wird jeder Befehl bei Bedarf ausgeführt. Die Option
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    Mit dieser Option werden alle Zeilenumbruchzeichen in der Mitte jedes Blocks durch Wagenrücklaufzeichen ersetzt. Wagenrücklaufzeichen, die im Ergebnis der Befehlsausführung enthalten sind, werden wieder in das Zeilenumbruchszeichen zurückverwandelt. Auf diese Weise können Blöcke, die aus mehreren Zeilen bestehen, stapelweise verarbeitet werden, ohne dass die Option **--discrete** verwendet werden muss.
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ Der nächste Befehl wird einen eingerückten Teil im LICENSE-Dokument finden.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 Sie können diesen Teil umformatieren, indem Sie das Modul **tee** mit dem Befehl **ansifold** verwenden:
 
@@ -102,7 +110,7 @@ Sie können diesen Teil umformatieren, indem Sie das Modul **tee** mit dem Befeh
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

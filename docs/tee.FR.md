@@ -6,6 +6,10 @@ App::Greple::tee - module permettant de remplacer le texte correspondant par le 
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Le module **-Mtee** de Greple envoie les parties de texte correspondantes à la commande de filtrage donnée, et les remplace par le résultat de la commande. L'idée est dérivée de la commande appelée **teip**. C'est comme si on contournait des données partielles vers la commande de filtrage externe.
@@ -25,15 +29,20 @@ En utilisant l'option **--discrete**, une commande individuelle est appelée pou
 
 Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soient identiques lorsque l'option **--discrete** est utilisée.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     Lancez une nouvelle commande individuellement pour chaque pièce correspondante.
+
+- **--bulkmode**
+
+    Avec l'option <--discrete>, chaque commande est exécutée à la demande. Cette option remplace tous les caractères de nouvelle ligne au milieu de chaque bloc par des caractères de retour chariot.
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    Cette option remplace tous les caractères de nouvelle ligne au milieu de chaque bloc par des caractères de retour chariot. Les retours chariot contenus dans le résultat de l'exécution de la commande sont ramenés au caractère de nouvelle ligne. Ainsi, les blocs composés de plusieurs lignes peuvent être traités par lots sans utiliser l'option **--discrete**.
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ La prochaine commande trouvera une partie indentée dans le document LICENSE.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 Vous pouvez reformater cette partie en utilisant le module **tee** avec la commande **ansifold** :
 
@@ -102,7 +110,7 @@ Vous pouvez reformater cette partie en utilisant le module **tee** avec la comma
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

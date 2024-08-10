@@ -8,6 +8,10 @@ App::Greple::tee - module om gematchte tekst te vervangen door het externe opdra
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9903
+
 =head1 DESCRIPTION
 
 Greple's B<-Mtee> module stuurt gematchte tekstdelen naar het gegeven filtercommando, en vervangt ze door het resultaat van het commando. Het idee is afgeleid van het commando B<teip>. Het is als het omzeilen van gedeeltelijke gegevens naar het externe filtercommando.
@@ -27,10 +31,6 @@ Met de optie B<--discrete> wordt voor elk gematcht tekstgebied een afzonderlijk 
 
 Bij gebruik van de optie B<--discreet> hoeven de regels invoer- en uitvoergegevens niet identiek te zijn.
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -38,6 +38,15 @@ Version 0.9902
 =item B<--discrete>
 
 Roep nieuw commando individueel op voor elk onderdeel.
+
+=item B<--bulkmode>
+
+Met de optie <--discrete> wordt elk commando op verzoek uitgevoerd. De
+<--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+Deze optie vervangt alle newline-tekens in het midden van elk blok door carriage return-tekens. Carriage returns in het resultaat van het uitvoeren van de opdracht worden teruggezet naar het newline karakter. Zo kunnen blokken die uit meerdere regels bestaan in batches worden verwerkt zonder de optie B<--discrete> te gebruiken.
 
 =item B<--fillup>
 
@@ -94,10 +103,10 @@ Het volgende commando vindt een ingesprongen deel in het LICENSE document.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 U kunt dit deel opnieuw formatteren door de module B<tee> te gebruiken met het commando B<ansifold>:
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
@@ -107,7 +116,7 @@ U kunt dit deel opnieuw formatteren door de module B<tee> te gebruiken met het c
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

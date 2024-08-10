@@ -6,6 +6,10 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Greple的**-Mtee**模块将匹配的文本部分发送到给定的过滤命令，并以命令结果替换它们。这个想法来自于名为**teip**的命令。它就像绕过部分数据到外部过滤命令。
@@ -25,15 +29,20 @@ Greple的**-Mtee**模块将匹配的文本部分发送到给定的过滤命令�
 
 使用**--discrete**选项时，输入和输出数据的行数不一定相同。
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     为每个匹配的零件单独调用新的命令。
+
+- **--bulkmode**
+
+    使用 <--discrete> 选项时，每条命令都会按需执行。回车符
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    该选项将每个程序块中间的换行符替换为回车符。执行命令的结果中包含的回车符将还原为换行符。因此，可以批量处理由多行组成的数据块，而无需使用 **--discrete**选项。
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ Version 0.9902
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 你可以通过使用**tee**模块和**ansifold**命令来重新格式化这部分内容。
 
@@ -102,7 +110,7 @@ Version 0.9902
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.
@@ -133,7 +141,7 @@ Version 0.9902
 
 # SEE ALSO
 
-[App::Greple::Tee](https://metacpan.org/pod/App%3A%3AGreple%3A%3ATee), [https://github.com/kaz-utashiro/App-Greple-tee](https://github.com/kaz-utashiro/App-Greple-tee)
+[App::Greple::tee](https://metacpan.org/pod/App%3A%3AGreple%3A%3Atee), [https://github.com/kaz-utashiro/App-Greple-tee](https://github.com/kaz-utashiro/App-Greple-tee)
 
 [https://github.com/greymd/teip](https://github.com/greymd/teip)
 
@@ -141,7 +149,7 @@ Version 0.9902
 
 [https://github.com/tecolicom/Greple](https://github.com/tecolicom/Greple)
 
-[App::Greple::xlate](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate).
+[App::Greple::xlate](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate)
 
 # BUGS
 

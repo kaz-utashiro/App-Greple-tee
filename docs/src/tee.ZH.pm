@@ -8,6 +8,10 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9903
+
 =head1 DESCRIPTION
 
 Greple的B<-Mtee>模块将匹配的文本部分发送到给定的过滤命令，并以命令结果替换它们。这个想法来自于名为B<teip>的命令。它就像绕过部分数据到外部过滤命令。
@@ -27,10 +31,6 @@ Greple的B<-Mtee>模块将匹配的文本部分发送到给定的过滤命令，
 
 使用B<--discrete>选项时，输入和输出数据的行数不一定相同。
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -38,6 +38,15 @@ Version 0.9902
 =item B<--discrete>
 
 为每个匹配的零件单独调用新的命令。
+
+=item B<--bulkmode>
+
+使用 <--discrete> 选项时，每条命令都会按需执行。回车符
+<--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+该选项将每个程序块中间的换行符替换为回车符。执行命令的结果中包含的回车符将还原为换行符。因此，可以批量处理由多行组成的数据块，而无需使用 B<--discrete>选项。
 
 =item B<--fillup>
 
@@ -94,10 +103,10 @@ Version 0.9902
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 你可以通过使用B<tee>模块和B<ansifold>命令来重新格式化这部分内容。
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
@@ -107,7 +116,7 @@ Version 0.9902
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.
@@ -138,7 +147,7 @@ Version 0.9902
 
 =head1 SEE ALSO
 
-L<App::Greple::Tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>
+L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>
 
 L<https://github.com/greymd/teip>
 
@@ -146,7 +155,7 @@ L<App::Greple>, L<https://github.com/kaz-utashiro/greple>
 
 L<https://github.com/tecolicom/Greple>
 
-L<App::Greple::xlate>.
+L<App::Greple::xlate>
 
 =head1 BUGS
 

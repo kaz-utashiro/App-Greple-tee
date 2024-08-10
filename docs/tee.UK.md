@@ -6,6 +6,10 @@ App::Greple::tee - модуль для заміни знайденого тек�
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Модуль **-Mtee** у Greple надсилає частину тексту, що відповідає заданій команді фільтрації, і замінює її на результат команди. Ідея походить від команди з назвою **teip**. Це схоже на пересилання частини даних до зовнішньої команди фільтрації.
@@ -25,15 +29,20 @@ App::Greple::tee - модуль для заміни знайденого тек�
 
 При використанні опції **--discrete** рядки вхідних і вихідних даних не обов'язково повинні бути однаковими.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     Викликати нову команду окремо для кожної знайденої частини.
+
+- **--bulkmode**
+
+    З опцією <--discrete> кожна команда виконується на вимогу. Параметр <--дискретний
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    Цей параметр замінює усі символи нового рядка у середині кожного блоку на символи повернення каретки. Символи повернення каретки, що містяться у результаті виконання команди, повертаються назад до символу нового рядка. Таким чином, блоки, що складаються з декількох рядків, можна обробляти пакетами без використання опції **--discrete**.
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ Version 0.9902
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 Ви можете переформатувати цю частину за допомогою модуля **tee** з командою **ansifold**:
 
@@ -102,7 +110,7 @@ Version 0.9902
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.
@@ -141,7 +149,7 @@ Version 0.9902
 
 [https://github.com/tecolicom/Greple](https://github.com/tecolicom/Greple)
 
-[App::Greple::xlate](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate).
+[App::Greple::xlate](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate)
 
 # BUGS
 

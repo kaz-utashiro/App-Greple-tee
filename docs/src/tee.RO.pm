@@ -8,6 +8,10 @@ App::Greple::tee - modul de înlocuire a textului cu rezultatul unei comenzi ext
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9903
+
 =head1 DESCRIPTION
 
 Modulul B<-Mtee> al lui Greple trimite partea de text potrivit la comanda de filtrare dată și le înlocuiește cu rezultatul comenzii. Ideea este derivată din comanda numită B<teip>. Este ca și cum ar ocoli datele parțiale către comanda de filtrare externă.
@@ -27,10 +31,6 @@ Utilizând opțiunea B<--discret>, comanda individuală este apelată pentru fie
 
 Liniile de date de intrare și de ieșire nu trebuie să fie identice atunci când se utilizează opțiunea B<--discrete>.
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -38,6 +38,15 @@ Version 0.9902
 =item B<--discrete>
 
 Invocarea unei noi comenzi individuale pentru fiecare piesă care se potrivește.
+
+=item B<--bulkmode>
+
+Cu opțiunea <--discrete>, fiecare comandă este executată la cerere. Opțiunea
+<--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+Această opțiune înlocuiește toate caracterele newline din mijlocul fiecărui bloc cu caractere carriage return. Carriage returns conținute în rezultatul executării comenzii sunt returnate la caracterul newline. Astfel, blocurile formate din mai multe linii pot fi procesate în loturi fără a utiliza opțiunea B<--discrete>.
 
 =item B<--fillup>
 
@@ -94,10 +103,10 @@ Următoarea comandă va găsi o parte indentată în documentul LICENȚĂ.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 Puteți reformata această parte utilizând modulul B<tee> cu comanda B<ansifold>:
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
@@ -107,7 +116,7 @@ Puteți reformata această parte utilizând modulul B<tee> cu comanda B<ansifold
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

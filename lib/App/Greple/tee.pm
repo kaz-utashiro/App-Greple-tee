@@ -10,7 +10,7 @@ App::Greple::tee - module to replace matched text by the external command result
 
 =head1 VERSION
 
-Version 0.9902
+Version 0.9903
 
 =head1 DESCRIPTION
 
@@ -226,7 +226,7 @@ it under the same terms as Perl itself.
 
 package App::Greple::tee;
 
-our $VERSION = "0.9902";
+our $VERSION = "0.9903";
 
 use v5.14;
 use warnings;

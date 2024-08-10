@@ -6,6 +6,10 @@ App::Greple::tee - modul untuk mengganti teks yang cocok dengan hasil perintah e
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Modul **-Mtee** dari Greple mengirimkan bagian teks yang cocok dengan perintah filter yang diberikan, dan menggantinya dengan hasil perintah. Idenya berasal dari perintah yang disebut **teip**. Ini seperti melewatkan sebagian data ke perintah filter eksternal.
@@ -25,15 +29,20 @@ Dengan menggunakan opsi **--discrete**, perintah individual dipanggil untuk seti
 
 Baris data input dan output tidak harus identik ketika digunakan dengan opsi **--discrete**.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     Memanggil perintah baru satu per satu untuk setiap bagian yang cocok.
+
+- **--bulkmode**
+
+    Dengan opsi <--discrete>, setiap perintah dieksekusi sesuai permintaan. Opsi
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    Opsi ini mengganti semua karakter baris baru di tengah setiap blok dengan karakter carriage return. Carriage return yang terdapat dalam hasil eksekusi perintah dikembalikan ke karakter baris baru. Dengan demikian, blok yang terdiri dari beberapa baris dapat diproses secara batch tanpa menggunakan opsi **--discrete**.
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ Perintah selanjutnya akan menemukan beberapa bagian yang menjorok ke dalam dokum
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 Anda dapat memformat ulang bagian ini dengan menggunakan modul **tee** dengan perintah **ansifold**:
 
@@ -102,7 +110,7 @@ Anda dapat memformat ulang bagian ini dengan menggunakan modul **tee** dengan pe
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

@@ -6,6 +6,10 @@ App::Greple::tee - moodul sobitatud teksti asendamiseks välise käsu tulemusega
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Greple'i **-Mtee** moodul saadab sobitatud tekstiosa antud filtrikomandole ja asendab need käsu tulemusega. Idee on tuletatud käsust nimega **teip**. See on nagu osaliste andmete edastamine välise filtri käsule.
@@ -25,15 +29,20 @@ Valiku **--diskreetne** abil kutsutakse iga sobitatud tekstiala jaoks eraldi kä
 
 Sisend- ja väljundandmete read ei pea olema identsed, kui kasutatakse valikut **--diskreetne**.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     Kutsuge uus käsk eraldi iga sobitatud osa jaoks.
+
+- **--bulkmode**
+
+    Valiku <--diskreetne> puhul täidetakse iga käsk nõudmisel. Käskkiri
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    See valik asendab kõik uue rea märgid iga ploki keskel vagunipöördumismärkidega. Käsu täitmise tulemuses sisalduvad vagunipöörded tagastatakse uusjoonemärkideks. Seega saab mitmest reast koosnevaid plokke töödelda partiidena ilma **--diskreetse** valikuta.
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ Järgmine käsk leiab mingi sissekirjutatud osa LICENSE dokumendist.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 Seda osa saab ümber vormindada, kasutades **tee** moodulit koos **ansifold** käsuga:
 
@@ -102,7 +110,7 @@ Seda osa saab ümber vormindada, kasutades **tee** moodulit koos **ansifold** k�
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

@@ -2,6 +2,10 @@ Revision history for Perl extension App-Greple-tee
 
 {{$NEXT}}
 
+0.9903 2024-08-10T16:05:46Z
+
+    - introduce --crmode option
+
 0.9902 2023-11-19T01:51:47Z
 
     - make --fillup to work with or w/o --discrete

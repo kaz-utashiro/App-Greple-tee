@@ -8,6 +8,10 @@ App::Greple::tee - module to replace matched text by the external command result
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9903
+
 =head1 DESCRIPTION
 
 Greple's B<-Mtee> module sends matched text part to the given filter
@@ -40,10 +44,6 @@ matched text area.  You can tell the difference by following commands.
 Lines of input and output data do not have to be identical when used
 with B<--discrete> option.
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -51,6 +51,19 @@ Version 0.9902
 =item B<--discrete>
 
 Invoke new command individually for every matched part.
+
+=item B<--bulkmode>
+
+With the <--discrete> option, each command is executed on demand.  The
+<--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+This option replaces all newline characters in the middle of each
+block with carriage return characters.  Carriage returns contained in
+the result of executing the command are reverted back to the newline
+character. Thus, blocks consisting of multiple lines can be processed
+in batches without using the B<--discrete> option.
 
 =item B<--fillup>
 
@@ -126,10 +139,10 @@ Next command will find some indented part in LICENSE document.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 You can reformat this part by using B<tee> module with B<ansifold>
 command:
 
@@ -140,7 +153,7 @@ command:
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

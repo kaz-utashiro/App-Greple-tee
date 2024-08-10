@@ -8,6 +8,10 @@ App::Greple::tee - module permettant de remplacer le texte correspondant par le 
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9903
+
 =head1 DESCRIPTION
 
 Le module B<-Mtee> de Greple envoie les parties de texte correspondantes à la commande de filtrage donnée, et les remplace par le résultat de la commande. L'idée est dérivée de la commande appelée B<teip>. C'est comme si on contournait des données partielles vers la commande de filtrage externe.
@@ -27,10 +31,6 @@ En utilisant l'option B<--discrete>, une commande individuelle est appelée pour
 
 Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soient identiques lorsque l'option B<--discrete> est utilisée.
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -38,6 +38,15 @@ Version 0.9902
 =item B<--discrete>
 
 Lancez une nouvelle commande individuellement pour chaque pièce correspondante.
+
+=item B<--bulkmode>
+
+Avec l'option <--discrete>, chaque commande est exécutée à la demande. Cette option remplace tous les caractères de nouvelle ligne au milieu de chaque bloc par des caractères de retour chariot.
+<--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+Cette option remplace tous les caractères de nouvelle ligne au milieu de chaque bloc par des caractères de retour chariot. Les retours chariot contenus dans le résultat de l'exécution de la commande sont ramenés au caractère de nouvelle ligne. Ainsi, les blocs composés de plusieurs lignes peuvent être traités par lots sans utiliser l'option B<--discrete>.
 
 =item B<--fillup>
 
@@ -94,10 +103,10 @@ La prochaine commande trouvera une partie indentée dans le document LICENSE.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 Vous pouvez reformater cette partie en utilisant le module B<tee> avec la commande B<ansifold> :
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
@@ -107,7 +116,7 @@ Vous pouvez reformater cette partie en utilisant le module B<tee> avec la comman
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

@@ -8,6 +8,10 @@ App::Greple::tee - modul untuk mengganti teks yang cocok dengan hasil perintah e
 
     greple -Mtee command -- ...
 
+=head1 VERSION
+
+Version 0.9903
+
 =head1 DESCRIPTION
 
 Modul B<-Mtee> dari Greple mengirimkan bagian teks yang cocok dengan perintah filter yang diberikan, dan menggantinya dengan hasil perintah. Idenya berasal dari perintah yang disebut B<teip>. Ini seperti melewatkan sebagian data ke perintah filter eksternal.
@@ -27,10 +31,6 @@ Dengan menggunakan opsi B<--discrete>, perintah individual dipanggil untuk setia
 
 Baris data input dan output tidak harus identik ketika digunakan dengan opsi B<--discrete>.
 
-=head1 VERSION
-
-Version 0.9902
-
 =head1 OPTIONS
 
 =over 7
@@ -38,6 +38,15 @@ Version 0.9902
 =item B<--discrete>
 
 Memanggil perintah baru satu per satu untuk setiap bagian yang cocok.
+
+=item B<--bulkmode>
+
+Dengan opsi <--discrete>, setiap perintah dieksekusi sesuai permintaan. Opsi
+<--bulkmode> option causes all conversions to be performed at once.
+
+=item B<--crmode>
+
+Opsi ini mengganti semua karakter baris baru di tengah setiap blok dengan karakter carriage return. Carriage return yang terdapat dalam hasil eksekusi perintah dikembalikan ke karakter baris baru. Dengan demikian, blok yang terdiri dari beberapa baris dapat diproses secara batch tanpa menggunakan opsi B<--discrete>.
 
 =item B<--fillup>
 
@@ -94,10 +103,10 @@ Perintah selanjutnya akan menemukan beberapa bagian yang menjorok ke dalam dokum
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
+
 Anda dapat memformat ulang bagian ini dengan menggunakan modul B<tee> dengan perintah B<ansifold>:
 
     greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
@@ -107,7 +116,7 @@ Anda dapat memformat ulang bagian ini dengan menggunakan modul B<tee> dengan per
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.

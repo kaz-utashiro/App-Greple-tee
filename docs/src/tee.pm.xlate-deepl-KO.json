@@ -15,11 +15,6 @@
    "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n" : "Greple의 B<-Mtee> 모듈은 지정된 필터 명령에 일치하는 텍스트 부분을 전송하고 명령 결과로 대체합니다. 이 아이디어는 B<teip>이라는 명령에서 파생되었습니다. 일부 데이터를 외부 필터 명령으로 우회하는 것과 같습니다.\n",
    "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n" : "B<teip> 명령으로 동일한 작업을 수행하려고 하면 출력 줄 수가 입력 줄 수보다 적기 때문에 C<teip -l 2- -- grep> 오류를 발생시킵니다. 그러나 결과에는 아무런 문제가 없습니다.\n",
    "Invoke new command individually for every matched part.\n" : "일치하는 모든 부분에 대해 개별적으로 새 명령을 호출합니다.\n",
-   "L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>\n" : "L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>\n",
-   "L<App::Greple::xlate>\n" : "L<App::Greple::xlate>\n",
-   "L<App::Greple>, L<https://github.com/kaz-utashiro/greple>\n" : "L<App::Greple>, L<https://github.com/kaz-utashiro/greple>\n",
-   "L<https://github.com/greymd/teip>\n" : "L<https://github.com/greymd/teip>\n",
-   "L<https://github.com/tecolicom/Greple>\n" : "L<https://github.com/tecolicom/Greple>\n",
    "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n" : "B<-- 불연속> 옵션과 함께 사용할 경우 입력 및 출력 데이터의 줄이 동일할 필요는 없습니다.\n",
    "Next command will find some indented part in LICENSE document.\n" : "다음 명령은 라이선스 문서에서 들여쓰기된 부분을 찾습니다.\n",
    "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n" : "다음 명령은 Perl 모듈 파일에 포함된 L<perlpod(1)> 스타일 문서 내에서 텍스트 블록을 찾습니다.\n",
@@ -29,8 +24,10 @@
    "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n" : "C<--fillup> 옵션은 한글 텍스트를 연결할 때 한글 문자 사이의 공백을 제거합니다.\n",
    "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n" : "하지만 이런 용도로는 전용 모듈인 L<App::Greple::xlate::deep>을 사용하는 것이 더 효과적입니다. 사실 B<tee> 모듈의 구현 힌트는 B<xlate> 모듈에서 따온 것입니다.\n",
    "Then convert CR char to NL after by L<tr(1)> command or some.\n" : "그런 다음 L<tr(1)> 명령 등으로 CR 문자를 NL로 변환합니다.\n",
+   "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n" : "이 옵션은 각 블록 중간에 있는 모든 개행 문자를 캐리지 리턴 문자로 바꿉니다. 명령 실행 결과에 포함된 캐리지 리턴은 다시 새 줄 문자로 되돌아갑니다. 따라서 여러 줄로 구성된 블록은 B<-- 불연속> 옵션을 사용하지 않고 일괄 처리할 수 있습니다.\n",
    "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n" : "B<-- 불연속> 옵션을 사용하면 일치하는 각 텍스트 영역에 대해 개별 명령이 호출됩니다. 다음 명령을 통해 차이를 구분할 수 있습니다.\n",
    "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n" : "B<--블록> 옵션을 사용하면 이 모듈은 L<teip(1)>의 B<-g> 옵션처럼 동작합니다. 그렇지 않으면 B<-o> 옵션이 있는 L<teip(1)>와 동작이 유사합니다.\n",
+   "With the <--discrete> option, each command is executed on demand. The\n" : "<-- 불연속> 옵션을 사용하면 각 명령이 필요에 따라 실행됩니다. 그리고\n",
    "You can reformat this part by using B<tee> module with B<ansifold> command:\n" : "이 부분은 B<tee> 모듈을 B<ansifold> 명령과 함께 사용하여 다시 포맷할 수 있습니다:\n",
    "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n" : "DeepL 서비스에서 위 명령어를 B<-Mtee> 모듈과 결합하여 실행하면 다음과 같이 B<deepl> 명령어를 호출합니다:\n"
 }

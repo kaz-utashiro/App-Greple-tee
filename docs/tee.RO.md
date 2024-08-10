@@ -6,6 +6,10 @@ App::Greple::tee - modul de înlocuire a textului cu rezultatul unei comenzi ext
 
     greple -Mtee command -- ...
 
+# VERSION
+
+Version 0.9903
+
 # DESCRIPTION
 
 Modulul **-Mtee** al lui Greple trimite partea de text potrivit la comanda de filtrare dată și le înlocuiește cu rezultatul comenzii. Ideea este derivată din comanda numită **teip**. Este ca și cum ar ocoli datele parțiale către comanda de filtrare externă.
@@ -25,15 +29,20 @@ Utilizând opțiunea **--discret**, comanda individuală este apelată pentru fi
 
 Liniile de date de intrare și de ieșire nu trebuie să fie identice atunci când se utilizează opțiunea **--discrete**.
 
-# VERSION
-
-Version 0.9902
-
 # OPTIONS
 
 - **--discrete**
 
     Invocarea unei noi comenzi individuale pentru fiecare piesă care se potrivește.
+
+- **--bulkmode**
+
+    Cu opțiunea <--discrete>, fiecare comandă este executată la cerere. Opțiunea
+    <--bulkmode> option causes all conversions to be performed at once.
+
+- **--crmode**
+
+    Această opțiune înlocuiește toate caracterele newline din mijlocul fiecărui bloc cu caractere carriage return. Carriage returns conținute în rezultatul executării comenzii sunt returnate la caracterul newline. Astfel, blocurile formate din mai multe linii pot fi procesate în loturi fără a utiliza opțiunea **--discrete**.
 
 - **--fillup**
 
@@ -88,10 +97,9 @@ Următoarea comandă va găsi o parte indentată în documentul LICENȚĂ.
       a) distribute a Standard Version of the executables and library files,
          together with instructions (in the manual page or equivalent) on where to
          get the Standard Version.
-    
+
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
-    
 
 Puteți reformata această parte utilizând modulul **tee** cu comanda **ansifold**:
 
@@ -102,7 +110,7 @@ Puteți reformata această parte utilizând modulul **tee** cu comanda **ansifol
          together with instructions (in the
          manual page or equivalent) on where
          to get the Standard Version.
-    
+
       b) accompany the distribution with the
          machine-readable source of the
          Package with your modifications.
