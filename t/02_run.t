@@ -345,7 +345,7 @@ EL VELOZ MURCIÉLAGO HINDÚ COMÍA FELIZ CARDILLO Y KIWI. LA CIGÜEÑA TOCABA EL
      1	Le cœur déçu mais l'âme plutôt naïve, Louÿs rêva de crapaüter en canoë au delà des îles, près du mälströn où brûlent les novæ.
 
      1	El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.
-@@ greple -Mtee sort -- '^(.+\n)+' t/SAMPLE.txt --all --crmode
+@@ greple -Mtee perl -CSAD -E 'print sort <>' -- '^(.+\n)+' t/SAMPLE.txt --all --crmode
 El veloz murciélago hindú comía feliz cardillo y kiwi.
 La cigüeña tocaba el saxofón detrás del palenque de paja.
 
@@ -363,12 +363,12 @@ jumps over the lazy dog.
 
 Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.
 
-色は匂へど散りぬるを
-我が世誰そ常ならむ
-有為の奥山今日越えて
-浅き夢見じ酔ひもせず.
-
 いろはにほへとちりぬるを
 わかよたれそつねならむ
 うゐのおくやまけふこえて
 あさきゆめみしゑひもせすん
+
+色は匂へど散りぬるを
+我が世誰そ常ならむ
+有為の奥山今日越えて
+浅き夢見じ酔ひもせず.

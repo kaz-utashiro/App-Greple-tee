@@ -10,4 +10,4 @@ greple -Mtee perl -CSAD -pE '$_=uc' -- '^([A-Z].*\n)(.+\n)*' t/SAMPLE.txt --all 
 greple -Mtee cat -n -- '^(.+\n)+' t/SAMPLE.txt --all --fillup
 greple -Mtee cat -n -- '^(.+\n)+' t/SAMPLE.txt --all --fillup --discrete
 greple -Mtee cat -n -- '^(.+\n)+' t/SAMPLE.txt --all --fillup --discrete --bulkmode
-greple -Mtee sort -- '^(.+\n)+' t/SAMPLE.txt --all --crmode
+greple -Mtee perl -CSAD -E 'print sort <>' -- '^(.+\n)+' t/SAMPLE.txt --all --crmode
