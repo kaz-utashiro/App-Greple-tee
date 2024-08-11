@@ -3,7 +3,7 @@ RM_LANGS := JA KO ZH
 IGNORE   := VERSION AUTHOR LICENSE
 
 LIB    := ../lib/App/Greple
-SRCDIR := src
+SRCDIR := 
 
 MODS   := $(wildcard $(LIB)/*.pm)
 PM     := $(notdir $(MODS))
