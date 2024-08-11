@@ -8,7 +8,7 @@ App::Greple::tee - ενότητα για την αντικατάσταση το�
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

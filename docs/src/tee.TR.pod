@@ -10,7 +10,7 @@ App::Greple::tee - eşleşen metni harici komut sonucu ile değiştiren modül
 
 =head1 VERSION
 
-Version 0.9903
+Version 1.00
 
 =head1 DESCRIPTION
 

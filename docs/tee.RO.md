@@ -8,7 +8,7 @@ App::Greple::tee - modul de înlocuire a textului cu rezultatul unei comenzi ext
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

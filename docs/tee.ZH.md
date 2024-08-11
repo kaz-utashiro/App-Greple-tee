@@ -8,7 +8,7 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

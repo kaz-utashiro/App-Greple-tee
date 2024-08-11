@@ -8,7 +8,7 @@ App::Greple::tee - マッチしたテキストを外部コマンドの結果に�
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

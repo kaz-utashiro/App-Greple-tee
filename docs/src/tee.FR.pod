@@ -10,7 +10,7 @@ App::Greple::tee - module permettant de remplacer le texte correspondant par le 
 
 =head1 VERSION
 
-Version 0.9903
+Version 1.00
 
 =head1 DESCRIPTION
 

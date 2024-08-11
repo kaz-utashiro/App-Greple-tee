@@ -8,7 +8,7 @@ App::Greple::tee - eşleşen metni harici komut sonucu ile değiştiren modül
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

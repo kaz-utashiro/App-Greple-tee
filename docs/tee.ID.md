@@ -8,7 +8,7 @@ App::Greple::tee - modul untuk mengganti teks yang cocok dengan hasil perintah e
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

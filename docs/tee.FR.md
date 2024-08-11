@@ -8,7 +8,7 @@ App::Greple::tee - module permettant de remplacer le texte correspondant par le 
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

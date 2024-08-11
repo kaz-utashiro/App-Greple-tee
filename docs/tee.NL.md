@@ -8,7 +8,7 @@ App::Greple::tee - module om gematchte tekst te vervangen door het externe opdra
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

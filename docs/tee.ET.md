@@ -8,7 +8,7 @@ App::Greple::tee - moodul sobitatud teksti asendamiseks välise käsu tulemusega
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

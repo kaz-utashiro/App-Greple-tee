@@ -8,7 +8,7 @@ App::Greple::tee - модуль для заміни знайденого тек�
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

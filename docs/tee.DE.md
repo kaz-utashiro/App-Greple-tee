@@ -8,7 +8,7 @@ App::Greple::tee - Modul zum Ersetzen von übereinstimmendem Text durch das Erge
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 

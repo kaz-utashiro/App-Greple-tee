@@ -9,7 +9,7 @@ App::Greple::tee - module to replace matched text by the external command result
 
 # VERSION
 
-Version 0.9903
+Version 1.00
 
 # DESCRIPTION
 
