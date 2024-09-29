@@ -88,8 +88,13 @@ with **--discrete** option.
 # LEGACIES
 
 The **--blocks** option is no longer needed now that the **--stretch**
-(**-S**) option has been implemented in **greple**. It is not
-recommended to use **--blocks** as it may be deprecated in the future.
+(**-S**) option has been implemented in **greple**.  You can simply
+perform the following.
+
+    greple -Mtee cat -n -- --all -SE foo
+
+It is not recommended to use **--blocks** as it may be deprecated in
+the future.
 
 - **--blocks**
 
@@ -132,7 +137,7 @@ consisting of multiple lines.
 Next command will find text blocks inside [perlpod(1)](http://man.he.net/man1/perlpod) style document
 included in Perl module file.
 
-    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
+    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
 You can translate them by DeepL service by executing the above command
 convined with **-Mtee** module which calls **deepl** command like this:

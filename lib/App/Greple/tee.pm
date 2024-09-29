@@ -93,8 +93,14 @@ lines as follows.
 =head1 LEGACIES
 
 The B<--blocks> option is no longer needed now that the B<--stretch>
-(B<-S>) option has been implemented in B<greple>. It is not
-recommended to use B<--blocks> as it may be deprecated in the future.
+(B<-S>) option has been implemented in B<greple>.  You can simply
+perform the following.
+
+    greple -Mtee cat -n -- --all -SE foo
+
+It is not recommended to use B<--blocks> as it may be deprecated in
+the future.
+
 
 =over 7
 
@@ -141,7 +147,7 @@ consisting of multiple lines.
 Next command will find text blocks inside L<perlpod(1)> style document
 included in Perl module file.
 
-    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
+    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
 You can translate them by DeepL service by executing the above command
 convined with B<-Mtee> module which calls B<deepl> command like this:
