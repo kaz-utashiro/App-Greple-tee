@@ -72,6 +72,32 @@ passing them to the filter command.  Newline characters between wide
 width characters are deleted, and other newline characters are
 replaced with spaces.
 
+=item B<--squeeze>
+
+Combines two or more consecutive newline characters into one.
+
+=item B<-Mline> B<--offload> I<command>
+
+L<teip(1)>'s B<--offload> option is implemented in the different
+module B<-Mline>.
+
+    greple -Mtee cat -n -- -Mline --offload 'seq 10 20'
+
+You can also use the B<line> module to process only even-numbered
+lines as follows.
+
+    greple -Mtee cat -n -- -Mline 2::2
+
+=back
+
+=head1 LEGACIES
+
+The B<--blocks> option is no longer needed now that the B<--stretch>
+(B<-S>) option has been implemented in B<greple>. It is not
+recommended to use B<--blocks> as it may be deprecated in the future.
+
+=over 7
+
 =item B<--blocks>
 
 Normally, the area matching the specified search pattern is sent to
@@ -94,10 +120,6 @@ the B<-o> option.
 
 Do not use the B<--blocks> with the B<--all> option, since the block
 will be the entire data.
-
-=item B<--squeeze>
-
-Combines two or more consecutive newline characters into one.
 
 =back
 
