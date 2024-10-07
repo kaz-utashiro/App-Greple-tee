@@ -10,7 +10,7 @@ App::Greple::tee - moodul sobitatud teksti asendamiseks välise käsu tulemusega
 
 =head1 VERSION
 
-Version 1.00
+Version 1.01
 
 =head1 DESCRIPTION
 
@@ -52,6 +52,33 @@ See valik asendab kõik uue rea märgid iga ploki keskel vagunipöördumismärki
 
 Ühendage mittetäielike ridade jada üheks reaks enne nende edastamist filtri käsule. Laiade laiade märkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.
 
+=item B<--squeeze>
+
+Ühendab kaks või enam järjestikust uusjoonemärki üheks.
+
+=item B<-Mline> B<--offload> I<command>
+
+L<teip(1)>'i B<--offload> valik on rakendatud erinevas moodulis B<-Mline>.
+
+    greple -Mtee cat -n -- -Mline --offload 'seq 10 20'
+
+Mooduli B<line> abil saab töödelda ainult paarisnumbrilisi ridu järgmiselt.
+
+    greple -Mtee cat -n -- -Mline 2::2
+
+=back
+
+=head1 LEGACIES
+
+B<--plokkide> valikut ei ole enam vaja, kuna B<--stretch> (B<-S>) valik on implementeeritud B<greple>-sse. Saate lihtsalt teha järgmist.
+
+    greple -Mtee cat -n -- --all -SE foo
+
+B<--blocks> ei ole soovitatav kasutada, kuna see võib tulevikus aeguda.
+
+
+=over 7
+
 =item B<--blocks>
 
 Tavaliselt saadetakse määratud otsingumustrile vastav ala välisele käsule. Kui see valik on määratud, ei töödelda mitte sobivat ala, vaid kogu seda sisaldavat plokki.
@@ -68,10 +95,6 @@ B<--blocks> valikuga käitub see moodul rohkem nagu L<teip(1)> B<-g> valik. Muid
 
 Ärge kasutage B<--blocks> koos valikuga B<--all>, sest plokk on kogu andmestik.
 
-=item B<--squeeze>
-
-Ühendab kaks või enam järjestikust uusjoonemärki üheks.
-
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -86,7 +109,7 @@ Samuti ei saa B<teip> töödelda mitut rida andmeid ühe üksusena, samas kui B<
 
 Järgmine käsk leiab tekstiplokid Perli moodulifailis sisalduva L<perlpod(1)> stiilis dokumendi sees.
 
-    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
+    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
 Saate neid tõlkida DeepL teenuse abil, kui täidate ülaltoodud käsu koos mooduliga B<-Mtee>, mis kutsub käsu B<deepl> järgmiselt:
 

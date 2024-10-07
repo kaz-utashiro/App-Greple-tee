@@ -1,33 +1,142 @@
-{
-   "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n" : "La commande ci-dessus convertit tous les mots correspondants des minuscules aux majuscules. En fait, cet exemple n'est pas très utile car B<greple> peut faire la même chose plus efficacement avec l'option B<--cm>.\n",
-   "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n" : "Par ailleurs, B<teip> ne peut pas traiter plusieurs lignes de données comme une seule unité, alors que B<greple> peut exécuter des commandes individuelles sur un fragment de données composé de plusieurs lignes.\n",
-   "App::Greple::tee - module to replace matched text by the external command result\n" : "App::Greple::tee - module permettant de remplacer le texte correspondant par le résultat de la commande externe\n",
-   "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n" : "Comme B<greple> est conçu pour traiter des fichiers de documents, il possède de nombreuses fonctionnalités qui lui sont appropriées, comme les contrôles de la zone de correspondance. Il peut être intéressant d'utiliser B<greple> pour profiter de ces fonctionnalités.\n",
-   "But with the B<--blocks> option, it can be done as simply as follows:\n" : "Mais avec l'option B<--blocks>, cela peut être fait aussi simplement que suit :\n",
-   "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n" : "Par défaut, la commande est exécutée en tant que processus unique, et toutes les données correspondantes sont envoyées au processus mélangées. Si le texte correspondant ne se termine pas par une nouvelle ligne, il est ajouté avant l'envoi et supprimé après la réception. Les données d'entrée et de sortie sont mises en correspondance ligne par ligne, de sorte que le nombre de lignes d'entrée et de sortie doit être identique.\n",
-   "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n" : "Combiner une séquence de lignes non vides en une seule ligne avant de les passer à la commande de filtrage. Les caractères de nouvelle ligne entre les caractères de grande largeur sont supprimés, et les autres caractères de nouvelle ligne sont remplacés par des espaces.\n",
-   "Combines two or more consecutive newline characters into one.\n" : "Combine deux ou plusieurs caractères de retour à la ligne consécutifs en un seul.\n",
-   "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n" : "Considérons une situation dans laquelle vous souhaitez rechercher des chaînes de caractères dans des lignes autres que l'en-tête. Par exemple, vous pouvez rechercher les noms d'images Docker de la commande C<docker image ls>, mais laisser la ligne d'en-tête. Vous pouvez le faire à l'aide de la commande suivante.\n",
-   "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n" : "N'utilisez pas l'option B<--blocks> avec l'option B<--all>, car le bloc sera la totalité des données.\n",
-   "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n" : "La commande de filtrage suit la déclaration du module (C<-Mtee>) et se termine par deux tirets (C<-->). Par exemple, la commande suivante appelle la commande C<tr> avec les arguments C<a-z A-Z> pour le mot correspondant dans les données.\n",
-   "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n" : "Tout d'abord, chaque fois que vous pouvez le faire avec la commande B<teip>, utilisez-la. C'est un excellent outil et beaucoup plus rapide que B<greple>.\n",
-   "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n" : "Par exemple, pour envoyer à la commande externe des lignes contenant le motif C<foo>, vous devez spécifier le motif correspondant à la ligne entière :\n",
-   "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n" : "Le module B<-Mtee> de Greple envoie les parties de texte correspondantes à la commande de filtrage donnée, et les remplace par le résultat de la commande. L'idée est dérivée de la commande appelée B<teip>. C'est comme si on contournait des données partielles vers la commande de filtrage externe.\n",
-   "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n" : "Si vous essayez de faire la même chose avec la commande B<teip>, C<teip -l 2- -- grep> donnera une erreur parce que le nombre de lignes de sortie est inférieur au nombre de lignes d'entrée. Le résultat obtenu ne pose cependant aucun problème.\n",
-   "Invoke new command individually for every matched part.\n" : "Lancez une nouvelle commande individuellement pour chaque pièce correspondante.\n",
-   "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n" : "Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soient identiques lorsque l'option B<--discrete> est utilisée.\n",
-   "Next command will find some indented part in LICENSE document.\n" : "La prochaine commande trouvera une partie indentée dans le document LICENSE.\n",
-   "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n" : "La commande suivante trouvera des blocs de texte dans le document de style L<perlpod(1)> inclus dans le fichier du module Perl.\n",
-   "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n" : "Normalement, la zone correspondant au modèle de recherche spécifié est envoyée à la commande externe. Si cette option est spécifiée, ce n'est pas la zone correspondant au motif de recherche qui sera traitée, mais l'ensemble du bloc qui la contient.\n",
-   "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n" : "L'option C<-Mline -L 2:> récupère l'avant-dernière ligne et l'envoie à la commande C<grep perl>. L'option --discrete est nécessaire parce que le nombre de lignes d'entrée et de sortie change, mais comme la commande n'est exécutée qu'une seule fois, il n'y a pas d'inconvénient en termes de performances.\n",
-   "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n" : "L'option --discrete démarre plusieurs processus, ce qui allonge la durée d'exécution du processus. Vous pouvez donc utiliser l'option C<--separate '\\r'> avec C<ansifold> qui produit une seule ligne en utilisant le caractère CR au lieu du caractère NL.\n",
-   "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n" : "L'option C<--fillup> supprime les espaces entre les caractères Hangul lors de la concaténation de textes coréens.\n",
-   "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n" : "Le module dédié L<App::Greple::xlate::deepl> est plus efficace dans ce but, cependant. En fait, l'indice d'implémentation du module B<tee> vient du module B<xlate>.\n",
-   "Then convert CR char to NL after by L<tr(1)> command or some.\n" : "Ensuite, convertissez le caractère CR en NL à l'aide de la commande L<tr(1)> ou d'une autre commande.\n",
-   "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n" : "Cette option remplace tous les caractères de nouvelle ligne au milieu de chaque bloc par des caractères de retour chariot. Les retours chariot contenus dans le résultat de l'exécution de la commande sont ramenés au caractère de nouvelle ligne. Ainsi, les blocs composés de plusieurs lignes peuvent être traités par lots sans utiliser l'option B<--discrete>.\n",
-   "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n" : "En utilisant l'option B<--discrete>, une commande individuelle est appelée pour chaque zone de texte correspondant. Les commandes suivantes permettent de faire la différence.\n",
-   "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n" : "Avec l'option B<--blocs>, ce module se comporte plus comme l'option B<-g> de L<teip(1)>. Sinon, le comportement est similaire à celui de L<teip(1)> avec l'option B<-o>.\n",
-   "With the <--discrete> option, each command is executed on demand. The\n" : "Avec l'option <--discrete>, chaque commande est exécutée à la demande. Cette option remplace tous les caractères de nouvelle ligne au milieu de chaque bloc par des caractères de retour chariot.\n",
-   "You can reformat this part by using B<tee> module with B<ansifold> command:\n" : "Vous pouvez reformater cette partie en utilisant le module B<tee> avec la commande B<ansifold> :\n",
-   "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n" : "Vous pouvez les traduire par le service DeepL en exécutant la commande ci-dessus combinée avec le module B<-Mtee> qui appelle la commande B<deepl> comme ceci :\n"
-}
+[
+   [
+      "App::Greple::tee - module to replace matched text by the external command result\n",
+      "App::Greple::tee - module permettant de remplacer le texte correspondant par le résultat de la commande externe\n"
+   ],
+   [
+      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
+      "Le module B<-Mtee> de Greple envoie les parties de texte correspondantes à la commande de filtrage donnée, et les remplace par le résultat de la commande. L'idée est dérivée de la commande appelée B<teip>. C'est comme si on contournait des données partielles vers la commande de filtrage externe.\n"
+   ],
+   [
+      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "La commande de filtrage suit la déclaration du module (C<-Mtee>) et se termine par deux tirets (C<-->). Par exemple, la commande suivante appelle la commande C<tr> avec les arguments C<a-z A-Z> pour le mot correspondant dans les données.\n"
+   ],
+   [
+      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "La commande ci-dessus convertit tous les mots correspondants des minuscules aux majuscules. En fait, cet exemple n'est pas très utile car B<greple> peut faire la même chose plus efficacement avec l'option B<--cm>.\n"
+   ],
+   [
+      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "Par défaut, la commande est exécutée en tant que processus unique, et toutes les données correspondantes sont envoyées au processus mélangées. Si le texte correspondant ne se termine pas par une nouvelle ligne, il est ajouté avant l'envoi et supprimé après la réception. Les données d'entrée et de sortie sont mises en correspondance ligne par ligne, de sorte que le nombre de lignes d'entrée et de sortie doit être identique.\n"
+   ],
+   [
+      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "En utilisant l'option B<--discrete>, une commande individuelle est appelée pour chaque zone de texte correspondant. Les commandes suivantes permettent de faire la différence.\n"
+   ],
+   [
+      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "Il n'est pas nécessaire que les lignes de données d'entrée et de sortie soient identiques lorsque l'option B<--discrete> est utilisée.\n"
+   ],
+   [
+      "Invoke new command individually for every matched part.\n",
+      "Lancez une nouvelle commande individuellement pour chaque pièce correspondante.\n"
+   ],
+   [
+      "With the <--discrete> option, each command is executed on demand. The\n",
+      "Avec l'option <--discrete>, chaque commande est exécutée à la demande. Cette option remplace tous les caractères de nouvelle ligne au milieu de chaque bloc par des caractères de retour chariot.\n"
+   ],
+   [
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "Cette option remplace tous les caractères de nouvelle ligne au milieu de chaque bloc par des caractères de retour chariot. Les retours chariot contenus dans le résultat de l'exécution de la commande sont ramenés au caractère de nouvelle ligne. Ainsi, les blocs composés de plusieurs lignes peuvent être traités par lots sans utiliser l'option B<--discrete>.\n"
+   ],
+   [
+      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n",
+      "Combiner une séquence de lignes non vides en une seule ligne avant de les passer à la commande de filtrage. Les caractères de nouvelle ligne entre les caractères de grande largeur sont supprimés, et les autres caractères de nouvelle ligne sont remplacés par des espaces.\n"
+   ],
+   [
+      "Combines two or more consecutive newline characters into one.\n",
+      "Combine deux ou plusieurs caractères de retour à la ligne consécutifs en un seul.\n"
+   ],
+   [
+      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
+      "L'option B<--offload> de L<teip(1)> est implémentée dans le module différent B<-Mline>.\n"
+   ],
+   [
+      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
+      "Vous pouvez également utiliser le module B<line> pour ne traiter que les lignes paires comme suit.\n"
+   ],
+   [
+      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
+      "L'option B<--blocs> n'est plus nécessaire maintenant que l'option B<--stretch> (B<-S>) a été implémentée dans B<greple>. Vous pouvez simplement procéder comme suit.\n"
+   ],
+   [
+      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
+      "Il n'est pas recommandé d'utiliser l'option B<--blocks> car elle pourrait être dépréciée à l'avenir.\n"
+   ],
+   [
+      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
+      "Normalement, la zone correspondant au modèle de recherche spécifié est envoyée à la commande externe. Si cette option est spécifiée, ce n'est pas la zone correspondant au motif de recherche qui sera traitée, mais l'ensemble du bloc qui la contient.\n"
+   ],
+   [
+      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
+      "Par exemple, pour envoyer à la commande externe des lignes contenant le motif C<foo>, vous devez spécifier le motif correspondant à la ligne entière :\n"
+   ],
+   [
+      "But with the B<--blocks> option, it can be done as simply as follows:\n",
+      "Mais avec l'option B<--blocks>, cela peut être fait aussi simplement que suit :\n"
+   ],
+   [
+      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
+      "Avec l'option B<--blocs>, ce module se comporte plus comme l'option B<-g> de L<teip(1)>. Sinon, le comportement est similaire à celui de L<teip(1)> avec l'option B<-o>.\n"
+   ],
+   [
+      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
+      "N'utilisez pas l'option B<--blocks> avec l'option B<--all>, car le bloc sera la totalité des données.\n"
+   ],
+   [
+      "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",
+      "Tout d'abord, chaque fois que vous pouvez le faire avec la commande B<teip>, utilisez-la. C'est un excellent outil et beaucoup plus rapide que B<greple>.\n"
+   ],
+   [
+      "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n",
+      "Comme B<greple> est conçu pour traiter des fichiers de documents, il possède de nombreuses fonctionnalités qui lui sont appropriées, comme les contrôles de la zone de correspondance. Il peut être intéressant d'utiliser B<greple> pour profiter de ces fonctionnalités.\n"
+   ],
+   [
+      "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n",
+      "Par ailleurs, B<teip> ne peut pas traiter plusieurs lignes de données comme une seule unité, alors que B<greple> peut exécuter des commandes individuelles sur un fragment de données composé de plusieurs lignes.\n"
+   ],
+   [
+      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
+      "La commande suivante trouvera des blocs de texte dans le document de style L<perlpod(1)> inclus dans le fichier du module Perl.\n"
+   ],
+   [
+      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
+      "Vous pouvez les traduire par le service DeepL en exécutant la commande ci-dessus combinée avec le module B<-Mtee> qui appelle la commande B<deepl> comme ceci :\n"
+   ],
+   [
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "Le module dédié L<App::Greple::xlate::deepl> est plus efficace dans ce but, cependant. En fait, l'indice d'implémentation du module B<tee> vient du module B<xlate>.\n"
+   ],
+   [
+      "Next command will find some indented part in LICENSE document.\n",
+      "La prochaine commande trouvera une partie indentée dans le document LICENSE.\n"
+   ],
+   [
+      "You can reformat this part by using B<tee> module with B<ansifold> command:\n",
+      "Vous pouvez reformater cette partie en utilisant le module B<tee> avec la commande B<ansifold> :\n"
+   ],
+   [
+      "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n",
+      "L'option --discrete démarre plusieurs processus, ce qui allonge la durée d'exécution du processus. Vous pouvez donc utiliser l'option C<--separate '\\r'> avec C<ansifold> qui produit une seule ligne en utilisant le caractère CR au lieu du caractère NL.\n"
+   ],
+   [
+      "Then convert CR char to NL after by L<tr(1)> command or some.\n",
+      "Ensuite, convertissez le caractère CR en NL à l'aide de la commande L<tr(1)> ou d'une autre commande.\n"
+   ],
+   [
+      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
+      "Considérons une situation dans laquelle vous souhaitez rechercher des chaînes de caractères dans des lignes autres que l'en-tête. Par exemple, vous pouvez rechercher les noms d'images Docker de la commande C<docker image ls>, mais laisser la ligne d'en-tête. Vous pouvez le faire à l'aide de la commande suivante.\n"
+   ],
+   [
+      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "L'option C<-Mline -L 2:> récupère l'avant-dernière ligne et l'envoie à la commande C<grep perl>. L'option --discrete est nécessaire parce que le nombre de lignes d'entrée et de sortie change, mais comme la commande n'est exécutée qu'une seule fois, il n'y a pas d'inconvénient en termes de performances.\n"
+   ],
+   [
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "Si vous essayez de faire la même chose avec la commande B<teip>, C<teip -l 2- -- grep> donnera une erreur parce que le nombre de lignes de sortie est inférieur au nombre de lignes d'entrée. Le résultat obtenu ne pose cependant aucun problème.\n"
+   ],
+   [
+      "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n",
+      "L'option C<--fillup> supprime les espaces entre les caractères Hangul lors de la concaténation de textes coréens.\n"
+   ]
+]

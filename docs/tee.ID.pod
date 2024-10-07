@@ -10,7 +10,7 @@ App::Greple::tee - modul untuk mengganti teks yang cocok dengan hasil perintah e
 
 =head1 VERSION
 
-Version 1.00
+Version 1.01
 
 =head1 DESCRIPTION
 
@@ -52,6 +52,33 @@ Opsi ini mengganti semua karakter baris baru di tengah setiap blok dengan karakt
 
 Gabungkan urutan baris yang tidak kosong menjadi satu baris sebelum meneruskannya ke perintah filter. Karakter baris baru di antara karakter lebar akan dihapus, dan karakter baris baru lainnya diganti dengan spasi.
 
+=item B<--squeeze>
+
+Menggabungkan dua atau lebih karakter baris baru yang berurutan menjadi satu.
+
+=item B<-Mline> B<--offload> I<command>
+
+Opsi B<--offload> L<teip(1)> diimplementasikan dalam modul B<-Mline> yang berbeda.
+
+    greple -Mtee cat -n -- -Mline --offload 'seq 10 20'
+
+Anda juga dapat menggunakan modul B<line> untuk memproses hanya baris bernomor genap sebagai berikut.
+
+    greple -Mtee cat -n -- -Mline 2::2
+
+=back
+
+=head1 LEGACIES
+
+Opsi B<--blok> tidak lagi diperlukan karena opsi B<--stretch> (B<-S>) telah diimplementasikan di B<greple>. Anda cukup melakukan hal berikut.
+
+    greple -Mtee cat -n -- --all -SE foo
+
+Tidak disarankan untuk menggunakan B<--blok> karena mungkin tidak digunakan lagi di masa mendatang.
+
+
+=over 7
+
 =item B<--blocks>
 
 Biasanya, area yang cocok dengan pola pencarian yang ditentukan dikirim ke perintah eksternal. Jika opsi ini ditentukan, bukan area yang cocok tetapi seluruh blok yang berisi area tersebut yang akan diproses.
@@ -68,10 +95,6 @@ Dengan opsi B<--blok>, modul ini berperilaku lebih mirip dengan opsi B<-g> dari 
 
 Jangan gunakan B<--blok> dengan opsi B<--all>, karena blok akan menjadi seluruh data.
 
-=item B<--squeeze>
-
-Menggabungkan dua atau lebih karakter baris baru yang berurutan menjadi satu.
-
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -86,7 +109,7 @@ Selain itu, B<teip> tidak dapat menangani beberapa baris data sebagai satu kesat
 
 Perintah berikutnya akan menemukan blok teks di dalam dokumen gaya L<perlpod(1)> yang disertakan dalam file modul Perl.
 
-    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
+    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
 Anda dapat menerjemahkannya melalui layanan DeepL dengan menjalankan perintah di atas yang diyakinkan dengan modul B<-Mtee> yang memanggil perintah B<deepl> seperti ini:
 

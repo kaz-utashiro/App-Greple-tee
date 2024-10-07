@@ -10,7 +10,7 @@ App::Greple::tee - 일치하는 텍스트를 외부 명령 결과로 대체하�
 
 =head1 VERSION
 
-Version 1.00
+Version 1.01
 
 =head1 DESCRIPTION
 
@@ -52,6 +52,33 @@ B<-- 불연속> 옵션과 함께 사용할 경우 입력 및 출력 데이터의
 
 필터 명령에 전달하기 전에 빈 줄이 아닌 일련의 줄을 한 줄로 결합합니다. 너비가 넓은 문자 사이의 개행 문자는 삭제되고 다른 개행 문자는 공백으로 바뀝니다.
 
+=item B<--squeeze>
+
+두 개 이상의 연속된 개행 문자를 하나로 결합합니다.
+
+=item B<-Mline> B<--offload> I<command>
+
+L<teip(1)>의 B<--오프로드> 옵션은 다른 모듈 B<-Mline>에서 구현됩니다.
+
+    greple -Mtee cat -n -- -Mline --offload 'seq 10 20'
+
+다음과 같이 B<line> 모듈을 사용하여 짝수 줄만 처리할 수도 있습니다.
+
+    greple -Mtee cat -n -- -Mline 2::2
+
+=back
+
+=head1 LEGACIES
+
+B<--블록> 옵션은 이제 B<--스트레치>(B<-S>) 옵션이 B<그레이플>에 구현되었으므로 더 이상 필요하지 않습니다. 다음과 같이 간단히 수행할 수 있습니다.
+
+    greple -Mtee cat -n -- --all -SE foo
+
+B<--블록>은 향후 더 이상 사용되지 않을 수 있으므로 사용하지 않는 것이 좋습니다.
+
+
+=over 7
+
 =item B<--blocks>
 
 일반적으로 지정된 검색 패턴과 일치하는 영역이 외부 명령으로 전송됩니다. 이 옵션을 지정하면 일치하는 영역이 아니라 해당 패턴이 포함된 전체 블록이 처리됩니다.
@@ -68,10 +95,6 @@ B<--블록> 옵션을 사용하면 이 모듈은 L<teip(1)>의 B<-g> 옵션처�
 
 블록이 전체 데이터가 되므로 B<--블록>을 B<--all> 옵션과 함께 사용하지 마십시오.
 
-=item B<--squeeze>
-
-두 개 이상의 연속된 개행 문자를 하나로 결합합니다.
-
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -86,7 +109,7 @@ B<greple>은 문서 파일을 처리하도록 설계되었기 때문에 일치 �
 
 다음 명령은 Perl 모듈 파일에 포함된 L<perlpod(1)> 스타일 문서 내에서 텍스트 블록을 찾습니다.
 
-    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
+    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
 DeepL 서비스에서 위 명령어를 B<-Mtee> 모듈과 결합하여 실행하면 다음과 같이 B<deepl> 명령어를 호출합니다:
 

@@ -10,7 +10,7 @@ App::Greple::tee - module om gematchte tekst te vervangen door het externe opdra
 
 =head1 VERSION
 
-Version 1.00
+Version 1.01
 
 =head1 DESCRIPTION
 
@@ -52,6 +52,33 @@ Deze optie vervangt alle newline-tekens in het midden van elk blok door carriage
 
 Combineer een reeks niet-blanke regels tot één regel voordat je ze doorgeeft aan de filteropdracht. Newline-tekens tussen tekens met een grote breedte worden verwijderd en andere newline-tekens worden vervangen door spaties.
 
+=item B<--squeeze>
+
+Combineert twee of meer opeenvolgende newline-tekens tot één.
+
+=item B<-Mline> B<--offload> I<command>
+
+De optie B<--offload> van L<teip(1)> is geïmplementeerd in de andere module B<-Mline>.
+
+    greple -Mtee cat -n -- -Mline --offload 'seq 10 20'
+
+U kunt ook de module B<line> gebruiken om alleen even genummerde regels te verwerken.
+
+    greple -Mtee cat -n -- -Mline 2::2
+
+=back
+
+=head1 LEGACIES
+
+De optie B<-blokken> is niet langer nodig nu de optie B<--stretch> (B<-S>) is geïmplementeerd in B<greple>. Je kunt gewoon het volgende uitvoeren.
+
+    greple -Mtee cat -n -- --all -SE foo
+
+Het wordt niet aangeraden om B<-blokken> te gebruiken omdat deze optie in de toekomst mogelijk niet meer gebruikt zal worden.
+
+
+=over 7
+
 =item B<--blocks>
 
 Normaal gesproken wordt het gebied dat overeenkomt met het opgegeven zoekpatroon naar de externe opdracht gestuurd. Als deze optie is opgegeven, wordt niet het gebied dat overeenkomt, maar het hele blok dat het bevat, verwerkt.
@@ -68,10 +95,6 @@ Met de B<-blokken> optie gedraagt deze module zich meer als de B<-g> optie van L
 
 Gebruik de B<-blokken> niet met de B<--all> optie, aangezien het blok dan de volledige gegevens zijn.
 
-=item B<--squeeze>
-
-Combineert twee of meer opeenvolgende newline-tekens tot één.
-
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -86,7 +109,7 @@ Ook kan B<teip> niet omgaan met meerdere regels gegevens als een enkele eenheid,
 
 Het volgende commando vindt tekstblokken in L<perlpod(1)> stijldocument opgenomen in het Perl-modulebestand.
 
-    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
+    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
 U kunt ze vertalen door DeepL service door het bovenstaande commando uit te voeren in combinatie met B<-Mtee> module die het commando B<deepl> als volgt oproept:
 

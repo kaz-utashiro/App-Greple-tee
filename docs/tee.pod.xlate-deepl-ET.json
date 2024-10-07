@@ -1,33 +1,142 @@
-{
-   "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n" : "Ülaltoodud käsk teisendab kõik sobitatud sõnad väiketähtedest suurtähtedeks. Tegelikult ei ole see näide iseenesest nii kasulik, sest B<greple> saab sama asja tõhusamalt teha valikuga B<--cm>.\n",
-   "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n" : "Samuti ei saa B<teip> töödelda mitut rida andmeid ühe üksusena, samas kui B<greple> saab täita üksikuid käske mitmest reast koosnevale andmekogumile.\n",
-   "App::Greple::tee - module to replace matched text by the external command result\n" : "App::Greple::tee - moodul sobitatud teksti asendamiseks välise käsu tulemusega\n",
-   "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n" : "Kuna B<greple> on mõeldud dokumendifailide töötlemiseks, on tal palju selle jaoks sobivaid funktsioone, näiteks sobitusala kontroll. Nende funktsioonide ärakasutamiseks tasuks ehk kasutada B<greple>.\n",
-   "But with the B<--blocks> option, it can be done as simply as follows:\n" : "Kuid valikuga B<--blocks> saab seda teha nii lihtsalt kui järgnevalt:\n",
-   "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n" : "Vaikimisi täidetakse käsk ühe protsessina ja kõik sobivad andmed saadetakse protsessile segamini. Kui sobitatud tekst ei lõpe newline'iga, lisatakse see enne saatmist ja eemaldatakse pärast vastuvõtmist. Sisend- ja väljundandmed kaardistatakse rea kaupa, seega peab sisend- ja väljundridade arv olema identne.\n",
-   "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n" : "Ühendage mittetäielike ridade jada üheks reaks enne nende edastamist filtri käsule. Laiade laiade märkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.\n",
-   "Combines two or more consecutive newline characters into one.\n" : "Ühendab kaks või enam järjestikust uusjoonemärki üheks.\n",
-   "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n" : "Mõelge olukorrale, kus te soovite grep'i abil leida stringid mitte-pealkirjaridadest. Näiteks võite soovida otsida Docker image'i nimesid käsust C<docker image ls>, kuid jätta pealkirjarida alles. Saate seda teha järgmise käsuga.\n",
-   "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n" : "Ärge kasutage B<--blocks> koos valikuga B<--all>, sest plokk on kogu andmestik.\n",
-   "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n" : "Filtri käsk järgneb moodulideklaratsioonile (C<-Mtee>) ja lõpeb kahe kriipsuga (C<-->). Näiteks järgmine käsk kutsub käsu C<tr> käsu C<a-z A-Z> argumentidega sobiva sõna andmete jaoks.\n",
-   "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n" : "Kõigepealt, kui te saate seda teha käsuga B<teip>, kasutage seda. See on suurepärane vahend ja palju kiirem kui B<greple>.\n",
-   "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n" : "Näiteks, et saata väliskäsule mustrit C<foo> sisaldavad read, tuleb määrata kogu reale vastav muster:\n",
-   "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n" : "Greple'i B<-Mtee> moodul saadab sobitatud tekstiosa antud filtrikomandole ja asendab need käsu tulemusega. Idee on tuletatud käsust nimega B<teip>. See on nagu osaliste andmete edastamine välise filtri käsule.\n",
-   "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n" : "Kui püüda sama asja teha käsuga B<teip>, annab C<teip -l 2- -- grep> vea, sest väljundridade arv on väiksem kui sisendridade arv. Saadud tulemusega ei ole aga mingit probleemi.\n",
-   "Invoke new command individually for every matched part.\n" : "Kutsuge uus käsk eraldi iga sobitatud osa jaoks.\n",
-   "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n" : "Sisend- ja väljundandmete read ei pea olema identsed, kui kasutatakse valikut B<--diskreetne>.\n",
-   "Next command will find some indented part in LICENSE document.\n" : "Järgmine käsk leiab mingi sissekirjutatud osa LICENSE dokumendist.\n",
-   "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n" : "Järgmine käsk leiab tekstiplokid Perli moodulifailis sisalduva L<perlpod(1)> stiilis dokumendi sees.\n",
-   "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n" : "Tavaliselt saadetakse määratud otsingumustrile vastav ala välisele käsule. Kui see valik on määratud, ei töödelda mitte sobivat ala, vaid kogu seda sisaldavat plokki.\n",
-   "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n" : "Valik C<-Mline -L 2:> otsib välja eelviimased read ja saadab need käsule C<grep perl>. Valik --diskreetne on vajalik, sest sisendi ja väljundi ridade arv muutub, kuid kuna käsk täidetakse ainult üks kord, ei ole tulemuslikkuse puudujääki.\n",
-   "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n" : "Valikuga --diskreetne käivitatakse mitu protsessi, seega võtab protsessi täitmine kauem aega. Seega võite kasutada valikut C<--separate '\\r'> koos C<ansifold>, mis toodab ühe rea, kasutades CR-märki NL-i asemel.\n",
-   "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n" : "Valik C<--fillup> eemaldab korea keele teksti liidestamisel Hangul-märkide vahel olevad tühikud.\n",
-   "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n" : "Spetsiaalne moodul L<App::Greple::xlate::deepl> on selleks otstarbeks siiski tõhusam. Tegelikult tuli B<tee> mooduli implementatsiooni vihje B<xlate> moodulist.\n",
-   "Then convert CR char to NL after by L<tr(1)> command or some.\n" : "Seejärel teisendage CR märk NL-ks pärast seda käsuga L<tr(1)> või mõnega.\n",
-   "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n" : "See valik asendab kõik uue rea märgid iga ploki keskel vagunipöördumismärkidega. Käsu täitmise tulemuses sisalduvad vagunipöörded tagastatakse uusjoonemärkideks. Seega saab mitmest reast koosnevaid plokke töödelda partiidena ilma B<--diskreetse> valikuta.\n",
-   "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n" : "Valiku B<--diskreetne> abil kutsutakse iga sobitatud tekstiala jaoks eraldi käsk. Erinevust saab eristada järgmiste käskude abil.\n",
-   "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n" : "B<--blocks> valikuga käitub see moodul rohkem nagu L<teip(1)> B<-g> valik. Muidu on käitumine sarnane L<teip(1)> B<-o> valikuga.\n",
-   "With the <--discrete> option, each command is executed on demand. The\n" : "Valiku <--diskreetne> puhul täidetakse iga käsk nõudmisel. Käskkiri\n",
-   "You can reformat this part by using B<tee> module with B<ansifold> command:\n" : "Seda osa saab ümber vormindada, kasutades B<tee> moodulit koos B<ansifold> käsuga:\n",
-   "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n" : "Saate neid tõlkida DeepL teenuse abil, kui täidate ülaltoodud käsu koos mooduliga B<-Mtee>, mis kutsub käsu B<deepl> järgmiselt:\n"
-}
+[
+   [
+      "App::Greple::tee - module to replace matched text by the external command result\n",
+      "App::Greple::tee - moodul sobitatud teksti asendamiseks välise käsu tulemusega\n"
+   ],
+   [
+      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
+      "Greple'i B<-Mtee> moodul saadab sobitatud tekstiosa antud filtrikomandole ja asendab need käsu tulemusega. Idee on tuletatud käsust nimega B<teip>. See on nagu osaliste andmete edastamine välise filtri käsule.\n"
+   ],
+   [
+      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "Filtri käsk järgneb moodulideklaratsioonile (C<-Mtee>) ja lõpeb kahe kriipsuga (C<-->). Näiteks järgmine käsk kutsub käsu C<tr> käsu C<a-z A-Z> argumentidega sobiva sõna andmete jaoks.\n"
+   ],
+   [
+      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "Ülaltoodud käsk teisendab kõik sobitatud sõnad väiketähtedest suurtähtedeks. Tegelikult ei ole see näide iseenesest nii kasulik, sest B<greple> saab sama asja tõhusamalt teha valikuga B<--cm>.\n"
+   ],
+   [
+      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "Vaikimisi täidetakse käsk ühe protsessina ja kõik sobivad andmed saadetakse protsessile segamini. Kui sobitatud tekst ei lõpe newline'iga, lisatakse see enne saatmist ja eemaldatakse pärast vastuvõtmist. Sisend- ja väljundandmed kaardistatakse rea kaupa, seega peab sisend- ja väljundridade arv olema identne.\n"
+   ],
+   [
+      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "Valiku B<--diskreetne> abil kutsutakse iga sobitatud tekstiala jaoks eraldi käsk. Erinevust saab eristada järgmiste käskude abil.\n"
+   ],
+   [
+      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "Sisend- ja väljundandmete read ei pea olema identsed, kui kasutatakse valikut B<--diskreetne>.\n"
+   ],
+   [
+      "Invoke new command individually for every matched part.\n",
+      "Kutsuge uus käsk eraldi iga sobitatud osa jaoks.\n"
+   ],
+   [
+      "With the <--discrete> option, each command is executed on demand. The\n",
+      "Valiku <--diskreetne> puhul täidetakse iga käsk nõudmisel. Käskkiri\n"
+   ],
+   [
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "See valik asendab kõik uue rea märgid iga ploki keskel vagunipöördumismärkidega. Käsu täitmise tulemuses sisalduvad vagunipöörded tagastatakse uusjoonemärkideks. Seega saab mitmest reast koosnevaid plokke töödelda partiidena ilma B<--diskreetse> valikuta.\n"
+   ],
+   [
+      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n",
+      "Ühendage mittetäielike ridade jada üheks reaks enne nende edastamist filtri käsule. Laiade laiade märkide vahel olevad read kustutatakse ja muud read asendatakse tühikutega.\n"
+   ],
+   [
+      "Combines two or more consecutive newline characters into one.\n",
+      "Ühendab kaks või enam järjestikust uusjoonemärki üheks.\n"
+   ],
+   [
+      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
+      "L<teip(1)>'i B<--offload> valik on rakendatud erinevas moodulis B<-Mline>.\n"
+   ],
+   [
+      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
+      "Mooduli B<line> abil saab töödelda ainult paarisnumbrilisi ridu järgmiselt.\n"
+   ],
+   [
+      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
+      "B<--plokkide> valikut ei ole enam vaja, kuna B<--stretch> (B<-S>) valik on implementeeritud B<greple>-sse. Saate lihtsalt teha järgmist.\n"
+   ],
+   [
+      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
+      "B<--blocks> ei ole soovitatav kasutada, kuna see võib tulevikus aeguda.\n"
+   ],
+   [
+      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
+      "Tavaliselt saadetakse määratud otsingumustrile vastav ala välisele käsule. Kui see valik on määratud, ei töödelda mitte sobivat ala, vaid kogu seda sisaldavat plokki.\n"
+   ],
+   [
+      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
+      "Näiteks, et saata väliskäsule mustrit C<foo> sisaldavad read, tuleb määrata kogu reale vastav muster:\n"
+   ],
+   [
+      "But with the B<--blocks> option, it can be done as simply as follows:\n",
+      "Kuid valikuga B<--blocks> saab seda teha nii lihtsalt kui järgnevalt:\n"
+   ],
+   [
+      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
+      "B<--blocks> valikuga käitub see moodul rohkem nagu L<teip(1)> B<-g> valik. Muidu on käitumine sarnane L<teip(1)> B<-o> valikuga.\n"
+   ],
+   [
+      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
+      "Ärge kasutage B<--blocks> koos valikuga B<--all>, sest plokk on kogu andmestik.\n"
+   ],
+   [
+      "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",
+      "Kõigepealt, kui te saate seda teha käsuga B<teip>, kasutage seda. See on suurepärane vahend ja palju kiirem kui B<greple>.\n"
+   ],
+   [
+      "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n",
+      "Kuna B<greple> on mõeldud dokumendifailide töötlemiseks, on tal palju selle jaoks sobivaid funktsioone, näiteks sobitusala kontroll. Nende funktsioonide ärakasutamiseks tasuks ehk kasutada B<greple>.\n"
+   ],
+   [
+      "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n",
+      "Samuti ei saa B<teip> töödelda mitut rida andmeid ühe üksusena, samas kui B<greple> saab täita üksikuid käske mitmest reast koosnevale andmekogumile.\n"
+   ],
+   [
+      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
+      "Järgmine käsk leiab tekstiplokid Perli moodulifailis sisalduva L<perlpod(1)> stiilis dokumendi sees.\n"
+   ],
+   [
+      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
+      "Saate neid tõlkida DeepL teenuse abil, kui täidate ülaltoodud käsu koos mooduliga B<-Mtee>, mis kutsub käsu B<deepl> järgmiselt:\n"
+   ],
+   [
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "Spetsiaalne moodul L<App::Greple::xlate::deepl> on selleks otstarbeks siiski tõhusam. Tegelikult tuli B<tee> mooduli implementatsiooni vihje B<xlate> moodulist.\n"
+   ],
+   [
+      "Next command will find some indented part in LICENSE document.\n",
+      "Järgmine käsk leiab mingi sissekirjutatud osa LICENSE dokumendist.\n"
+   ],
+   [
+      "You can reformat this part by using B<tee> module with B<ansifold> command:\n",
+      "Seda osa saab ümber vormindada, kasutades B<tee> moodulit koos B<ansifold> käsuga:\n"
+   ],
+   [
+      "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n",
+      "Valikuga --diskreetne käivitatakse mitu protsessi, seega võtab protsessi täitmine kauem aega. Seega võite kasutada valikut C<--separate '\\r'> koos C<ansifold>, mis toodab ühe rea, kasutades CR-märki NL-i asemel.\n"
+   ],
+   [
+      "Then convert CR char to NL after by L<tr(1)> command or some.\n",
+      "Seejärel teisendage CR märk NL-ks pärast seda käsuga L<tr(1)> või mõnega.\n"
+   ],
+   [
+      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
+      "Mõelge olukorrale, kus te soovite grep'i abil leida stringid mitte-pealkirjaridadest. Näiteks võite soovida otsida Docker image'i nimesid käsust C<docker image ls>, kuid jätta pealkirjarida alles. Saate seda teha järgmise käsuga.\n"
+   ],
+   [
+      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Valik C<-Mline -L 2:> otsib välja eelviimased read ja saadab need käsule C<grep perl>. Valik --diskreetne on vajalik, sest sisendi ja väljundi ridade arv muutub, kuid kuna käsk täidetakse ainult üks kord, ei ole tulemuslikkuse puudujääki.\n"
+   ],
+   [
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "Kui püüda sama asja teha käsuga B<teip>, annab C<teip -l 2- -- grep> vea, sest väljundridade arv on väiksem kui sisendridade arv. Saadud tulemusega ei ole aga mingit probleemi.\n"
+   ],
+   [
+      "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n",
+      "Valik C<--fillup> eemaldab korea keele teksti liidestamisel Hangul-märkide vahel olevad tühikud.\n"
+   ]
+]

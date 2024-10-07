@@ -10,7 +10,7 @@ App::Greple::tee - マッチしたテキストを外部コマンドの結果に�
 
 =head1 VERSION
 
-Version 1.00
+Version 1.01
 
 =head1 DESCRIPTION
 
@@ -52,6 +52,33 @@ B<--discrete>オプションを使用する場合、入出力データの行数�
 
 一連の空白でない行を1行にまとめてからフィルターコマンドに渡す。幅の広い文字の間の改行文字は削除され、その他の改行文字はスペースに置き換えられる。
 
+=item B<--squeeze>
+
+2つ以上の連続する改行文字を1つにまとめる。
+
+=item B<-Mline> B<--offload> I<command>
+
+L<teip(1)>のB<--offload>オプションは、別のモジュールB<-Mline>に実装されている。
+
+    greple -Mtee cat -n -- -Mline --offload 'seq 10 20'
+
+また、B<-line> モジュールを使って、次のように偶数行だけを処理することもできる。
+
+    greple -Mtee cat -n -- -Mline 2::2
+
+=back
+
+=head1 LEGACIES
+
+B<--blocks>オプションは、B<--stretch> (B<-S>)オプションがB<greple>に実装されたので、必要なくなりました。単純に以下のように実行すればよい。
+
+    greple -Mtee cat -n -- --all -SE foo
+
+B<--blocks>は将来廃止される可能性があるので、使用することは推奨されない。
+
+
+=over 7
+
 =item B<--blocks>
 
 通常、指定された検索パターンにマッチする領域が外部コマンドに送られる。このオプションが指定されると、マッチした領域ではなく、それを含むブロック全体が処理される。
@@ -68,10 +95,6 @@ B<--blocks> オプションをつけると、このモジュールは L<teip(1)>
 
 B<--blocks> を B<--all> オプションと一緒に使わないでください。
 
-=item B<--squeeze>
-
-2つ以上の連続する改行文字を1つにまとめる。
-
 =back
 
 =head1 WHY DO NOT USE TEIP
@@ -86,7 +109,7 @@ B<greple>は文書ファイルの処理を目的としているため、マッ�
 
 次のコマンドは，Perlモジュールファイルに含まれるL<perlpod(1)>スタイルドキュメント内のテキストブロックを検索します。
 
-    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^(\w.+\n)+' tee.pm
+    greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
 このようにB<Mtee>モジュールと組み合わせてB<deepl>コマンドを呼び出すと、DeepLサービスによって翻訳することができます。
 

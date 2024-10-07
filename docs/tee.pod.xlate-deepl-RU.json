@@ -1,33 +1,142 @@
-{
-   "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n" : "Приведенная выше команда преобразует все совпадающие слова из нижнего регистра в верхний. На самом деле этот пример не так полезен, потому что B<greple> может сделать то же самое более эффективно с помощью опции B<--cm>.\n",
-   "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n" : "Кроме того, B<teip> не может обрабатывать несколько строк данных как единое целое, в то время как B<greple> может выполнять отдельные команды на куске данных, состоящем из нескольких строк.\n",
-   "App::Greple::tee - module to replace matched text by the external command result\n" : "App::Greple::tee - модуль для замены совпадающего текста на результат внешней команды\n",
-   "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n" : "Поскольку B<greple> предназначен для обработки файлов документов, он имеет много функций, которые подходят для этого, например, управление областью соответствия. Возможно, стоит использовать B<greple>, чтобы воспользоваться этими возможностями.\n",
-   "But with the B<--blocks> option, it can be done as simply as follows:\n" : "Но с опцией B<--blocks> это можно сделать следующим образом:\n",
-   "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n" : "По умолчанию команда выполняется как один процесс, и все совпадающие данные отправляются в него вперемешку. Если совпадающий текст не заканчивается новой строкой, то она добавляется перед отправкой и удаляется после получения. Входные и выходные данные сопоставляются построчно, поэтому количество строк ввода и вывода должно быть одинаковым.\n",
-   "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n" : "Объединить последовательность непустых строк в одну строку перед передачей ее команде фильтрации. Символы новой строки между символами большой ширины удаляются, а остальные символы новой строки заменяются пробелами.\n",
-   "Combines two or more consecutive newline characters into one.\n" : "Объединяет два или более последовательных символов новой строки в один.\n",
-   "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n" : "Рассмотрим ситуацию, когда требуется выполнить поиск строк в строках, не являющихся заголовками. Например, нужно найти имена образов Docker из команды C<docker image ls>, но оставить строку заголовка. Это можно сделать с помощью следующей команды.\n",
-   "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n" : "Не используйте B<--blocks> с опцией B<--all>, так как блок будет представлять собой все данные.\n",
-   "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n" : "Команда фильтрации следует за объявлением модуля (C<-Mtee>) и заканчивается двумя тире (C<-->). Например, следующая команда вызывает команду C<tr> с аргументами C<a-z A-Z> для найденного слова в данных.\n",
-   "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n" : "Прежде всего, всегда, когда вы можете сделать это с помощью команды B<teip>, используйте ее. Это отличный инструмент и намного быстрее, чем B<greple>.\n",
-   "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n" : "Например, чтобы отправить внешней команде строки, содержащие шаблон C<foo>, необходимо указать шаблон, соответствующий всей строке:\n",
-   "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n" : "Модуль Greple's B<-Mtee> посылает совпавшие части текста заданной команде фильтра и заменяет их результатом команды. Идея взята из команды B<teip>. Это подобно обходу частичных данных внешней командой фильтрации.\n",
-   "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n" : "Если попытаться сделать то же самое с помощью команды B<teip>, то C<teip -l 2- -- grep> выдаст ошибку, поскольку количество выходных строк меньше количества входных. Однако с полученным результатом проблем нет.\n",
-   "Invoke new command individually for every matched part.\n" : "Вызвать новую команду индивидуально для каждой сопоставленной детали.\n",
-   "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n" : "Строки входных и выходных данных не должны быть одинаковыми при использовании опции B<--discrete>.\n",
-   "Next command will find some indented part in LICENSE document.\n" : "Следующая команда обнаружит в документе LICENSE часть с отступами.\n",
-   "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n" : "Следующая команда найдет текстовые блоки внутри документа стиля L<perlpod(1)>, включенного в файл модуля Perl.\n",
-   "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n" : "Обычно внешней команде передается область, соответствующая заданному шаблону поиска. При указании этой опции будет обрабатываться не совпадающая область, а весь блок, содержащий ее.\n",
-   "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n" : "Опция C<-Mline -L 2:> извлекает предпоследние строки и отправляет их в команду C<grep perl>. Опция --discrete необходима, поскольку количество строк ввода и вывода меняется, но поскольку команда выполняется только один раз, то недостатка в производительности нет.\n",
-   "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n" : "Опция --discrete запускает несколько процессов, поэтому процесс будет выполняться дольше. Поэтому можно использовать опцию C<--separate '\\r'> с C<ansifold>, которая выдает одну строку, используя символ CR вместо NL.\n",
-   "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n" : "Опция C<--fillup> удаляет пробелы между символами хангыля при конкатенации корейского текста.\n",
-   "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n" : "Однако для этой цели более эффективен специализированный модуль L<App::Greple::xlate::deepl>. Фактически, подсказка для реализации модуля B<tee> пришла из модуля B<xlate>.\n",
-   "Then convert CR char to NL after by L<tr(1)> command or some.\n" : "Затем преобразуйте символ CR в NL с помощью команды L<tr(1)> или другой.\n",
-   "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n" : "Эта опция заменяет все символы новой строки в середине каждого блока на символы возврата каретки. Возврат каретки, содержащийся в результате выполнения команды, возвращается обратно к символу новой строки. Таким образом, блоки, состоящие из нескольких строк, можно обрабатывать партиями без использования опции B<--discrete>.\n",
-   "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n" : "При использовании опции B<--discrete> для каждой совпадающей области текста вызывается отдельная команда. Разницу можно определить по следующим командам.\n",
-   "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n" : "С опцией B<--blocks> этот модуль ведет себя более похоже на модуль L<teip(1)> с опцией B<-g>. В остальном поведение аналогично L<teip(1)> с опцией B<-o>.\n",
-   "With the <--discrete> option, each command is executed on demand. The\n" : "При использовании опции <--discrete> каждая команда выполняется по требованию. Опция\n",
-   "You can reformat this part by using B<tee> module with B<ansifold> command:\n" : "Вы можете переформатировать эту часть, используя модуль B<tee> с командой B<ansifold>:\n",
-   "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n" : "Вы можете перевести их с помощью сервиса DeepL, выполнив приведенную выше команду, соединенную с модулем B<-Mtee>, который вызывает команду B<deepl> следующим образом:\n"
-}
+[
+   [
+      "App::Greple::tee - module to replace matched text by the external command result\n",
+      "App::Greple::tee - модуль для замены совпадающего текста на результат внешней команды\n"
+   ],
+   [
+      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
+      "Модуль Greple's B<-Mtee> посылает совпавшие части текста заданной команде фильтра и заменяет их результатом команды. Идея взята из команды B<teip>. Это подобно обходу частичных данных внешней командой фильтрации.\n"
+   ],
+   [
+      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "Команда фильтрации следует за объявлением модуля (C<-Mtee>) и заканчивается двумя тире (C<-->). Например, следующая команда вызывает команду C<tr> с аргументами C<a-z A-Z> для найденного слова в данных.\n"
+   ],
+   [
+      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "Приведенная выше команда преобразует все совпадающие слова из нижнего регистра в верхний. На самом деле этот пример не так полезен, потому что B<greple> может сделать то же самое более эффективно с помощью опции B<--cm>.\n"
+   ],
+   [
+      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "По умолчанию команда выполняется как один процесс, и все совпадающие данные отправляются в него вперемешку. Если совпадающий текст не заканчивается новой строкой, то она добавляется перед отправкой и удаляется после получения. Входные и выходные данные сопоставляются построчно, поэтому количество строк ввода и вывода должно быть одинаковым.\n"
+   ],
+   [
+      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "При использовании опции B<--discrete> для каждой совпадающей области текста вызывается отдельная команда. Разницу можно определить по следующим командам.\n"
+   ],
+   [
+      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "Строки входных и выходных данных не должны быть одинаковыми при использовании опции B<--discrete>.\n"
+   ],
+   [
+      "Invoke new command individually for every matched part.\n",
+      "Вызвать новую команду индивидуально для каждой сопоставленной детали.\n"
+   ],
+   [
+      "With the <--discrete> option, each command is executed on demand. The\n",
+      "При использовании опции <--discrete> каждая команда выполняется по требованию. Опция\n"
+   ],
+   [
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "Эта опция заменяет все символы новой строки в середине каждого блока на символы возврата каретки. Возврат каретки, содержащийся в результате выполнения команды, возвращается обратно к символу новой строки. Таким образом, блоки, состоящие из нескольких строк, можно обрабатывать партиями без использования опции B<--discrete>.\n"
+   ],
+   [
+      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n",
+      "Объединить последовательность непустых строк в одну строку перед передачей ее команде фильтрации. Символы новой строки между символами большой ширины удаляются, а остальные символы новой строки заменяются пробелами.\n"
+   ],
+   [
+      "Combines two or more consecutive newline characters into one.\n",
+      "Объединяет два или более последовательных символов новой строки в один.\n"
+   ],
+   [
+      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
+      "Опция B<--offload> в L<teip(1)> реализована в другом модуле B<-Mline>.\n"
+   ],
+   [
+      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
+      "Вы также можете использовать модуль B<line> для обработки только четных строк следующим образом.\n"
+   ],
+   [
+      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
+      "Опция B<--blocks> больше не нужна, поскольку в модуле B<greple> реализована опция B<--stretch> (B<-S>). Вы можете просто выполнить следующее.\n"
+   ],
+   [
+      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
+      "Не рекомендуется использовать опцию B<--blocks>, поскольку в будущем она может быть устаревшей.\n"
+   ],
+   [
+      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
+      "Обычно внешней команде передается область, соответствующая заданному шаблону поиска. При указании этой опции будет обрабатываться не совпадающая область, а весь блок, содержащий ее.\n"
+   ],
+   [
+      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
+      "Например, чтобы отправить внешней команде строки, содержащие шаблон C<foo>, необходимо указать шаблон, соответствующий всей строке:\n"
+   ],
+   [
+      "But with the B<--blocks> option, it can be done as simply as follows:\n",
+      "Но с опцией B<--blocks> это можно сделать следующим образом:\n"
+   ],
+   [
+      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
+      "С опцией B<--blocks> этот модуль ведет себя более похоже на модуль L<teip(1)> с опцией B<-g>. В остальном поведение аналогично L<teip(1)> с опцией B<-o>.\n"
+   ],
+   [
+      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
+      "Не используйте B<--blocks> с опцией B<--all>, так как блок будет представлять собой все данные.\n"
+   ],
+   [
+      "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",
+      "Прежде всего, всегда, когда вы можете сделать это с помощью команды B<teip>, используйте ее. Это отличный инструмент и намного быстрее, чем B<greple>.\n"
+   ],
+   [
+      "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n",
+      "Поскольку B<greple> предназначен для обработки файлов документов, он имеет много функций, которые подходят для этого, например, управление областью соответствия. Возможно, стоит использовать B<greple>, чтобы воспользоваться этими возможностями.\n"
+   ],
+   [
+      "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n",
+      "Кроме того, B<teip> не может обрабатывать несколько строк данных как единое целое, в то время как B<greple> может выполнять отдельные команды на куске данных, состоящем из нескольких строк.\n"
+   ],
+   [
+      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
+      "Следующая команда найдет текстовые блоки внутри документа стиля L<perlpod(1)>, включенного в файл модуля Perl.\n"
+   ],
+   [
+      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
+      "Вы можете перевести их с помощью сервиса DeepL, выполнив приведенную выше команду, соединенную с модулем B<-Mtee>, который вызывает команду B<deepl> следующим образом:\n"
+   ],
+   [
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "Однако для этой цели более эффективен специализированный модуль L<App::Greple::xlate::deepl>. Фактически, подсказка для реализации модуля B<tee> пришла из модуля B<xlate>.\n"
+   ],
+   [
+      "Next command will find some indented part in LICENSE document.\n",
+      "Следующая команда обнаружит в документе LICENSE часть с отступами.\n"
+   ],
+   [
+      "You can reformat this part by using B<tee> module with B<ansifold> command:\n",
+      "Вы можете переформатировать эту часть, используя модуль B<tee> с командой B<ansifold>:\n"
+   ],
+   [
+      "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n",
+      "Опция --discrete запускает несколько процессов, поэтому процесс будет выполняться дольше. Поэтому можно использовать опцию C<--separate '\\r'> с C<ansifold>, которая выдает одну строку, используя символ CR вместо NL.\n"
+   ],
+   [
+      "Then convert CR char to NL after by L<tr(1)> command or some.\n",
+      "Затем преобразуйте символ CR в NL с помощью команды L<tr(1)> или другой.\n"
+   ],
+   [
+      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
+      "Рассмотрим ситуацию, когда требуется выполнить поиск строк в строках, не являющихся заголовками. Например, нужно найти имена образов Docker из команды C<docker image ls>, но оставить строку заголовка. Это можно сделать с помощью следующей команды.\n"
+   ],
+   [
+      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Опция C<-Mline -L 2:> извлекает предпоследние строки и отправляет их в команду C<grep perl>. Опция --discrete необходима, поскольку количество строк ввода и вывода меняется, но поскольку команда выполняется только один раз, то недостатка в производительности нет.\n"
+   ],
+   [
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "Если попытаться сделать то же самое с помощью команды B<teip>, то C<teip -l 2- -- grep> выдаст ошибку, поскольку количество выходных строк меньше количества входных. Однако с полученным результатом проблем нет.\n"
+   ],
+   [
+      "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n",
+      "Опция C<--fillup> удаляет пробелы между символами хангыля при конкатенации корейского текста.\n"
+   ]
+]

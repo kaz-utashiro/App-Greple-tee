@@ -1,33 +1,142 @@
-{
-   "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n" : "Perintah di atas mengubah semua kata yang cocok dari huruf kecil menjadi huruf besar. Sebenarnya contoh ini sendiri tidak begitu berguna karena B<greple> dapat melakukan hal yang sama secara lebih efektif dengan opsi B<--cm>.\n",
-   "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n" : "Selain itu, B<teip> tidak dapat menangani beberapa baris data sebagai satu kesatuan, sedangkan B<greple> dapat menjalankan perintah individual pada potongan data yang terdiri dari beberapa baris.\n",
-   "App::Greple::tee - module to replace matched text by the external command result\n" : "App::Greple::tee - modul untuk mengganti teks yang cocok dengan hasil perintah eksternal\n",
-   "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n" : "Karena B<greple> didesain untuk memproses file dokumen, maka ia memiliki banyak fitur yang sesuai untuk itu, seperti kontrol area pencocokan. Mungkin ada baiknya menggunakan B<greple> untuk memanfaatkan fitur-fitur tersebut.\n",
-   "But with the B<--blocks> option, it can be done as simply as follows:\n" : "Namun dengan opsi B<--blok>, hal ini dapat dilakukan dengan mudah sebagai berikut:\n",
-   "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n" : "Secara default, perintah ini dijalankan sebagai satu proses, dan semua data yang cocok akan dikirim ke proses yang digabungkan. Jika teks yang dicocokkan tidak diakhiri dengan baris baru, maka teks tersebut akan ditambahkan sebelum dikirim dan dihapus setelah diterima. Data input dan output dipetakan baris demi baris, sehingga jumlah baris input dan output harus identik.\n",
-   "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n" : "Gabungkan urutan baris yang tidak kosong menjadi satu baris sebelum meneruskannya ke perintah filter. Karakter baris baru di antara karakter lebar akan dihapus, dan karakter baris baru lainnya diganti dengan spasi.\n",
-   "Combines two or more consecutive newline characters into one.\n" : "Menggabungkan dua atau lebih karakter baris baru yang berurutan menjadi satu.\n",
-   "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n" : "Pertimbangkan situasi di mana Anda ingin mencari string dari baris non-header. Sebagai contoh, Anda mungkin ingin mencari nama citra Docker dari perintah C<docker image ls>, tetapi meninggalkan baris header. Anda dapat melakukannya dengan perintah berikut.\n",
-   "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n" : "Jangan gunakan B<--blok> dengan opsi B<--all>, karena blok akan menjadi seluruh data.\n",
-   "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n" : "Perintah filter mengikuti deklarasi modul (C<-Mtee>) dan diakhiri dengan dua tanda hubung (C<-->). Sebagai contoh, perintah berikutnya memanggil perintah C<tr> dengan argumen C<a-z A-Z> untuk kata yang cocok dalam data.\n",
-   "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n" : "Pertama-tama, kapanpun Anda dapat melakukannya dengan perintah B<teip>, gunakanlah. Ini adalah alat yang sangat baik dan jauh lebih cepat daripada B<greple>.\n",
-   "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n" : "Misalnya, untuk mengirim baris yang berisi pola C<foo> ke perintah eksternal, Anda perlu menentukan pola yang cocok untuk seluruh baris:\n",
-   "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n" : "Modul B<-Mtee> dari Greple mengirimkan bagian teks yang cocok dengan perintah filter yang diberikan, dan menggantinya dengan hasil perintah. Idenya berasal dari perintah yang disebut B<teip>. Ini seperti melewatkan sebagian data ke perintah filter eksternal.\n",
-   "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n" : "Jika Anda mencoba melakukan hal yang sama dengan perintah B<teip>, C<teip -l 2- - grep> akan memberikan kesalahan karena jumlah baris output kurang dari jumlah baris input. Namun, tidak ada masalah dengan hasil yang diperoleh.\n",
-   "Invoke new command individually for every matched part.\n" : "Memanggil perintah baru satu per satu untuk setiap bagian yang cocok.\n",
-   "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n" : "Baris data input dan output tidak harus identik ketika digunakan dengan opsi B<--discrete>.\n",
-   "Next command will find some indented part in LICENSE document.\n" : "Perintah selanjutnya akan menemukan beberapa bagian yang menjorok ke dalam dokumen LICENSE.\n",
-   "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n" : "Perintah berikutnya akan menemukan blok teks di dalam dokumen gaya L<perlpod(1)> yang disertakan dalam file modul Perl.\n",
-   "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n" : "Biasanya, area yang cocok dengan pola pencarian yang ditentukan dikirim ke perintah eksternal. Jika opsi ini ditentukan, bukan area yang cocok tetapi seluruh blok yang berisi area tersebut yang akan diproses.\n",
-   "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n" : "Opsi C<-Mline -L 2:> mengambil baris kedua hingga terakhir dan mengirimkannya ke perintah C<grep perl>. Opsi --discrete diperlukan karena jumlah baris dari input dan output berubah, tetapi karena perintah ini hanya dieksekusi satu kali, maka tidak ada kekurangan dalam hal performa.\n",
-   "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n" : "Opsi --discrete akan memulai beberapa proses, sehingga prosesnya akan memakan waktu lebih lama untuk dieksekusi. Jadi, Anda dapat menggunakan opsi C<--pisah '\\r'> dengan C<ansifold> yang menghasilkan satu baris menggunakan karakter CR, bukan NL.\n",
-   "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n" : "Opsi C<--fillup> akan menghilangkan spasi di antara karakter Hangul saat menggabungkan teks bahasa Korea.\n",
-   "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n" : "Modul khusus L<App::Greple::xlate::deepl> lebih efektif untuk tujuan ini. Sebenarnya, petunjuk implementasi dari modul B<tee> berasal dari modul B<xlate>.\n",
-   "Then convert CR char to NL after by L<tr(1)> command or some.\n" : "Kemudian ubah karakter CR menjadi NL setelahnya dengan perintah L<tr(1)> atau yang lainnya.\n",
-   "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n" : "Opsi ini mengganti semua karakter baris baru di tengah setiap blok dengan karakter carriage return. Carriage return yang terdapat dalam hasil eksekusi perintah dikembalikan ke karakter baris baru. Dengan demikian, blok yang terdiri dari beberapa baris dapat diproses secara batch tanpa menggunakan opsi B<--discrete>.\n",
-   "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n" : "Dengan menggunakan opsi B<--discrete>, perintah individual dipanggil untuk setiap area teks yang cocok. Anda dapat mengetahui perbedaannya dengan perintah berikut.\n",
-   "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n" : "Dengan opsi B<--blok>, modul ini berperilaku lebih mirip dengan opsi B<-g> dari L<teip(1)>. Jika tidak, perilakunya mirip dengan L<teip(1)> dengan opsi B<-o>.\n",
-   "With the <--discrete> option, each command is executed on demand. The\n" : "Dengan opsi <--discrete>, setiap perintah dieksekusi sesuai permintaan. Opsi\n",
-   "You can reformat this part by using B<tee> module with B<ansifold> command:\n" : "Anda dapat memformat ulang bagian ini dengan menggunakan modul B<tee> dengan perintah B<ansifold>:\n",
-   "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n" : "Anda dapat menerjemahkannya melalui layanan DeepL dengan menjalankan perintah di atas yang diyakinkan dengan modul B<-Mtee> yang memanggil perintah B<deepl> seperti ini:\n"
-}
+[
+   [
+      "App::Greple::tee - module to replace matched text by the external command result\n",
+      "App::Greple::tee - modul untuk mengganti teks yang cocok dengan hasil perintah eksternal\n"
+   ],
+   [
+      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
+      "Modul B<-Mtee> dari Greple mengirimkan bagian teks yang cocok dengan perintah filter yang diberikan, dan menggantinya dengan hasil perintah. Idenya berasal dari perintah yang disebut B<teip>. Ini seperti melewatkan sebagian data ke perintah filter eksternal.\n"
+   ],
+   [
+      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "Perintah filter mengikuti deklarasi modul (C<-Mtee>) dan diakhiri dengan dua tanda hubung (C<-->). Sebagai contoh, perintah berikutnya memanggil perintah C<tr> dengan argumen C<a-z A-Z> untuk kata yang cocok dalam data.\n"
+   ],
+   [
+      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "Perintah di atas mengubah semua kata yang cocok dari huruf kecil menjadi huruf besar. Sebenarnya contoh ini sendiri tidak begitu berguna karena B<greple> dapat melakukan hal yang sama secara lebih efektif dengan opsi B<--cm>.\n"
+   ],
+   [
+      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "Secara default, perintah ini dijalankan sebagai satu proses, dan semua data yang cocok akan dikirim ke proses yang digabungkan. Jika teks yang dicocokkan tidak diakhiri dengan baris baru, maka teks tersebut akan ditambahkan sebelum dikirim dan dihapus setelah diterima. Data input dan output dipetakan baris demi baris, sehingga jumlah baris input dan output harus identik.\n"
+   ],
+   [
+      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "Dengan menggunakan opsi B<--discrete>, perintah individual dipanggil untuk setiap area teks yang cocok. Anda dapat mengetahui perbedaannya dengan perintah berikut.\n"
+   ],
+   [
+      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "Baris data input dan output tidak harus identik ketika digunakan dengan opsi B<--discrete>.\n"
+   ],
+   [
+      "Invoke new command individually for every matched part.\n",
+      "Memanggil perintah baru satu per satu untuk setiap bagian yang cocok.\n"
+   ],
+   [
+      "With the <--discrete> option, each command is executed on demand. The\n",
+      "Dengan opsi <--discrete>, setiap perintah dieksekusi sesuai permintaan. Opsi\n"
+   ],
+   [
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "Opsi ini mengganti semua karakter baris baru di tengah setiap blok dengan karakter carriage return. Carriage return yang terdapat dalam hasil eksekusi perintah dikembalikan ke karakter baris baru. Dengan demikian, blok yang terdiri dari beberapa baris dapat diproses secara batch tanpa menggunakan opsi B<--discrete>.\n"
+   ],
+   [
+      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n",
+      "Gabungkan urutan baris yang tidak kosong menjadi satu baris sebelum meneruskannya ke perintah filter. Karakter baris baru di antara karakter lebar akan dihapus, dan karakter baris baru lainnya diganti dengan spasi.\n"
+   ],
+   [
+      "Combines two or more consecutive newline characters into one.\n",
+      "Menggabungkan dua atau lebih karakter baris baru yang berurutan menjadi satu.\n"
+   ],
+   [
+      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
+      "Opsi B<--offload> L<teip(1)> diimplementasikan dalam modul B<-Mline> yang berbeda.\n"
+   ],
+   [
+      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
+      "Anda juga dapat menggunakan modul B<line> untuk memproses hanya baris bernomor genap sebagai berikut.\n"
+   ],
+   [
+      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
+      "Opsi B<--blok> tidak lagi diperlukan karena opsi B<--stretch> (B<-S>) telah diimplementasikan di B<greple>. Anda cukup melakukan hal berikut.\n"
+   ],
+   [
+      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
+      "Tidak disarankan untuk menggunakan B<--blok> karena mungkin tidak digunakan lagi di masa mendatang.\n"
+   ],
+   [
+      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
+      "Biasanya, area yang cocok dengan pola pencarian yang ditentukan dikirim ke perintah eksternal. Jika opsi ini ditentukan, bukan area yang cocok tetapi seluruh blok yang berisi area tersebut yang akan diproses.\n"
+   ],
+   [
+      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
+      "Misalnya, untuk mengirim baris yang berisi pola C<foo> ke perintah eksternal, Anda perlu menentukan pola yang cocok untuk seluruh baris:\n"
+   ],
+   [
+      "But with the B<--blocks> option, it can be done as simply as follows:\n",
+      "Namun dengan opsi B<--blok>, hal ini dapat dilakukan dengan mudah sebagai berikut:\n"
+   ],
+   [
+      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
+      "Dengan opsi B<--blok>, modul ini berperilaku lebih mirip dengan opsi B<-g> dari L<teip(1)>. Jika tidak, perilakunya mirip dengan L<teip(1)> dengan opsi B<-o>.\n"
+   ],
+   [
+      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
+      "Jangan gunakan B<--blok> dengan opsi B<--all>, karena blok akan menjadi seluruh data.\n"
+   ],
+   [
+      "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",
+      "Pertama-tama, kapanpun Anda dapat melakukannya dengan perintah B<teip>, gunakanlah. Ini adalah alat yang sangat baik dan jauh lebih cepat daripada B<greple>.\n"
+   ],
+   [
+      "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n",
+      "Karena B<greple> didesain untuk memproses file dokumen, maka ia memiliki banyak fitur yang sesuai untuk itu, seperti kontrol area pencocokan. Mungkin ada baiknya menggunakan B<greple> untuk memanfaatkan fitur-fitur tersebut.\n"
+   ],
+   [
+      "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n",
+      "Selain itu, B<teip> tidak dapat menangani beberapa baris data sebagai satu kesatuan, sedangkan B<greple> dapat menjalankan perintah individual pada potongan data yang terdiri dari beberapa baris.\n"
+   ],
+   [
+      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
+      "Perintah berikutnya akan menemukan blok teks di dalam dokumen gaya L<perlpod(1)> yang disertakan dalam file modul Perl.\n"
+   ],
+   [
+      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
+      "Anda dapat menerjemahkannya melalui layanan DeepL dengan menjalankan perintah di atas yang diyakinkan dengan modul B<-Mtee> yang memanggil perintah B<deepl> seperti ini:\n"
+   ],
+   [
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "Modul khusus L<App::Greple::xlate::deepl> lebih efektif untuk tujuan ini. Sebenarnya, petunjuk implementasi dari modul B<tee> berasal dari modul B<xlate>.\n"
+   ],
+   [
+      "Next command will find some indented part in LICENSE document.\n",
+      "Perintah selanjutnya akan menemukan beberapa bagian yang menjorok ke dalam dokumen LICENSE.\n"
+   ],
+   [
+      "You can reformat this part by using B<tee> module with B<ansifold> command:\n",
+      "Anda dapat memformat ulang bagian ini dengan menggunakan modul B<tee> dengan perintah B<ansifold>:\n"
+   ],
+   [
+      "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n",
+      "Opsi --discrete akan memulai beberapa proses, sehingga prosesnya akan memakan waktu lebih lama untuk dieksekusi. Jadi, Anda dapat menggunakan opsi C<--pisah '\\r'> dengan C<ansifold> yang menghasilkan satu baris menggunakan karakter CR, bukan NL.\n"
+   ],
+   [
+      "Then convert CR char to NL after by L<tr(1)> command or some.\n",
+      "Kemudian ubah karakter CR menjadi NL setelahnya dengan perintah L<tr(1)> atau yang lainnya.\n"
+   ],
+   [
+      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
+      "Pertimbangkan situasi di mana Anda ingin mencari string dari baris non-header. Sebagai contoh, Anda mungkin ingin mencari nama citra Docker dari perintah C<docker image ls>, tetapi meninggalkan baris header. Anda dapat melakukannya dengan perintah berikut.\n"
+   ],
+   [
+      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Opsi C<-Mline -L 2:> mengambil baris kedua hingga terakhir dan mengirimkannya ke perintah C<grep perl>. Opsi --discrete diperlukan karena jumlah baris dari input dan output berubah, tetapi karena perintah ini hanya dieksekusi satu kali, maka tidak ada kekurangan dalam hal performa.\n"
+   ],
+   [
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "Jika Anda mencoba melakukan hal yang sama dengan perintah B<teip>, C<teip -l 2- - grep> akan memberikan kesalahan karena jumlah baris output kurang dari jumlah baris input. Namun, tidak ada masalah dengan hasil yang diperoleh.\n"
+   ],
+   [
+      "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n",
+      "Opsi C<--fillup> akan menghilangkan spasi di antara karakter Hangul saat menggabungkan teks bahasa Korea.\n"
+   ]
+]

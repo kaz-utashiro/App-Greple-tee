@@ -1,33 +1,142 @@
-{
-   "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n" : "Bovenstaand commando zet alle overeenkomende woorden om van kleine letters naar hoofdletters. Eigenlijk is dit voorbeeld zelf niet zo nuttig omdat B<greple> hetzelfde effectiever kan doen met de optie B<--cm>.\n",
-   "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n" : "Ook kan B<teip> niet omgaan met meerdere regels gegevens als een enkele eenheid, terwijl B<greple> individuele opdrachten kan uitvoeren op een gegevensbrok die uit meerdere regels bestaat.\n",
-   "App::Greple::tee - module to replace matched text by the external command result\n" : "App::Greple::tee - module om gematchte tekst te vervangen door het externe opdrachtresultaat\n",
-   "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n" : "Omdat B<greple> is ontworpen om documentbestanden te verwerken, heeft het veel functies die daarvoor geschikt zijn, zoals controles van het matchgebied. Het kan de moeite waard zijn om B<greple> te gebruiken om van die functies te profiteren.\n",
-   "But with the B<--blocks> option, it can be done as simply as follows:\n" : "Maar met de optie B<-blokken> kan het als volgt:\n",
-   "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n" : "Standaard wordt de opdracht als een enkel proces uitgevoerd en worden alle gematchte gegevens door elkaar naar het proces gestuurd. Als de gematchte tekst niet eindigt met een newline, wordt deze toegevoegd voor het verzenden en verwijderd na het ontvangen. Invoer- en uitvoergegevens worden regel voor regel in kaart gebracht, dus het aantal regels invoer en uitvoer moet identiek zijn.\n",
-   "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n" : "Combineer een reeks niet-blanke regels tot één regel voordat je ze doorgeeft aan de filteropdracht. Newline-tekens tussen tekens met een grote breedte worden verwijderd en andere newline-tekens worden vervangen door spaties.\n",
-   "Combines two or more consecutive newline characters into one.\n" : "Combineert twee of meer opeenvolgende newline-tekens tot één.\n",
-   "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n" : "Denk aan een situatie waarin je wilt grepen naar tekenreeksen buiten de kopregels. Bijvoorbeeld, je wilt zoeken naar Docker image namen van het C<docker image ls> commando, maar laat de header regel staan. Je kunt dit doen met het volgende commando.\n",
-   "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n" : "Gebruik de B<-blokken> niet met de B<--all> optie, aangezien het blok dan de volledige gegevens zijn.\n",
-   "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n" : "Het filtercommando volgt op de moduleverklaring (C<-Mtee>) en eindigt met twee streepjes (C<-->). Bijvoorbeeld, het volgende commando roept commando C<tr> op met C<a-z A-Z> argumenten voor het gezochte woord in de gegevens.\n",
-   "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n" : "Allereerst, wanneer u het kunt doen met het commando B<-teip>, gebruik het. Het is een uitstekend hulpmiddel en veel sneller dan B<greple>.\n",
-   "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n" : "Om bijvoorbeeld regels met het patroon C<foo> naar de externe opdracht te sturen, moet je het patroon opgeven dat overeenkomt met de hele regel:\n",
-   "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n" : "Greple's B<-Mtee> module stuurt gematchte tekstdelen naar het gegeven filtercommando, en vervangt ze door het resultaat van het commando. Het idee is afgeleid van het commando B<teip>. Het is als het omzeilen van gedeeltelijke gegevens naar het externe filtercommando.\n",
-   "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n" : "Als je hetzelfde probeert te doen met het B<teip> commando, zal C<teip -l 2- -- grep> een foutmelding geven omdat het aantal uitvoerregels minder is dan het aantal invoerregels. Er is echter geen probleem met het verkregen resultaat.\n",
-   "Invoke new command individually for every matched part.\n" : "Roep nieuw commando individueel op voor elk onderdeel.\n",
-   "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n" : "Bij gebruik van de optie B<--discreet> hoeven de regels invoer- en uitvoergegevens niet identiek te zijn.\n",
-   "Next command will find some indented part in LICENSE document.\n" : "Het volgende commando vindt een ingesprongen deel in het LICENSE document.\n",
-   "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n" : "Het volgende commando vindt tekstblokken in L<perlpod(1)> stijldocument opgenomen in het Perl-modulebestand.\n",
-   "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n" : "Normaal gesproken wordt het gebied dat overeenkomt met het opgegeven zoekpatroon naar de externe opdracht gestuurd. Als deze optie is opgegeven, wordt niet het gebied dat overeenkomt, maar het hele blok dat het bevat, verwerkt.\n",
-   "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n" : "De optie C<-Mline -L 2:> haalt de voorlaatste regels op en stuurt ze naar het commando C<grep perl>. De optie --discrete is nodig omdat het aantal regels van invoer en uitvoer verandert, maar omdat het commando maar één keer wordt uitgevoerd, is er geen nadeel voor de prestaties.\n",
-   "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n" : "De --discrete optie zal meerdere processen starten, dus het proces zal langer duren om uit te voeren. Je kunt dus de optie C<--separate '\\r'> gebruiken met C<ansifold>, die een enkele regel produceert met het karakter CR in plaats van NL.\n",
-   "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n" : "De optie C<--fillup> verwijdert spaties tussen Hangul-tekens bij het aaneenschakelen van Koreaanse tekst.\n",
-   "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n" : "De speciale module L<App::Greple::xlate::deepl> is echter effectiever voor dit doel. In feite kwam de implementatiehint van de module B<tee> van de module B<xlate>.\n",
-   "Then convert CR char to NL after by L<tr(1)> command or some.\n" : "Converteer vervolgens CR naar NL met L<tr(1)> of iets dergelijks.\n",
-   "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n" : "Deze optie vervangt alle newline-tekens in het midden van elk blok door carriage return-tekens. Carriage returns in het resultaat van het uitvoeren van de opdracht worden teruggezet naar het newline karakter. Zo kunnen blokken die uit meerdere regels bestaan in batches worden verwerkt zonder de optie B<--discrete> te gebruiken.\n",
-   "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n" : "Met de optie B<--discrete> wordt voor elk gematcht tekstgebied een afzonderlijk commando aangeroepen. Je kunt het verschil zien aan de hand van de volgende opdrachten.\n",
-   "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n" : "Met de B<-blokken> optie gedraagt deze module zich meer als de B<-g> optie van L<teip(1)>. Anders is het gedrag gelijkaardig aan L<teip(1)> met de B<-o> optie.\n",
-   "With the <--discrete> option, each command is executed on demand. The\n" : "Met de optie <--discrete> wordt elk commando op verzoek uitgevoerd. De\n",
-   "You can reformat this part by using B<tee> module with B<ansifold> command:\n" : "U kunt dit deel opnieuw formatteren door de module B<tee> te gebruiken met het commando B<ansifold>:\n",
-   "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n" : "U kunt ze vertalen door DeepL service door het bovenstaande commando uit te voeren in combinatie met B<-Mtee> module die het commando B<deepl> als volgt oproept:\n"
-}
+[
+   [
+      "App::Greple::tee - module to replace matched text by the external command result\n",
+      "App::Greple::tee - module om gematchte tekst te vervangen door het externe opdrachtresultaat\n"
+   ],
+   [
+      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
+      "Greple's B<-Mtee> module stuurt gematchte tekstdelen naar het gegeven filtercommando, en vervangt ze door het resultaat van het commando. Het idee is afgeleid van het commando B<teip>. Het is als het omzeilen van gedeeltelijke gegevens naar het externe filtercommando.\n"
+   ],
+   [
+      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "Het filtercommando volgt op de moduleverklaring (C<-Mtee>) en eindigt met twee streepjes (C<-->). Bijvoorbeeld, het volgende commando roept commando C<tr> op met C<a-z A-Z> argumenten voor het gezochte woord in de gegevens.\n"
+   ],
+   [
+      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "Bovenstaand commando zet alle overeenkomende woorden om van kleine letters naar hoofdletters. Eigenlijk is dit voorbeeld zelf niet zo nuttig omdat B<greple> hetzelfde effectiever kan doen met de optie B<--cm>.\n"
+   ],
+   [
+      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "Standaard wordt de opdracht als een enkel proces uitgevoerd en worden alle gematchte gegevens door elkaar naar het proces gestuurd. Als de gematchte tekst niet eindigt met een newline, wordt deze toegevoegd voor het verzenden en verwijderd na het ontvangen. Invoer- en uitvoergegevens worden regel voor regel in kaart gebracht, dus het aantal regels invoer en uitvoer moet identiek zijn.\n"
+   ],
+   [
+      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "Met de optie B<--discrete> wordt voor elk gematcht tekstgebied een afzonderlijk commando aangeroepen. Je kunt het verschil zien aan de hand van de volgende opdrachten.\n"
+   ],
+   [
+      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "Bij gebruik van de optie B<--discreet> hoeven de regels invoer- en uitvoergegevens niet identiek te zijn.\n"
+   ],
+   [
+      "Invoke new command individually for every matched part.\n",
+      "Roep nieuw commando individueel op voor elk onderdeel.\n"
+   ],
+   [
+      "With the <--discrete> option, each command is executed on demand. The\n",
+      "Met de optie <--discrete> wordt elk commando op verzoek uitgevoerd. De\n"
+   ],
+   [
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "Deze optie vervangt alle newline-tekens in het midden van elk blok door carriage return-tekens. Carriage returns in het resultaat van het uitvoeren van de opdracht worden teruggezet naar het newline karakter. Zo kunnen blokken die uit meerdere regels bestaan in batches worden verwerkt zonder de optie B<--discrete> te gebruiken.\n"
+   ],
+   [
+      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n",
+      "Combineer een reeks niet-blanke regels tot één regel voordat je ze doorgeeft aan de filteropdracht. Newline-tekens tussen tekens met een grote breedte worden verwijderd en andere newline-tekens worden vervangen door spaties.\n"
+   ],
+   [
+      "Combines two or more consecutive newline characters into one.\n",
+      "Combineert twee of meer opeenvolgende newline-tekens tot één.\n"
+   ],
+   [
+      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
+      "De optie B<--offload> van L<teip(1)> is geïmplementeerd in de andere module B<-Mline>.\n"
+   ],
+   [
+      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
+      "U kunt ook de module B<line> gebruiken om alleen even genummerde regels te verwerken.\n"
+   ],
+   [
+      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
+      "De optie B<-blokken> is niet langer nodig nu de optie B<--stretch> (B<-S>) is geïmplementeerd in B<greple>. Je kunt gewoon het volgende uitvoeren.\n"
+   ],
+   [
+      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
+      "Het wordt niet aangeraden om B<-blokken> te gebruiken omdat deze optie in de toekomst mogelijk niet meer gebruikt zal worden.\n"
+   ],
+   [
+      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
+      "Normaal gesproken wordt het gebied dat overeenkomt met het opgegeven zoekpatroon naar de externe opdracht gestuurd. Als deze optie is opgegeven, wordt niet het gebied dat overeenkomt, maar het hele blok dat het bevat, verwerkt.\n"
+   ],
+   [
+      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
+      "Om bijvoorbeeld regels met het patroon C<foo> naar de externe opdracht te sturen, moet je het patroon opgeven dat overeenkomt met de hele regel:\n"
+   ],
+   [
+      "But with the B<--blocks> option, it can be done as simply as follows:\n",
+      "Maar met de optie B<-blokken> kan het als volgt:\n"
+   ],
+   [
+      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
+      "Met de B<-blokken> optie gedraagt deze module zich meer als de B<-g> optie van L<teip(1)>. Anders is het gedrag gelijkaardig aan L<teip(1)> met de B<-o> optie.\n"
+   ],
+   [
+      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
+      "Gebruik de B<-blokken> niet met de B<--all> optie, aangezien het blok dan de volledige gegevens zijn.\n"
+   ],
+   [
+      "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",
+      "Allereerst, wanneer u het kunt doen met het commando B<-teip>, gebruik het. Het is een uitstekend hulpmiddel en veel sneller dan B<greple>.\n"
+   ],
+   [
+      "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n",
+      "Omdat B<greple> is ontworpen om documentbestanden te verwerken, heeft het veel functies die daarvoor geschikt zijn, zoals controles van het matchgebied. Het kan de moeite waard zijn om B<greple> te gebruiken om van die functies te profiteren.\n"
+   ],
+   [
+      "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n",
+      "Ook kan B<teip> niet omgaan met meerdere regels gegevens als een enkele eenheid, terwijl B<greple> individuele opdrachten kan uitvoeren op een gegevensbrok die uit meerdere regels bestaat.\n"
+   ],
+   [
+      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
+      "Het volgende commando vindt tekstblokken in L<perlpod(1)> stijldocument opgenomen in het Perl-modulebestand.\n"
+   ],
+   [
+      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
+      "U kunt ze vertalen door DeepL service door het bovenstaande commando uit te voeren in combinatie met B<-Mtee> module die het commando B<deepl> als volgt oproept:\n"
+   ],
+   [
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "De speciale module L<App::Greple::xlate::deepl> is echter effectiever voor dit doel. In feite kwam de implementatiehint van de module B<tee> van de module B<xlate>.\n"
+   ],
+   [
+      "Next command will find some indented part in LICENSE document.\n",
+      "Het volgende commando vindt een ingesprongen deel in het LICENSE document.\n"
+   ],
+   [
+      "You can reformat this part by using B<tee> module with B<ansifold> command:\n",
+      "U kunt dit deel opnieuw formatteren door de module B<tee> te gebruiken met het commando B<ansifold>:\n"
+   ],
+   [
+      "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n",
+      "De --discrete optie zal meerdere processen starten, dus het proces zal langer duren om uit te voeren. Je kunt dus de optie C<--separate '\\r'> gebruiken met C<ansifold>, die een enkele regel produceert met het karakter CR in plaats van NL.\n"
+   ],
+   [
+      "Then convert CR char to NL after by L<tr(1)> command or some.\n",
+      "Converteer vervolgens CR naar NL met L<tr(1)> of iets dergelijks.\n"
+   ],
+   [
+      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
+      "Denk aan een situatie waarin je wilt grepen naar tekenreeksen buiten de kopregels. Bijvoorbeeld, je wilt zoeken naar Docker image namen van het C<docker image ls> commando, maar laat de header regel staan. Je kunt dit doen met het volgende commando.\n"
+   ],
+   [
+      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "De optie C<-Mline -L 2:> haalt de voorlaatste regels op en stuurt ze naar het commando C<grep perl>. De optie --discrete is nodig omdat het aantal regels van invoer en uitvoer verandert, maar omdat het commando maar één keer wordt uitgevoerd, is er geen nadeel voor de prestaties.\n"
+   ],
+   [
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "Als je hetzelfde probeert te doen met het B<teip> commando, zal C<teip -l 2- -- grep> een foutmelding geven omdat het aantal uitvoerregels minder is dan het aantal invoerregels. Er is echter geen probleem met het verkregen resultaat.\n"
+   ],
+   [
+      "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n",
+      "De optie C<--fillup> verwijdert spaties tussen Hangul-tekens bij het aaneenschakelen van Koreaanse tekst.\n"
+   ]
+]

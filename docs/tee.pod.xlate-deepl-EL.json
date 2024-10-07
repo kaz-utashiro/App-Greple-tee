@@ -1,33 +1,142 @@
-{
-   "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n" : "Η παραπάνω εντολή μετατρέπει όλες τις λέξεις που ταιριάζουν από πεζά σε κεφαλαία. Στην πραγματικότητα αυτό το ίδιο το παράδειγμα δεν είναι τόσο χρήσιμο επειδή η B<greple> μπορεί να κάνει το ίδιο πράγμα πιο αποτελεσματικά με την επιλογή B<--cm>.\n",
-   "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n" : "Επίσης, το B<teip> δεν μπορεί να χειριστεί πολλαπλές γραμμές δεδομένων ως ενιαία μονάδα, ενώ το B<greple> μπορεί να εκτελέσει μεμονωμένες εντολές σε ένα κομμάτι δεδομένων που αποτελείται από πολλαπλές γραμμές.\n",
-   "App::Greple::tee - module to replace matched text by the external command result\n" : "App::Greple::tee - ενότητα για την αντικατάσταση του κειμένου που ταιριάζει με το αποτέλεσμα της εξωτερικής εντολής\n",
-   "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n" : "Επειδή η B<greple> έχει σχεδιαστεί για να επεξεργάζεται αρχεία εγγράφων, έχει πολλά χαρακτηριστικά που είναι κατάλληλα για αυτήν, όπως τα στοιχεία ελέγχου της περιοχής αντιστοίχισης. Ίσως αξίζει να χρησιμοποιήσετε το B<greple> για να επωφεληθείτε από αυτά τα χαρακτηριστικά.\n",
-   "But with the B<--blocks> option, it can be done as simply as follows:\n" : "Αλλά με την επιλογή B<--blocks>, μπορεί να γίνει απλά ως εξής:\n",
-   "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n" : "Από προεπιλογή, η εντολή εκτελείται ως ενιαία διεργασία και όλα τα δεδομένα που αντιστοιχούν αποστέλλονται στη διεργασία αναμεμειγμένα. Εάν το κείμενο που ταιριάζει δεν τελειώνει με νέα γραμμή, προστίθεται πριν από την αποστολή και αφαιρείται μετά τη λήψη. Τα δεδομένα εισόδου και εξόδου αντιστοιχίζονται γραμμή προς γραμμή, οπότε ο αριθμός των γραμμών εισόδου και εξόδου πρέπει να είναι ίδιος.\n",
-   "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n" : "Συνδυάστε μια ακολουθία μη κενών γραμμών σε μια ενιαία γραμμή προτού τις περάσετε στην εντολή filter. Οι χαρακτήρες νέας γραμμής μεταξύ χαρακτήρων ευρέος πλάτους διαγράφονται και οι υπόλοιποι χαρακτήρες νέας γραμμής αντικαθίστανται με κενά.\n",
-   "Combines two or more consecutive newline characters into one.\n" : "Συνδυάζει δύο ή περισσότερους διαδοχικούς χαρακτήρες νέας γραμμής σε έναν.\n",
-   "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n" : "Σκεφτείτε μια κατάσταση στην οποία θέλετε να αναζητήσετε με grep συμβολοσειρές από γραμμές που δεν έχουν κεφαλίδα. Για παράδειγμα, μπορεί να θέλετε να αναζητήσετε ονόματα εικόνων Docker από την εντολή C<docker image ls>, αλλά να αφήσετε τη γραμμή επικεφαλίδας. Μπορείτε να το κάνετε με την ακόλουθη εντολή.\n",
-   "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n" : "Μην χρησιμοποιείτε το B<--blocks> με την επιλογή B<--all>, καθώς το μπλοκ θα είναι το σύνολο των δεδομένων.\n",
-   "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n" : "Η εντολή φίλτρου ακολουθεί τη δήλωση της ενότητας (C<-Mtee>) και τερματίζεται με δύο παύλες (C<-->). Για παράδειγμα, η επόμενη εντολή καλεί την εντολή C<tr> με ορίσματα C<a-z A-Z> για την αντιστοιχισμένη λέξη στα δεδομένα.\n",
-   "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n" : "Πρώτα απ' όλα, όποτε μπορείτε να το κάνετε με την εντολή B<teip>, χρησιμοποιήστε την. Είναι ένα εξαιρετικό εργαλείο και πολύ πιο γρήγορο από την εντολή B<greple>.\n",
-   "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n" : "Για παράδειγμα, για να στείλετε γραμμές που περιέχουν το μοτίβο C<foo> στην εξωτερική εντολή, πρέπει να καθορίσετε το μοτίβο που ταιριάζει σε ολόκληρη τη γραμμή:\n",
-   "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n" : "Η ενότητα B<-Mtee> του Greple στέλνει το τμήμα του κειμένου που ταιριάζει με την εντολή φίλτρου που έχει δοθεί και τα αντικαθιστά με το αποτέλεσμα της εντολής. Η ιδέα προέρχεται από την εντολή που ονομάζεται B<teip>. Είναι σαν να παρακάμπτουμε μερικά δεδομένα στην εξωτερική εντολή φίλτρου.\n",
-   "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n" : "Αν προσπαθήσετε να κάνετε το ίδιο πράγμα με την εντολή B<teip>, η C<teip -l 2- -- grep> θα δώσει σφάλμα επειδή ο αριθμός των γραμμών εξόδου είναι μικρότερος από τον αριθμό των γραμμών εισόδου. Ωστόσο, δεν υπάρχει κανένα πρόβλημα με το αποτέλεσμα που λαμβάνεται.\n",
-   "Invoke new command individually for every matched part.\n" : "Κλήση νέας εντολής ξεχωριστά για κάθε αντιστοιχισμένο τμήμα.\n",
-   "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n" : "Οι γραμμές των δεδομένων εισόδου και εξόδου δεν χρειάζεται να είναι πανομοιότυπες όταν χρησιμοποιείται η επιλογή B<--discrete>.\n",
-   "Next command will find some indented part in LICENSE document.\n" : "Η επόμενη εντολή θα βρει κάποιο εσοχές στο έγγραφο LICENSE.\n",
-   "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n" : "Η επόμενη εντολή θα βρει μπλοκ κειμένου μέσα σε έγγραφο στυλ L<perlpod(1)> που περιλαμβάνεται στο αρχείο μονάδας Perl.\n",
-   "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n" : "Κανονικά, η περιοχή που ταιριάζει με το καθορισμένο μοτίβο αναζήτησης αποστέλλεται στην εξωτερική εντολή. Εάν καθοριστεί αυτή η επιλογή, δεν θα υποβληθεί σε επεξεργασία η περιοχή που ταιριάζει, αλλά ολόκληρο το μπλοκ που την περιέχει.\n",
-   "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n" : "Η επιλογή C<-Mline -L 2:> ανακτά τις προτελευταίες γραμμές και τις στέλνει στην εντολή C<grep perl>. Η επιλογή --discrete απαιτείται επειδή ο αριθμός των γραμμών εισόδου και εξόδου αλλάζει, αλλά επειδή η εντολή εκτελείται μόνο μία φορά, δεν υπάρχει μειονέκτημα απόδοσης.\n",
-   "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n" : "Η επιλογή --discrete θα εκκινήσει πολλαπλές διεργασίες, οπότε η εκτέλεση της διεργασίας θα διαρκέσει περισσότερο. Έτσι, μπορείτε να χρησιμοποιήσετε την επιλογή C<--διαχωρισμός '\\r'> με την επιλογή C<ansifold> η οποία παράγει μία μόνο γραμμή χρησιμοποιώντας τον χαρακτήρα CR αντί για NL.\n",
-   "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n" : "Η επιλογή C<--fillup> θα αφαιρέσει τα κενά μεταξύ των χαρακτήρων Hangul κατά τη συνένωση κορεατικού κειμένου.\n",
-   "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n" : "Η ειδική ενότητα L<App::Greple::xlate::deepl> είναι όμως πιο αποτελεσματική για το σκοπό αυτό. Στην πραγματικότητα, η υπόδειξη της υλοποίησης του module B<tee> προήλθε από το module B<xlate>.\n",
-   "Then convert CR char to NL after by L<tr(1)> command or some.\n" : "Στη συνέχεια, μετατρέψτε τον χαρακτήρα CR σε NL με την εντολή L<tr(1)> ή κάποια άλλη.\n",
-   "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n" : "Αυτή η επιλογή αντικαθιστά όλους τους χαρακτήρες νέας γραμμής στη μέση κάθε μπλοκ με χαρακτήρες επιστροφής μεταφορέα. Οι επιστροφές μεταφορέα που περιέχονται στο αποτέλεσμα της εκτέλεσης της εντολής επανέρχονται σε χαρακτήρα νέας γραμμής. Έτσι, τα μπλοκ που αποτελούνται από πολλές γραμμές μπορούν να επεξεργαστούν σε παρτίδες χωρίς τη χρήση της επιλογής B<--discrete>.\n",
-   "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n" : "Χρησιμοποιώντας την επιλογή B<--discrete>, καλείται μεμονωμένη εντολή για κάθε αντιστοιχισμένη περιοχή κειμένου. Μπορείτε να καταλάβετε τη διαφορά από τις ακόλουθες εντολές.\n",
-   "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n" : "Με την επιλογή B<--blocks>, αυτή η ενότητα συμπεριφέρεται περισσότερο σαν την επιλογή B<-g> του L<teip(1)>. Διαφορετικά, η συμπεριφορά του είναι παρόμοια με αυτή του L<teip(1)> με την επιλογή B<-o>.\n",
-   "With the <--discrete> option, each command is executed on demand. The\n" : "Με την επιλογή <--discrete>, κάθε εντολή εκτελείται κατά παραγγελία. Η επιλογή\n",
-   "You can reformat this part by using B<tee> module with B<ansifold> command:\n" : "Μπορείτε να αναδιαμορφώσετε αυτό το τμήμα χρησιμοποιώντας την ενότητα B<tee> με την εντολή B<ansifold>:\n",
-   "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n" : "Μπορείτε να τα μεταφράσετε με την υπηρεσία DeepL εκτελώντας την παραπάνω εντολή σε συνδυασμό με την ενότητα B<-Mtee> η οποία καλεί την εντολή B<deepl> ως εξής:\n"
-}
+[
+   [
+      "App::Greple::tee - module to replace matched text by the external command result\n",
+      "App::Greple::tee - ενότητα για την αντικατάσταση του κειμένου που ταιριάζει με το αποτέλεσμα της εξωτερικής εντολής\n"
+   ],
+   [
+      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
+      "Η ενότητα B<-Mtee> του Greple στέλνει το τμήμα του κειμένου που ταιριάζει με την εντολή φίλτρου που έχει δοθεί και τα αντικαθιστά με το αποτέλεσμα της εντολής. Η ιδέα προέρχεται από την εντολή που ονομάζεται B<teip>. Είναι σαν να παρακάμπτουμε μερικά δεδομένα στην εξωτερική εντολή φίλτρου.\n"
+   ],
+   [
+      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "Η εντολή φίλτρου ακολουθεί τη δήλωση της ενότητας (C<-Mtee>) και τερματίζεται με δύο παύλες (C<-->). Για παράδειγμα, η επόμενη εντολή καλεί την εντολή C<tr> με ορίσματα C<a-z A-Z> για την αντιστοιχισμένη λέξη στα δεδομένα.\n"
+   ],
+   [
+      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "Η παραπάνω εντολή μετατρέπει όλες τις λέξεις που ταιριάζουν από πεζά σε κεφαλαία. Στην πραγματικότητα αυτό το ίδιο το παράδειγμα δεν είναι τόσο χρήσιμο επειδή η B<greple> μπορεί να κάνει το ίδιο πράγμα πιο αποτελεσματικά με την επιλογή B<--cm>.\n"
+   ],
+   [
+      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "Από προεπιλογή, η εντολή εκτελείται ως ενιαία διεργασία και όλα τα δεδομένα που αντιστοιχούν αποστέλλονται στη διεργασία αναμεμειγμένα. Εάν το κείμενο που ταιριάζει δεν τελειώνει με νέα γραμμή, προστίθεται πριν από την αποστολή και αφαιρείται μετά τη λήψη. Τα δεδομένα εισόδου και εξόδου αντιστοιχίζονται γραμμή προς γραμμή, οπότε ο αριθμός των γραμμών εισόδου και εξόδου πρέπει να είναι ίδιος.\n"
+   ],
+   [
+      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "Χρησιμοποιώντας την επιλογή B<--discrete>, καλείται μεμονωμένη εντολή για κάθε αντιστοιχισμένη περιοχή κειμένου. Μπορείτε να καταλάβετε τη διαφορά από τις ακόλουθες εντολές.\n"
+   ],
+   [
+      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "Οι γραμμές των δεδομένων εισόδου και εξόδου δεν χρειάζεται να είναι πανομοιότυπες όταν χρησιμοποιείται η επιλογή B<--discrete>.\n"
+   ],
+   [
+      "Invoke new command individually for every matched part.\n",
+      "Κλήση νέας εντολής ξεχωριστά για κάθε αντιστοιχισμένο τμήμα.\n"
+   ],
+   [
+      "With the <--discrete> option, each command is executed on demand. The\n",
+      "Με την επιλογή <--discrete>, κάθε εντολή εκτελείται κατά παραγγελία. Η επιλογή\n"
+   ],
+   [
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "Αυτή η επιλογή αντικαθιστά όλους τους χαρακτήρες νέας γραμμής στη μέση κάθε μπλοκ με χαρακτήρες επιστροφής μεταφορέα. Οι επιστροφές μεταφορέα που περιέχονται στο αποτέλεσμα της εκτέλεσης της εντολής επανέρχονται σε χαρακτήρα νέας γραμμής. Έτσι, τα μπλοκ που αποτελούνται από πολλές γραμμές μπορούν να επεξεργαστούν σε παρτίδες χωρίς τη χρήση της επιλογής B<--discrete>.\n"
+   ],
+   [
+      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters are deleted, and other newline characters are replaced with spaces.\n",
+      "Συνδυάστε μια ακολουθία μη κενών γραμμών σε μια ενιαία γραμμή προτού τις περάσετε στην εντολή filter. Οι χαρακτήρες νέας γραμμής μεταξύ χαρακτήρων ευρέος πλάτους διαγράφονται και οι υπόλοιποι χαρακτήρες νέας γραμμής αντικαθίστανται με κενά.\n"
+   ],
+   [
+      "Combines two or more consecutive newline characters into one.\n",
+      "Συνδυάζει δύο ή περισσότερους διαδοχικούς χαρακτήρες νέας γραμμής σε έναν.\n"
+   ],
+   [
+      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
+      "Η επιλογή B<--offload> του L<teip(1)> υλοποιείται στη διαφορετική ενότητα B<-Mline>.\n"
+   ],
+   [
+      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
+      "Μπορείτε επίσης να χρησιμοποιήσετε την ενότητα B<line> για να επεξεργαστείτε μόνο γραμμές με ζυγό αριθμό ως εξής.\n"
+   ],
+   [
+      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
+      "Η επιλογή B<--blocks> δεν είναι πλέον απαραίτητη τώρα που η επιλογή B<--stretch> (B<-S>) έχει υλοποιηθεί στο B<greple>. Μπορείτε απλά να εκτελέσετε τα εξής.\n"
+   ],
+   [
+      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
+      "Δεν συνιστάται η χρήση της B<--blocks>, καθώς ενδέχεται να καταργηθεί στο μέλλον.\n"
+   ],
+   [
+      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
+      "Κανονικά, η περιοχή που ταιριάζει με το καθορισμένο μοτίβο αναζήτησης αποστέλλεται στην εξωτερική εντολή. Εάν καθοριστεί αυτή η επιλογή, δεν θα υποβληθεί σε επεξεργασία η περιοχή που ταιριάζει, αλλά ολόκληρο το μπλοκ που την περιέχει.\n"
+   ],
+   [
+      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
+      "Για παράδειγμα, για να στείλετε γραμμές που περιέχουν το μοτίβο C<foo> στην εξωτερική εντολή, πρέπει να καθορίσετε το μοτίβο που ταιριάζει σε ολόκληρη τη γραμμή:\n"
+   ],
+   [
+      "But with the B<--blocks> option, it can be done as simply as follows:\n",
+      "Αλλά με την επιλογή B<--blocks>, μπορεί να γίνει απλά ως εξής:\n"
+   ],
+   [
+      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
+      "Με την επιλογή B<--blocks>, αυτή η ενότητα συμπεριφέρεται περισσότερο σαν την επιλογή B<-g> του L<teip(1)>. Διαφορετικά, η συμπεριφορά του είναι παρόμοια με αυτή του L<teip(1)> με την επιλογή B<-o>.\n"
+   ],
+   [
+      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
+      "Μην χρησιμοποιείτε το B<--blocks> με την επιλογή B<--all>, καθώς το μπλοκ θα είναι το σύνολο των δεδομένων.\n"
+   ],
+   [
+      "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",
+      "Πρώτα απ' όλα, όποτε μπορείτε να το κάνετε με την εντολή B<teip>, χρησιμοποιήστε την. Είναι ένα εξαιρετικό εργαλείο και πολύ πιο γρήγορο από την εντολή B<greple>.\n"
+   ],
+   [
+      "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n",
+      "Επειδή η B<greple> έχει σχεδιαστεί για να επεξεργάζεται αρχεία εγγράφων, έχει πολλά χαρακτηριστικά που είναι κατάλληλα για αυτήν, όπως τα στοιχεία ελέγχου της περιοχής αντιστοίχισης. Ίσως αξίζει να χρησιμοποιήσετε το B<greple> για να επωφεληθείτε από αυτά τα χαρακτηριστικά.\n"
+   ],
+   [
+      "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n",
+      "Επίσης, το B<teip> δεν μπορεί να χειριστεί πολλαπλές γραμμές δεδομένων ως ενιαία μονάδα, ενώ το B<greple> μπορεί να εκτελέσει μεμονωμένες εντολές σε ένα κομμάτι δεδομένων που αποτελείται από πολλαπλές γραμμές.\n"
+   ],
+   [
+      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
+      "Η επόμενη εντολή θα βρει μπλοκ κειμένου μέσα σε έγγραφο στυλ L<perlpod(1)> που περιλαμβάνεται στο αρχείο μονάδας Perl.\n"
+   ],
+   [
+      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
+      "Μπορείτε να τα μεταφράσετε με την υπηρεσία DeepL εκτελώντας την παραπάνω εντολή σε συνδυασμό με την ενότητα B<-Mtee> η οποία καλεί την εντολή B<deepl> ως εξής:\n"
+   ],
+   [
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "Η ειδική ενότητα L<App::Greple::xlate::deepl> είναι όμως πιο αποτελεσματική για το σκοπό αυτό. Στην πραγματικότητα, η υπόδειξη της υλοποίησης του module B<tee> προήλθε από το module B<xlate>.\n"
+   ],
+   [
+      "Next command will find some indented part in LICENSE document.\n",
+      "Η επόμενη εντολή θα βρει κάποιο εσοχές στο έγγραφο LICENSE.\n"
+   ],
+   [
+      "You can reformat this part by using B<tee> module with B<ansifold> command:\n",
+      "Μπορείτε να αναδιαμορφώσετε αυτό το τμήμα χρησιμοποιώντας την ενότητα B<tee> με την εντολή B<ansifold>:\n"
+   ],
+   [
+      "The --discrete option will start multiple processes, so the process will take longer to execute. So you can use C<--separate '\\r'> option with C<ansifold> which produce single line using CR character instead of NL.\n",
+      "Η επιλογή --discrete θα εκκινήσει πολλαπλές διεργασίες, οπότε η εκτέλεση της διεργασίας θα διαρκέσει περισσότερο. Έτσι, μπορείτε να χρησιμοποιήσετε την επιλογή C<--διαχωρισμός '\\r'> με την επιλογή C<ansifold> η οποία παράγει μία μόνο γραμμή χρησιμοποιώντας τον χαρακτήρα CR αντί για NL.\n"
+   ],
+   [
+      "Then convert CR char to NL after by L<tr(1)> command or some.\n",
+      "Στη συνέχεια, μετατρέψτε τον χαρακτήρα CR σε NL με την εντολή L<tr(1)> ή κάποια άλλη.\n"
+   ],
+   [
+      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
+      "Σκεφτείτε μια κατάσταση στην οποία θέλετε να αναζητήσετε με grep συμβολοσειρές από γραμμές που δεν έχουν κεφαλίδα. Για παράδειγμα, μπορεί να θέλετε να αναζητήσετε ονόματα εικόνων Docker από την εντολή C<docker image ls>, αλλά να αφήσετε τη γραμμή επικεφαλίδας. Μπορείτε να το κάνετε με την ακόλουθη εντολή.\n"
+   ],
+   [
+      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Η επιλογή C<-Mline -L 2:> ανακτά τις προτελευταίες γραμμές και τις στέλνει στην εντολή C<grep perl>. Η επιλογή --discrete απαιτείται επειδή ο αριθμός των γραμμών εισόδου και εξόδου αλλάζει, αλλά επειδή η εντολή εκτελείται μόνο μία φορά, δεν υπάρχει μειονέκτημα απόδοσης.\n"
+   ],
+   [
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "Αν προσπαθήσετε να κάνετε το ίδιο πράγμα με την εντολή B<teip>, η C<teip -l 2- -- grep> θα δώσει σφάλμα επειδή ο αριθμός των γραμμών εξόδου είναι μικρότερος από τον αριθμό των γραμμών εισόδου. Ωστόσο, δεν υπάρχει κανένα πρόβλημα με το αποτέλεσμα που λαμβάνεται.\n"
+   ],
+   [
+      "The C<--fillup> option will remove spaces between Hangul characters when concatenating Korean text.\n",
+      "Η επιλογή C<--fillup> θα αφαιρέσει τα κενά μεταξύ των χαρακτήρων Hangul κατά τη συνένωση κορεατικού κειμένου.\n"
+   ]
+]
