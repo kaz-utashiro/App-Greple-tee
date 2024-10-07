@@ -29,7 +29,7 @@
       "develop" : {
          "recommends" : {
             "App::Greple::subst::desumasu" : "0",
-            "App::Greple::xlate" : "0.36"
+            "App::Greple::xlate" : "0.38"
          },
          "requires" : {
             "Test::CPAN::Meta" : "0",
@@ -42,7 +42,7 @@
       "runtime" : {
          "requires" : {
             "App::Greple" : "9.1506",
-            "App::sdif" : "4.34",
+            "App::sdif" : "4.35",
             "perl" : "v5.18.2"
          }
       },
