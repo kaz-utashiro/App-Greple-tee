@@ -16,8 +16,7 @@
    "no_index" : {
       "directory" : [
          "t",
-         "xt",
-         "docs"
+         "xt"
       ]
    },
    "prereqs" : {
