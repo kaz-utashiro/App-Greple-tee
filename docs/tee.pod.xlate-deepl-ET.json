@@ -48,12 +48,12 @@
       "Ühendab kaks või enam järjestikust uusjoonemärki üheks.\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
-      "L<teip(1)>'i B<--offload> valik on rakendatud erinevas moodulis B<-Mline>.\n"
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "L<teip(1)>'i B<--offload> valik on rakendatud erinevas moodulis L<App::Greple::L> (B<-ML>).\n"
    ],
    [
-      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
-      "Mooduli B<line> abil saab töödelda ainult paarisnumbrilisi ridu järgmiselt.\n"
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "B<-ML> moodulit saab kasutada ka selleks, et töödelda ainult paarisnumbrilisi ridu järgmiselt.\n"
    ],
    [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
@@ -128,8 +128,8 @@
       "Mõelge olukorrale, kus te soovite grep'i abil leida stringid mitte-pealkirjaridadest. Näiteks võite soovida otsida Docker image'i nimesid käsust C<docker image ls>, kuid jätta pealkirjarida alles. Saate seda teha järgmise käsuga.\n"
    ],
    [
-      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "Valik C<-Mline -L 2:> otsib välja eelviimased read ja saadab need käsule C<grep perl>. Valik --diskreetne on vajalik, sest sisendi ja väljundi ridade arv muutub, kuid kuna käsk täidetakse ainult üks kord, ei ole tulemuslikkuse puudujääki.\n"
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Valik C<-ML 2:> hangib eelviimased read ja saadab need käsule C<grep perl>. Valik --diskreetne on vajalik, sest sisend- ja väljundridade arv muutub, kuid kuna käsku täidetakse ainult üks kord, ei ole tulemuslikkuse puudujääki.\n"
    ],
    [
       "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",

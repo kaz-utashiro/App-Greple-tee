@@ -48,12 +48,12 @@
       "Combină două sau mai multe caractere de linie nouă consecutive într-unul singur.\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
-      "Opțiunea B<--offload> a L<teip(1)> este implementată în modulul diferit B<-Mline>.\n"
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "Opțiunea B<--offload> a L<teip(1)> este implementată în modulul diferit L<App::Greple::L> (B<-ML>).\n"
    ],
    [
-      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
-      "De asemenea, puteți utiliza modulul B<line> pentru a procesa numai liniile cu număr par, după cum urmează.\n"
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "De asemenea, puteți utiliza modulul B<-ML> pentru a procesa numai liniile cu număr par, după cum urmează.\n"
    ],
    [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
@@ -128,8 +128,8 @@
       "Luați în considerare o situație în care doriți să căutați prin grep șiruri de caractere din liniile fără antet. De exemplu, este posibil să doriți să căutați numele imaginilor Docker din comanda C<docker image ls>, dar să lăsați linia de antet. Puteți face acest lucru prin următoarea comandă.\n"
    ],
    [
-      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "Opțiunea C<-Mline -L 2:> recuperează penultima linie și o trimite la comanda C<grep perl>. Opțiunea --discrete este necesară deoarece numărul de linii de intrare și de ieșire se modifică, dar, deoarece comanda este executată o singură dată, nu există niciun dezavantaj de performanță.\n"
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Opțiunea C<-ML 2:> recuperează penultimele linii și le trimite către comanda C<grep perl>. Opțiunea --discrete este necesară deoarece numărul de linii de intrare și de ieșire se modifică, dar deoarece comanda este executată o singură dată, nu există niciun dezavantaj de performanță.\n"
    ],
    [
       "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",

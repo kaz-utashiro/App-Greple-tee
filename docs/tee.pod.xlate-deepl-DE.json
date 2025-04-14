@@ -48,12 +48,12 @@
       "Kombiniert zwei oder mehr aufeinanderfolgende Zeilenumbruchzeichen zu einem.\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
-      "Die Option B<--offload> von L<teip(1)> ist in dem anderen Modul B<-Mline> implementiert.\n"
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "Die Option B<--offload> von L<teip(1)> ist in dem anderen Modul L<App::Greple::L> (B<-ML>) implementiert.\n"
    ],
    [
-      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
-      "Sie können auch das Modul B<line> verwenden, um nur geradzahlige Zeilen zu verarbeiten.\n"
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "Sie können das Modul B<-ML> auch verwenden, um nur geradzahlige Zeilen zu verarbeiten, wie folgt.\n"
    ],
    [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
@@ -128,8 +128,8 @@
       "Stellen Sie sich eine Situation vor, in der Sie nach Zeichenfolgen aus Nicht-Kopfzeilen suchen wollen. Sie könnten zum Beispiel nach Docker-Image-Namen aus dem Befehl C<docker image ls> suchen, aber die Kopfzeile weglassen. Sie können dies mit folgendem Befehl tun.\n"
    ],
    [
-      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "Die Option C<-Mline -L 2:> ruft die vorletzte Zeile ab und sendet sie an den Befehl C<grep perl>. Die Option --discrete ist erforderlich, weil sich die Anzahl der Ein- und Ausgabezeilen ändert, aber da der Befehl nur einmal ausgeführt wird, gibt es keine Leistungseinbußen.\n"
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Mit der Option C<-ML 2:> werden die vorletzten Zeilen abgerufen und an den Befehl C<grep perl> gesendet. Die Option --discrete ist erforderlich, weil sich die Anzahl der Ein- und Ausgabezeilen ändert, aber da der Befehl nur einmal ausgeführt wird, gibt es keine Leistungseinbußen.\n"
    ],
    [
       "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",

@@ -48,12 +48,12 @@
       "Συνδυάζει δύο ή περισσότερους διαδοχικούς χαρακτήρες νέας γραμμής σε έναν.\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
-      "Η επιλογή B<--offload> του L<teip(1)> υλοποιείται στη διαφορετική ενότητα B<-Mline>.\n"
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "Η επιλογή B<--offload> του L<teip(1)> υλοποιείται στη διαφορετική ενότητα L<App::Greple::L> (B<-ML>).\n"
    ],
    [
-      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
-      "Μπορείτε επίσης να χρησιμοποιήσετε την ενότητα B<line> για να επεξεργαστείτε μόνο γραμμές με ζυγό αριθμό ως εξής.\n"
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "Μπορείτε επίσης να χρησιμοποιήσετε την ενότητα B<-ML> για να επεξεργάζεστε μόνο γραμμές με ζυγό αριθμό ως εξής.\n"
    ],
    [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
@@ -128,8 +128,8 @@
       "Σκεφτείτε μια κατάσταση στην οποία θέλετε να αναζητήσετε με grep συμβολοσειρές από γραμμές που δεν έχουν κεφαλίδα. Για παράδειγμα, μπορεί να θέλετε να αναζητήσετε ονόματα εικόνων Docker από την εντολή C<docker image ls>, αλλά να αφήσετε τη γραμμή επικεφαλίδας. Μπορείτε να το κάνετε με την ακόλουθη εντολή.\n"
    ],
    [
-      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "Η επιλογή C<-Mline -L 2:> ανακτά τις προτελευταίες γραμμές και τις στέλνει στην εντολή C<grep perl>. Η επιλογή --discrete απαιτείται επειδή ο αριθμός των γραμμών εισόδου και εξόδου αλλάζει, αλλά επειδή η εντολή εκτελείται μόνο μία φορά, δεν υπάρχει μειονέκτημα απόδοσης.\n"
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Η επιλογή C<-ML 2:> ανακτά τις προτελευταίες γραμμές και τις στέλνει στην εντολή C<grep perl>. Η επιλογή --discrete απαιτείται επειδή ο αριθμός των γραμμών εισόδου και εξόδου αλλάζει, αλλά επειδή η εντολή εκτελείται μόνο μία φορά, δεν υπάρχει μειονέκτημα απόδοσης.\n"
    ],
    [
       "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",

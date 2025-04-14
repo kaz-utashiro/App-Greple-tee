@@ -48,12 +48,12 @@
       "İki veya daha fazla ardışık satırsonu karakterini tek bir karakterde birleştirir.\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
-      "L<teip(1)>'in B<--offload> seçeneği farklı bir modül olan B<-Mline>'da uygulanmaktadır.\n"
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "L<teip(1)>'in B<--offload> seçeneği farklı bir modül olan L<App::Greple::L> (B<-ML>) içinde uygulanmaktadır.\n"
    ],
    [
-      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
-      "B<line> modülünü sadece çift sayılı satırları işlemek için de aşağıdaki gibi kullanabilirsiniz.\n"
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "B<-ML> modülünü sadece çift sayılı satırları işlemek için aşağıdaki gibi de kullanabilirsiniz.\n"
    ],
    [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
@@ -128,8 +128,8 @@
       "Başlık olmayan satırlardaki dizeler için grep yapmak istediğiniz bir durumu düşünün. Örneğin, C<docker image ls> komutundan Docker görüntü adlarını aramak, ancak başlık satırını bırakmak isteyebilirsiniz. Bunu aşağıdaki komutla yapabilirsiniz.\n"
    ],
    [
-      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "C<-Mline -L 2:> seçeneği sondan ikinci satırları alır ve bunları C<grep perl> komutuna gönderir. Girdi ve çıktı satırlarının sayısı değiştiği için --discrete seçeneği gereklidir, ancak komut yalnızca bir kez çalıştırıldığı için performans açısından bir dezavantajı yoktur.\n"
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "C<-ML 2:> seçeneği sondan ikinci satırları alır ve bunları C<grep perl> komutuna gönderir. Girdi ve çıktı satırlarının sayısı değiştiği için --discrete seçeneği gereklidir, ancak komut yalnızca bir kez çalıştırıldığı için performans açısından bir dezavantajı yoktur.\n"
    ],
    [
       "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",

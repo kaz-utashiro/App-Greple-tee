@@ -48,12 +48,12 @@
       "将两个或多个连续换行符合并为一个。\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
-      "L<teip(1)> 的 B<--offload> 选项在不同的模块 B<-Mline> 中实现。\n"
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L> (B<-ML>) 中实现。\n"
    ],
    [
-      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
-      "你也可以使用 B<line> 模块只处理偶数行，如下所示。\n"
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "你也可以使用 B<-ML> 模块只处理偶数行，如下所示。\n"
    ],
    [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
@@ -128,8 +128,8 @@
       "考虑一下要从非标题行中搜索字符串的情况。例如，你可能想搜索 C<docker image ls> 命令中的 Docker 镜像名称，但要保留标题行。你可以通过以下命令来实现。\n"
    ],
    [
-      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "选项 C<-Mline -L 2:> 会检索倒数第二行，并将其发送给 C<grep perl> 命令。需要使用选项 --discrete 是因为输入和输出的行数会发生变化，但由于命令只执行一次，因此不会影响性能。\n"
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "选项 C<-ML 2:> 检索倒数第二行，并将其发送给 C<grep perl> 命令。需要使用选项 --discrete 是因为输入和输出的行数会发生变化，但由于命令只执行一次，因此不会影响性能。\n"
    ],
    [
       "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",

@@ -48,12 +48,12 @@
       "2つ以上の連続する改行文字を1つにまとめる。\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
-      "L<teip(1)>のB<--offload>オプションは、別のモジュールB<-Mline>に実装されている。\n"
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "L<teip(1)> の B<--offload> オプションは、別のモジュール L<App::Greple::L> (B<-ML>) に実装されています。\n"
    ],
    [
-      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
-      "また、B<-line> モジュールを使って、次のように偶数行だけを処理することもできる。\n"
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "B<-ML>モジュールを使って、次のように偶数行だけを処理することもできます。\n"
    ],
    [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
@@ -128,8 +128,8 @@
       "ヘッダ行以外から文字列を grep したい場合を考えてみましょう。例えば、C<docker image ls>コマンドからDockerイメージ名を検索したいが、ヘッダ行は残したいとします。以下のコマンドで可能です。\n"
    ],
    [
-      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "オプションC<-Mline -L 2:>は2行目から最後の行を検索し、C<grep perl>コマンドに送ります。入出力の行数が変わるので-discreteオプションが必要だが、コマンドは一度しか実行されないので性能上の欠点はない。\n"
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "オプション C<-ML 2:> は最後から2番目の行を取り出し、C<grep perl> コマンドに送ります。入出力の行数が変わるので --discrete オプションが必要だが、コマンドは一度しか実行されないので、性能上の欠点はない。\n"
    ],
    [
       "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",

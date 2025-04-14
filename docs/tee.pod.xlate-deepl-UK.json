@@ -48,12 +48,12 @@
       "Об'єднує два або більше символів нового рядка, що йдуть підряд, в один.\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module B<-Mline>.\n",
-      "Опція B<--offload> у L<teip(1)> реалізована у іншому модулі B<-Mline>.\n"
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "Опція B<--offload> у L<teip(1)> реалізована у іншому модулі L<App::Greple::L> (B<-ML>).\n"
    ],
    [
-      "You can also use the B<line> module to process only even-numbered lines as follows.\n",
-      "Ви також можете використовувати модуль B<line> для обробки лише парних рядків наступним чином.\n"
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "Ви також можете використовувати модуль B<-ML> для обробки лише парних рядків наступним чином.\n"
    ],
    [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
@@ -128,8 +128,8 @@
       "Розглянемо ситуацію, у якій вам потрібно шукати рядки з рядків, що не є заголовками. Наприклад, ви можете шукати назви образів Docker за допомогою команди C<docker image ls>, але залишити заголовний рядок. Це можна зробити за допомогою наступної команди.\n"
    ],
    [
-      "Option C<-Mline -L 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "Параметр C<-Mline -L 2:> витягує передостанні рядки і надсилає їх команді C<grep perl>. Опція --discrete необхідна, оскільки змінюється кількість рядків вводу і виводу, але оскільки команда виконується лише один раз, це не впливає на продуктивність.\n"
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "Параметр C<-ML 2:> витягує передостанні рядки і надсилає їх команді C<grep perl>. Опція --discrete є обов'язковою, оскільки при цьому змінюється кількість рядків на вході і виході, але оскільки команда виконується лише один раз, це не впливає на продуктивність.\n"
    ],
    [
       "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
