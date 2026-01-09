@@ -89,6 +89,19 @@ with **--discrete** option.
 
         greple -Mtee cat -n -- -ML 2::2
 
+# CONFIGURATION
+
+Module parameters can be set with **Getopt::EX::Config** module using
+the following syntax:
+
+    greple -Mtee::config(discrete) ...
+    greple -Mtee::config(fillup,crmode) ...
+
+This is useful when combined with shell aliases or module files.
+
+Available parameters are: **discrete**, **bulkmode**, **crmode**,
+**fillup**, **squeeze**, **blocks**.
+
 # LEGACIES
 
 The **--blocks** option is no longer needed now that the **--stretch**

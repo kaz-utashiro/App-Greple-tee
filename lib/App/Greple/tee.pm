@@ -94,6 +94,19 @@ as follows.
 
 =back
 
+=head1 CONFIGURATION
+
+Module parameters can be set with B<Getopt::EX::Config> module using
+the following syntax:
+
+    greple -Mtee::config(discrete) ...
+    greple -Mtee::config(fillup,crmode) ...
+
+This is useful when combined with shell aliases or module files.
+
+Available parameters are: B<discrete>, B<bulkmode>, B<crmode>,
+B<fillup>, B<squeeze>, B<blocks>.
+
 =head1 LEGACIES
 
 The B<--blocks> option is no longer needed now that the B<--stretch>
