@@ -1,0 +1,174 @@
+[
+   [
+      "App::Greple::tee - module to replace matched text by the external command result\n",
+      "App::Greple::tee - マッチしたテキストを外部コマンドの結果で置き換えるモジュール\n"
+   ],
+   [
+      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
+      "Greple の B<-Mtee> モジュールは、マッチしたテキスト部分を指定したフィルタコマンドに送り、そのコマンドの結果で置き換えます。アイデアは B<teip> と呼ばれるコマンドに由来します。データの一部を外部フィルタコマンドにバイパスするようなイメージです。\n"
+   ],
+   [
+      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "フィルタコマンドはモジュール宣言（C<-Mtee>）に続けて記述し、二つのダッシュ（C<-->）で終端します。例えば、次のコマンドはデータ中のマッチした単語に対して、コマンド C<tr> を C<a-z A-Z> の引数で呼び出します。\n"
+   ],
+   [
+      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "上記のコマンドは、マッチした単語をすべて小文字から大文字に変換します。実はこの例自体はあまり有用ではありません。というのも、B<greple> 自身が B<--cm> オプションで同様のことをより効率的に行えるからです。\n"
+   ],
+   [
+      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "デフォルトでは、コマンドは単一プロセスとして実行され、すべてのマッチしたデータは混在したままそのプロセスに送られます。マッチしたテキストが改行で終わっていなければ、送信前に改行が追加され、受信後に取り除かれます。入力と出力のデータは行単位で対応付けられるため、入力と出力の行数は一致していなければなりません。\n"
+   ],
+   [
+      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "B<--discrete> オプションを使うと、マッチした各テキスト領域ごとに個別のコマンドが呼び出されます。違いは次のコマンド群で確認できます。\n"
+   ],
+   [
+      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "B<--discrete> オプションを用いる場合、入力と出力の行数は一致している必要はありません。\n"
+   ],
+   [
+      "Invoke new command individually for every matched part.\n",
+      "マッチした各部分ごとに新しいコマンドを個別に起動します。\n"
+   ],
+   [
+      "With the <--discrete> option, each command is executed on demand. The <--bulkmode> option causes all conversions to be performed at once.\n",
+      "<--discrete> オプションでは各コマンドはオンデマンドで実行されます。<--bulkmode> オプションではすべての変換を一括で実行します。\n"
+   ],
+   [
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "このオプションは、各ブロックの途中にあるすべての改行文字をキャリッジリターンに置き換えます。コマンド実行結果に含まれるキャリッジリターンは改めて改行に戻されます。これにより、B<--discrete> オプションを使わずとも、複数行から成るブロックをバッチ処理できます。\n"
+   ],
+   [
+      "This works well with L<ansifold> command's B<--crmode> option, which joins CR-separated text and outputs folded lines separated by CR.\n",
+      "これは L<ansifold> コマンドの B<--crmode> オプションと相性がよく、CR 区切りのテキストを結合し、CR で区切られた折り畳み行を出力します。\n"
+   ],
+   [
+      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters (Japanese, Chinese) are deleted, and other newline characters are replaced with spaces. Korean (Hangul) is treated like ASCII text and joined with space.\n",
+      "フィルタコマンドに渡す前に、連続する非空行を1行にまとめます。全角文字（日本語、中国語）の間の改行は削除し、その他の改行は空白に置き換えます。韓国語（ハングル）は ASCII テキスト同様に空白で連結します。\n"
+   ],
+   [
+      "Combines two or more consecutive newline characters into one.\n",
+      "連続する2つ以上の改行を1つにまとめます。\n"
+   ],
+   [
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "L<teip(1)> の B<--offload> オプションは、別モジュール L<App::Greple::L>（B<-ML>）で実装されています。\n"
+   ],
+   [
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "B<-ML> モジュールを使って、次のように偶数行のみを処理することもできます。\n"
+   ],
+   [
+      "Module parameters can be set with B<Getopt::EX::Config> module using the following syntax:\n",
+      "モジュールのパラメータは、次の文法で B<Getopt::EX::Config> モジュールにより設定できます。\n"
+   ],
+   [
+      "This is useful when combined with shell aliases or module files.\n",
+      "これはシェルのエイリアスやモジュールファイルと組み合わせると便利です。\n"
+   ],
+   [
+      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>.\n",
+      "利用可能なパラメータは B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks> です。\n"
+   ],
+   [
+      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
+      "B<greple> に B<--stretch>（B<-S>）オプションが実装されたため、B<--blocks> オプションは不要になりました。次のように簡単に実行できます。\n"
+   ],
+   [
+      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
+      "将来的に非推奨となる可能性があるため、B<--blocks> の使用は推奨されません。\n"
+   ],
+   [
+      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
+      "通常、指定された検索パターンに一致する領域が外部コマンドに送られます。このオプションを指定すると、一致した領域ではなく、それを含むブロック全体が処理されます。\n"
+   ],
+   [
+      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
+      "例えば、パターン C<foo> を含む行を外部コマンドに送るには、行全体に一致するパターンを指定する必要があります:\n"
+   ],
+   [
+      "But with the B<--blocks> option, it can be done as simply as follows:\n",
+      "しかし B<--blocks> オプションを使えば、次のように簡単に実行できます:\n"
+   ],
+   [
+      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
+      "B<--blocks> オプションを用いると、このモジュールは L<teip(1)> の B<-g> オプションにより近い動作になります。そうでなければ、動作は B<-o> オプションを付けた L<teip(1)> に似ています。\n"
+   ],
+   [
+      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
+      "B<--blocks> を B<--all> オプションと併用しないでください。ブロックがデータ全体になってしまいます。\n"
+   ],
+   [
+      "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",
+      "まず何より、B<teip> コマンドで実現できる場合はそれを使ってください。優れたツールであり、B<greple> よりもはるかに高速です。\n"
+   ],
+   [
+      "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n",
+      "B<greple> は文書ファイルの処理を目的に設計されているため、マッチ領域の制御など、それに適した多くの機能を備えています。それらの機能を活用するために B<greple> を使う価値はあります。\n"
+   ],
+   [
+      "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n",
+      "また、B<teip> は複数行のデータをひとつの単位として扱えませんが、B<greple> は複数行からなるデータチャンクに対して個別のコマンドを実行できます。\n"
+   ],
+   [
+      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
+      "次のコマンドは、Perl モジュールファイルに含まれる L<perlpod(1)> 形式ドキュメント内のテキストブロックを見つけます。\n"
+   ],
+   [
+      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
+      "上記コマンドに B<-Mtee> モジュールを組み合わせて B<deepl> コマンドを呼び出すことで、DeepL サービスで翻訳できます。使い方は次のとおりです:\n"
+   ],
+   [
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "ただし、この目的には専用モジュール L<App::Greple::xlate::deepl> のほうが効果的です。実際、B<tee> モジュールの実装のヒントは B<xlate> モジュールから得られました。\n"
+   ],
+   [
+      "Next command will find some indented part in LICENSE document.\n",
+      "次のコマンドは、LICENSE ドキュメント内のいくつかのインデントされた部分を見つけます。\n"
+   ],
+   [
+      "You can reformat this part by using B<tee> module with B<ansifold> command. Using both B<--crmode> options together allows efficient processing of multi-line blocks:\n",
+      "この部分は、B<tee> モジュールと B<ansifold> コマンドを使って再整形できます。両方の B<--crmode> オプションを併用すると、複数行ブロックを効率よく処理できます:\n"
+   ],
+   [
+      "The B<--discrete> option can also be used but will start multiple processes, so it takes longer to execute.\n",
+      "B<--discrete> オプションも使用できますが、複数のプロセスを起動するため、実行に時間がかかります。\n"
+   ],
+   [
+      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
+      "ヘッダー行以外から文字列を grep したい状況を考えてみます。例えば、C<docker image ls> コマンドから Docker イメージ名を検索したいが、ヘッダー行は残したい場合です。以下のコマンドで実現できます。\n"
+   ],
+   [
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "オプション C<-ML 2:> は、後ろから2行目以降を取り出して C<grep perl> コマンドに送ります。入力と出力の行数が変わるため --discrete オプションが必要ですが、コマンドは一度しか実行されないので性能上のデメリットはありません。\n"
+   ],
+   [
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "同じことを B<teip> コマンドでやろうとすると、C<teip -l 2- -- grep> は出力行数が入力行数より少ないためエラーになります。ただし、得られる結果自体に問題はありません。\n"
+   ],
+   [
+      "L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>\n",
+      "L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>\n"
+   ],
+   [
+      "L<https://github.com/greymd/teip>\n",
+      "L<https://github.com/greymd/teip>\n"
+   ],
+   [
+      "L<App::Greple>, L<https://github.com/kaz-utashiro/greple>\n",
+      "L<App::Greple>, L<https://github.com/kaz-utashiro/greple>\n"
+   ],
+   [
+      "L<https://github.com/tecolicom/Greple>\n",
+      "L<https://github.com/tecolicom/Greple>\n"
+   ],
+   [
+      "L<App::Greple::xlate>\n",
+      "L<App::Greple::xlate>\n"
+   ],
+   [
+      "L<App::ansifold>, L<https://github.com/tecolicom/App-ansifold>\n",
+      "L<App::ansifold>, L<https://github.com/tecolicom/App-ansifold>\n"
+   ]
+]

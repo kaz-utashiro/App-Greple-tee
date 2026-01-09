@@ -1,0 +1,174 @@
+[
+   [
+      "App::Greple::tee - module to replace matched text by the external command result\n",
+      "App::Greple::tee - 用外部命令结果替换匹配文本的模块\n"
+   ],
+   [
+      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
+      "Greple 的 B<-Mtee> 模块将匹配到的文本片段发送给指定的过滤命令，并用该命令的结果替换。这个想法源自名为 B<teip> 的命令。它就像把部分数据旁路到外部过滤命令。\n"
+   ],
+   [
+      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "过滤命令紧跟在模块声明（C<-Mtee>）之后，并以两个短横线（C<-->）结束。例如，下面的命令对数据中匹配到的单词调用 C<tr> 命令，并传入 C<a-z A-Z> 参数。\n"
+   ],
+   [
+      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "上面的命令把所有匹配到的单词从小写转换为大写。事实上，这个例子本身不太实用，因为 B<greple> 使用 B<--cm> 选项可以更高效地完成同样的事情。\n"
+   ],
+   [
+      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "默认情况下，命令作为单个进程执行，所有匹配到的数据混合后发送到该进程。如果匹配文本不以换行结束，会在发送前补加换行并在接收后去除。输入与输出数据按行对应，因此输入与输出的行数必须相同。\n"
+   ],
+   [
+      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "使用 B<--discrete> 选项时，会为每个匹配的文本区域单独调用命令。你可以通过以下命令分辨差异。\n"
+   ],
+   [
+      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "与 B<--discrete> 选项一起使用时，输入与输出数据的行数不必相同。\n"
+   ],
+   [
+      "Invoke new command individually for every matched part.\n",
+      "为每个匹配到的部分单独启动新命令。\n"
+   ],
+   [
+      "With the <--discrete> option, each command is executed on demand. The <--bulkmode> option causes all conversions to be performed at once.\n",
+      "使用 <--discrete> 选项时，每个命令按需执行。使用 <--bulkmode> 选项时，所有转换将一次性完成。\n"
+   ],
+   [
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "该选项会将每个块中间的所有换行符替换为回车符。执行命令得到的结果中包含的回车符会还原为换行符。这样就可以在不使用 B<--discrete> 选项的情况下批量处理由多行组成的块。\n"
+   ],
+   [
+      "This works well with L<ansifold> command's B<--crmode> option, which joins CR-separated text and outputs folded lines separated by CR.\n",
+      "这与 L<ansifold> 命令的 B<--crmode> 选项配合良好，该选项将以 CR 分隔的文本合并，并输出以 CR 分隔的折行。\n"
+   ],
+   [
+      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters (Japanese, Chinese) are deleted, and other newline characters are replaced with spaces. Korean (Hangul) is treated like ASCII text and joined with space.\n",
+      "在传给过滤命令之前，将连续的非空行合并为一行。位宽字符（中文、日文）之间的换行会被删除，其他换行会被替换为空格。韩文（谚文/Hangul）按 ASCII 文本处理，以空格连接。\n"
+   ],
+   [
+      "Combines two or more consecutive newline characters into one.\n",
+      "将两个或更多连续的换行合并为一个。\n"
+   ],
+   [
+      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
+      "L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>）中实现。\n"
+   ],
+   [
+      "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
+      "你也可以使用 B<-ML> 模块如下只处理偶数行。\n"
+   ],
+   [
+      "Module parameters can be set with B<Getopt::EX::Config> module using the following syntax:\n",
+      "模块参数可使用 B<Getopt::EX::Config> 模块按以下语法设置：\n"
+   ],
+   [
+      "This is useful when combined with shell aliases or module files.\n",
+      "这在与 shell 别名或模块文件结合时很有用。\n"
+   ],
+   [
+      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>.\n",
+      "可用的参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>。\n"
+   ],
+   [
+      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
+      "由于 B<greple> 中已实现 B<--stretch>（B<-S>）选项，B<--blocks> 选项已不再需要。你只需进行如下操作即可。\n"
+   ],
+   [
+      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
+      "不推荐使用 B<--blocks>，因为它将来可能被弃用。\n"
+   ],
+   [
+      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
+      "通常，符合指定搜索模式的区域会被发送到外部命令。如果指定了此选项，将处理包含该匹配区域的整个区块，而不是仅处理匹配区域。\n"
+   ],
+   [
+      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
+      "例如，要将包含模式 C<foo> 的行发送到外部命令，需要指定能匹配整行的模式：\n"
+   ],
+   [
+      "But with the B<--blocks> option, it can be done as simply as follows:\n",
+      "但使用 B<--blocks> 选项，可以像下面这样简单完成：\n"
+   ],
+   [
+      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
+      "使用 B<--blocks> 选项时，本模块的行为更像 L<teip(1)> 的 B<-g> 选项。否则，其行为类似于带 B<-o> 选项的 L<teip(1)>。\n"
+   ],
+   [
+      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
+      "不要将 B<--blocks> 与 B<--all> 选项一起使用，因为该区块将变为整个数据。\n"
+   ],
+   [
+      "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",
+      "首先，只要可以用 B<teip> 命令做到，就用它。它是一个优秀且比 B<greple> 快得多的工具。\n"
+   ],
+   [
+      "Because B<greple> is designed to process document files, it has many features that are appropriate for it, such as match area controls. It might be worth using B<greple> to take advantage of those features.\n",
+      "由于 B<greple> 旨在处理文档文件，它具有许多适用于此目的的功能，例如匹配区域控制。为了利用这些功能，使用 B<greple> 也许是值得的。\n"
+   ],
+   [
+      "Also, B<teip> cannot handle multiple lines of data as a single unit, while B<greple> can execute individual commands on a data chunk consisting of multiple lines.\n",
+      "此外，B<teip> 不能将多行数据作为一个单元处理，而 B<greple> 可以对由多行组成的数据块执行单独的命令。\n"
+   ],
+   [
+      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
+      "下面的命令将会在包含于 Perl 模块文件中的 L<perlpod(1)> 风格文档里查找文本区块。\n"
+   ],
+   [
+      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
+      "你可以将上面的命令与调用 B<deepl> 命令的 B<-Mtee> 模块组合执行，通过 DeepL 服务翻译它们，如下所示：\n"
+   ],
+   [
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "不过，专用模块 L<App::Greple::xlate::deepl> 在此目的上更有效。实际上，B<tee> 模块的实现提示来自 B<xlate> 模块。\n"
+   ],
+   [
+      "Next command will find some indented part in LICENSE document.\n",
+      "下面的命令将在 LICENSE 文档中找到一些缩进部分。\n"
+   ],
+   [
+      "You can reformat this part by using B<tee> module with B<ansifold> command. Using both B<--crmode> options together allows efficient processing of multi-line blocks:\n",
+      "你可以用带有 B<ansifold> 命令的 B<tee> 模块来重新格式化这部分。两个 B<--crmode> 选项一起使用可以高效处理多行区块：\n"
+   ],
+   [
+      "The B<--discrete> option can also be used but will start multiple processes, so it takes longer to execute.\n",
+      "B<--discrete> 选项也可以使用，但会启动多个进程，因此执行时间更长。\n"
+   ],
+   [
+      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
+      "考虑一种情况：你想从非表头行中 grep 字符串。例如，你可能想从 C<docker image ls> 命令中搜索 Docker 镜像名称，但保留表头行。可以用下面的命令实现。\n"
+   ],
+   [
+      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
+      "选项 C<-ML 2:> 取出从第二行到倒数第一行的内容，并将其发送到 C<grep perl> 命令。由于输入与输出的行数发生变化，需要使用 --discrete 选项，但因为命令只执行一次，所以没有性能上的劣势。\n"
+   ],
+   [
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "如果尝试用 B<teip> 命令做同样的事情，C<teip -l 2- -- grep> 会报错，因为输出行数少于输入行数。然而，得到的结果本身并没有问题。\n"
+   ],
+   [
+      "L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>\n",
+      "L<App::Greple::tee>, L<https://github.com/kaz-utashiro/App-Greple-tee>\n"
+   ],
+   [
+      "L<https://github.com/greymd/teip>\n",
+      "L<https://github.com/greymd/teip>\n"
+   ],
+   [
+      "L<App::Greple>, L<https://github.com/kaz-utashiro/greple>\n",
+      "L<App::Greple>, L<https://github.com/kaz-utashiro/greple>\n"
+   ],
+   [
+      "L<https://github.com/tecolicom/Greple>\n",
+      "L<https://github.com/tecolicom/Greple>\n"
+   ],
+   [
+      "L<App::Greple::xlate>\n",
+      "L<App::Greple::xlate>\n"
+   ],
+   [
+      "L<App::ansifold>, L<https://github.com/tecolicom/App-ansifold>\n",
+      "L<App::ansifold>, L<https://github.com/tecolicom/App-ansifold>\n"
+   ]
+]
