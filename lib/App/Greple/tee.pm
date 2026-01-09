@@ -239,7 +239,7 @@ Kazumasa Utashiro
 
 =head1 LICENSE
 
-Copyright © 2023-2025 Kazumasa Utashiro.
+Copyright © 2023-2026 Kazumasa Utashiro.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
@@ -252,21 +252,13 @@ our $VERSION = "1.02";
 
 use v5.24;
 use warnings;
+use experimental 'refaliasing';
 use Carp;
 use List::Util qw(sum first);
 use Text::ParseWords qw(shellwords);
 use App::cdif::Command;
 use Data::Dumper;
 use Getopt::EX::Config;
-
-our $command;
-our $blocks;
-our $discrete;
-our $fillup;
-our $debug;
-our $squeeze;
-our $bulkmode;
-our $crmode;
 
 my $config = Getopt::EX::Config->new(
     debug => 0,
@@ -278,6 +270,15 @@ my $config = Getopt::EX::Config->new(
     crmode => 0,
 );
 
+our $command;
+\our $debug    = \$config->{debug};
+\our $blocks   = \$config->{blocks};
+\our $discrete = \$config->{discrete};
+\our $fillup   = \$config->{fillup};
+\our $squeeze  = \$config->{squeeze};
+\our $bulkmode = \$config->{bulkmode};
+\our $crmode   = \$config->{crmode};
+
 my($mod, $argv);
 
 sub initialize {
@@ -288,28 +289,6 @@ sub initialize {
 	}
 	shift @$argv eq '--' or die;
     }
-}
-
-sub finalize {
-    my($mod, $argv) = @_;
-    $config->deal_with($argv,
-        "debug!",
-        "blocks!",
-        "discrete!",
-        "fillup!",
-        "squeeze!",
-        "bulkmode!",
-        "crmode!",
-    );
-    
-    # Update package variables from config
-    $debug = $config->{debug};
-    $blocks = $config->{blocks};
-    $discrete = $config->{discrete};
-    $fillup = $config->{fillup};
-    $squeeze = $config->{squeeze};
-    $bulkmode = $config->{bulkmode};
-    $crmode = $config->{crmode};
 }
 
 use Unicode::EastAsianWidth;
