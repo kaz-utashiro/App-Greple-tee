@@ -65,12 +65,16 @@ the result of executing the command are reverted back to the newline
 character. Thus, blocks consisting of multiple lines can be processed
 in batches without using the B<--discrete> option.
 
+This works well with L<ansifold> command's B<--crmode> option, which
+joins CR-separated text and outputs folded lines separated by CR.
+
 =item B<--fillup>
 
 Combine a sequence of non-blank lines into a single line before
 passing them to the filter command.  Newline characters between wide
-width characters are deleted, and other newline characters are
-replaced with spaces.
+width characters (Japanese, Chinese) are deleted, and other newline
+characters are replaced with spaces.  Korean (Hangul) is treated
+like ASCII text and joined with space.
 
 =item B<--squeeze>
 
@@ -172,9 +176,10 @@ Next command will find some indented part in LICENSE document.
          with your modifications.
 
 You can reformat this part by using B<tee> module with B<ansifold>
-command:
+command.  Using both B<--crmode> options together allows efficient
+processing of multi-line blocks:
 
-    greple -Mtee ansifold -rsw40 --prefix '     ' -- --discrete --re ...
+    greple -Mtee ansifold -sw40 --prefix '     ' --crmode -- --crmode --re ...
 
       a) distribute a Standard Version of
          the executables and library files,
@@ -186,16 +191,8 @@ command:
          machine-readable source of the
          Package with your modifications.
 
-The --discrete option will start multiple processes, so the process
-will take longer to execute.  So you can use C<--separate '\r'> option
-with C<ansifold> which produce single line using CR character instead
-of NL.
-
-    greple -Mtee ansifold -rsw40 --prefix '     ' --separate '\r' --
-
-Then convert CR char to NL after by L<tr(1)> command or some.
-
-    ... | tr '\r' '\n'
+The B<--discrete> option can also be used but will start multiple
+processes, so it takes longer to execute.
 
 =head1 EXAMPLE 3
 
@@ -234,10 +231,7 @@ L<https://github.com/tecolicom/Greple>
 
 L<App::Greple::xlate>
 
-=head1 BUGS
-
-The C<--fillup> option will remove spaces between Hangul characters when 
-concatenating Korean text.
+L<App::ansifold>, L<https://github.com/tecolicom/App-ansifold>
 
 =head1 AUTHOR
 
@@ -256,13 +250,14 @@ package App::Greple::tee;
 
 our $VERSION = "1.02";
 
-use v5.14;
+use v5.24;
 use warnings;
 use Carp;
 use List::Util qw(sum first);
 use Text::ParseWords qw(shellwords);
 use App::cdif::Command;
 use Data::Dumper;
+use Getopt::EX::Config;
 
 our $command;
 our $blocks;
@@ -272,6 +267,16 @@ our $debug;
 our $squeeze;
 our $bulkmode;
 our $crmode;
+
+my $config = Getopt::EX::Config->new(
+    debug => 0,
+    blocks => 0,
+    discrete => 0,
+    fillup => 0,
+    squeeze => 0,
+    bulkmode => 0,
+    crmode => 0,
+);
 
 my($mod, $argv);
 
@@ -285,11 +290,48 @@ sub initialize {
     }
 }
 
+sub finalize {
+    my($mod, $argv) = @_;
+    $config->deal_with($argv,
+        "debug!",
+        "blocks!",
+        "discrete!",
+        "fillup!",
+        "squeeze!",
+        "bulkmode!",
+        "crmode!",
+    );
+    
+    # Update package variables from config
+    $debug = $config->{debug};
+    $blocks = $config->{blocks};
+    $discrete = $config->{discrete};
+    $fillup = $config->{fillup};
+    $squeeze = $config->{squeeze};
+    $bulkmode = $config->{bulkmode};
+    $crmode = $config->{crmode};
+}
+
 use Unicode::EastAsianWidth;
+
+sub InConcatScript {
+    return <<"END";
++App::Greple::tee::InFullwidth
+-utf8::Hangul
+END
+}
+
+sub InFullwidthPunctuation {
+    return <<"END";
++App::Greple::tee::InFullwidth
+&utf8::Punctuation
+END
+}
 
 sub fillup_block {
     (my $s1, local $_, my $s2) = $_[0] =~ /\A(\s*)(.*?)(\s*)\z/s or die;
-    s/(?<=\p{InFullwidth})\n(?=\p{InFullwidth})//g;
+    s/(?<=\p{InFullwidthPunctuation})\n//g;
+    s/(?<=\p{InConcatScript})\n(?=\p{InConcatScript})//g;
     s/\s+/ /g;
     $s1 . $_ . $s2;
 }
