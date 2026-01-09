@@ -324,7 +324,7 @@ sub fillup_block {
     (my $s1, local $_, my $s2) = $_[0] =~ /\A(\s*)(.*?)(\s*)\z/s or die;
     s/(?<=\p{InFullwidthPunctuation})\n//g;
     s/(?<=\p{InConcatScript})\n(?=\p{InConcatScript})//g;
-    s/\s+/ /g;
+    s/[ ]*\n[ ]*/ /g;
     $s1 . $_ . $s2;
 }
 
