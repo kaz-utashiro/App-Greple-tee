@@ -43,10 +43,15 @@
             "App::Greple" : "9.22",
             "App::Greple::L" : "1.01",
             "Command::Run" : "0.9901",
-            "Getopt::EX" : "v2.2.1",
+            "Getopt::EX" : "3.03",
             "Getopt::EX::Config" : "0",
             "Unicode::EastAsianWidth" : "0",
             "perl" : "v5.24.0"
+         },
+         "suggests" : {
+            "App::ansicolumn" : "1.50",
+            "App::ansifold" : "1.34",
+            "App::cat::v" : "1.05"
          }
       },
       "test" : {

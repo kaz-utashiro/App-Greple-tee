@@ -3,9 +3,13 @@ requires 'perl', 'v5.24';
 requires 'App::Greple', '9.22';
 requires 'App::Greple::L', '1.01';
 requires 'Command::Run', '0.9901';
-requires 'Getopt::EX', 'v2.2.1';
+requires 'Getopt::EX', '3.03';
 requires 'Getopt::EX::Config';
 requires 'Unicode::EastAsianWidth';
+
+suggests 'App::ansifold', '1.34';
+suggests 'App::ansicolumn', '1.50';
+suggests 'App::cat::v', '1.05';
 
 on 'test' => sub {
     requires 'Test::More', '0.98';
