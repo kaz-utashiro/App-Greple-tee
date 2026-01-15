@@ -5,6 +5,7 @@ requires 'App::Greple::L', '1.01';
 requires 'Command::Run', '0.9901';
 requires 'Getopt::EX', 'v2.2.1';
 requires 'Getopt::EX::Config';
+requires 'Unicode::EastAsianWidth';
 
 on 'test' => sub {
     requires 'Test::More', '0.98';

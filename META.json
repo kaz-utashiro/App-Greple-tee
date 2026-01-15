@@ -45,6 +45,7 @@
             "Command::Run" : "0.9901",
             "Getopt::EX" : "v2.2.1",
             "Getopt::EX::Config" : "0",
+            "Unicode::EastAsianWidth" : "0",
             "perl" : "v5.24.0"
          }
       },
