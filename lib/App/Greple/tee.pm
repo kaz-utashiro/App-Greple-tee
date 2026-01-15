@@ -269,9 +269,10 @@ use experimental 'refaliasing';
 use Carp;
 use List::Util qw(sum first);
 use Text::ParseWords qw(shellwords);
-use App::cdif::Command;
+use Command::Run;
 use Data::Dumper;
 use Getopt::EX::Config;
+use App::Greple::tee::Autoload qw(resolve);
 
 my $config = Getopt::EX::Config->new(
     debug => 0,
@@ -281,6 +282,7 @@ my $config = Getopt::EX::Config->new(
     squeeze => 0,
     bulkmode => 0,
     crmode => 0,
+    use => '',
 );
 
 our $command;
@@ -301,6 +303,14 @@ sub initialize {
 	    $command = \@command;
 	}
 	shift @$argv eq '--' or die;
+    }
+}
+
+sub finalize {
+    ($mod, $argv) = @_;
+    for my $mod (grep length, split /,/, $config->{use}) {
+	eval "require $mod; $mod->import()";
+	die $@ if $@;
     }
 }
 
@@ -336,14 +346,20 @@ sub fillup_paragraphs {
 sub call {
     my $data = shift;
     $command // return $data;
-    my $exec = App::cdif::Command->new;
+    my $exec = Command::Run->new;
     if ($discrete and $fillup) {
 	fillup_paragraphs $data;
     }
     if (ref $command ne 'ARRAY') {
 	$command = [ shellwords $command ];
     }
-    my $out = $exec->command($command)->setstdin($data)->update->data // '';
+    my @command = @$command;
+    # Resolve &function to code reference
+    if (@command and $command[0] =~ /^&(.+)/) {
+	shift @command;
+	unshift @command, resolve($1);
+    }
+    my $out = $exec->command(@command)->with(stdin => $data)->update->data // '';
     if ($squeeze) {
 	$out =~ s/\n\n+/\n/g;
     }

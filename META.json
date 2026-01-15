@@ -42,7 +42,7 @@
          "requires" : {
             "App::Greple" : "9.22",
             "App::Greple::L" : "1.01",
-            "App::sdif" : "4.35",
+            "Command::Run" : "0.9901",
             "Getopt::EX" : "v2.2.1",
             "Getopt::EX::Config" : "0",
             "perl" : "v5.24.0"
