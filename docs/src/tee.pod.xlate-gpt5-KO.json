@@ -72,6 +72,54 @@
       "사용 가능한 매개변수: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>.\n"
    ],
    [
+      "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",
+      "외부 명령 대신, 명령 이름 앞에 C<&>를 붙여 Perl 함수를 호출할 수 있습니다.\n"
+   ],
+   [
+      "The function is executed in a forked child process, so it must follow these requirements:\n",
+      "함수는 fork된 자식 프로세스에서 실행되므로 다음 요구 사항을 따라야 합니다:\n"
+   ],
+   [
+      "Read matched text from B<STDIN>\n",
+      "일치한 텍스트를 B<STDIN>에서 읽습니다\n"
+   ],
+   [
+      "Print converted result to B<STDOUT>\n",
+      "변환된 결과를 B<STDOUT>에 출력합니다\n"
+   ],
+   [
+      "Arguments are passed via both C<@ARGV> and C<@_>\n",
+      "인수는 C<@ARGV>와 C<@_>를 통해 모두 전달됩니다\n"
+   ],
+   [
+      "Any fully qualified function name can be used:\n",
+      "완전히 한정된 함수 이름이라면 어떤 것이든 사용할 수 있습니다:\n"
+   ],
+   [
+      "The module is automatically loaded if not already loaded.\n",
+      "모듈이 아직 로드되지 않았다면 자동으로 로드됩니다.\n"
+   ],
+   [
+      "For convenience, the following short aliases are available:\n",
+      "편의를 위해 다음의 짧은 별칭을 사용할 수 있습니다:\n"
+   ],
+   [
+      "Calls C<App::ansicolumn::ansicolumn>.\n",
+      "C<App::ansicolumn::ansicolumn>를 호출합니다.\n"
+   ],
+   [
+      "Calls C<App::ansifold::ansifold>.\n",
+      "C<App::ansifold::ansifold>를 호출합니다.\n"
+   ],
+   [
+      "Calls C<App::cat::v-E<gt>new-E<gt>run(@_)>.\n",
+      "C<App::cat::v-E<gt>new-E<gt>run(@_)>를 호출합니다.\n"
+   ],
+   [
+      "Using a function call avoids the overhead of forking an external process for each invocation, which can significantly improve performance when used with the B<--discrete> option.\n",
+      "함수 호출을 사용하면 각 호출마다 외부 프로세스를 fork하는 오버헤드를 피할 수 있으므로, B<--discrete> 옵션과 함께 사용할 때 성능을 크게 향상시킬 수 있습니다.\n"
+   ],
+   [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
       "B<greple>에 B<--stretch> (B<-S>) 옵션이 구현됨에 따라 B<--blocks> 옵션은 더 이상 필요하지 않습니다. 다음과 같이 간단히 수행할 수 있습니다.\n"
    ],

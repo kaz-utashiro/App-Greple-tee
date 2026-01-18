@@ -72,6 +72,54 @@
       "可用的参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>。\n"
    ],
    [
+      "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",
+      "您可以通过在命令名前加上 C<&> 来调用 Perl 函数，而不是外部命令。\n"
+   ],
+   [
+      "The function is executed in a forked child process, so it must follow these requirements:\n",
+      "该函数在派生的子进程中执行，因此必须遵循以下要求：\n"
+   ],
+   [
+      "Read matched text from B<STDIN>\n",
+      "从 B<STDIN> 读取匹配的文本\n"
+   ],
+   [
+      "Print converted result to B<STDOUT>\n",
+      "将转换后的结果打印到 B<STDOUT>\n"
+   ],
+   [
+      "Arguments are passed via both C<@ARGV> and C<@_>\n",
+      "参数通过 C<@ARGV> 和 C<@_> 同时传递\n"
+   ],
+   [
+      "Any fully qualified function name can be used:\n",
+      "可以使用任何完全限定的函数名：\n"
+   ],
+   [
+      "The module is automatically loaded if not already loaded.\n",
+      "如果模块尚未加载，将自动加载。\n"
+   ],
+   [
+      "For convenience, the following short aliases are available:\n",
+      "为方便起见，提供以下简短别名：\n"
+   ],
+   [
+      "Calls C<App::ansicolumn::ansicolumn>.\n",
+      "调用 C<App::ansicolumn::ansicolumn>。\n"
+   ],
+   [
+      "Calls C<App::ansifold::ansifold>.\n",
+      "调用 C<App::ansifold::ansifold>。\n"
+   ],
+   [
+      "Calls C<App::cat::v-E<gt>new-E<gt>run(@_)>.\n",
+      "调用 C<App::cat::v-E<gt>new-E<gt>run(@_)>。\n"
+   ],
+   [
+      "Using a function call avoids the overhead of forking an external process for each invocation, which can significantly improve performance when used with the B<--discrete> option.\n",
+      "使用函数调用可避免每次调用都为外部进程派生所带来的开销，当与 B<--discrete> 选项一起使用时，可显著提升性能。\n"
+   ],
+   [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
       "由于 B<greple> 中已实现 B<--stretch>（B<-S>）选项，B<--blocks> 选项已不再需要。你只需进行如下操作即可。\n"
    ],

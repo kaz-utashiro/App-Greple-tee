@@ -72,6 +72,54 @@
       "利用可能なパラメータは B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks> です。\n"
    ],
    [
+      "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",
+      "外部コマンドの代わりに、コマンド名の前にC<&>を付けることでPerl関数を呼び出せます。\n"
+   ],
+   [
+      "The function is executed in a forked child process, so it must follow these requirements:\n",
+      "関数はフォークされた子プロセスで実行されるため、次の要件に従う必要があります:\n"
+   ],
+   [
+      "Read matched text from B<STDIN>\n",
+      "一致したテキストをB<STDIN>から読み込む\n"
+   ],
+   [
+      "Print converted result to B<STDOUT>\n",
+      "変換結果をB<STDOUT>へ出力する\n"
+   ],
+   [
+      "Arguments are passed via both C<@ARGV> and C<@_>\n",
+      "引数はC<@ARGV>およびC<@_>の両方で渡される\n"
+   ],
+   [
+      "Any fully qualified function name can be used:\n",
+      "任意の完全修飾関数名を使用できます:\n"
+   ],
+   [
+      "The module is automatically loaded if not already loaded.\n",
+      "モジュールは未ロードの場合、自動的にロードされます。\n"
+   ],
+   [
+      "For convenience, the following short aliases are available:\n",
+      "便宜のため、以下の短いエイリアスが利用可能です:\n"
+   ],
+   [
+      "Calls C<App::ansicolumn::ansicolumn>.\n",
+      "C<App::ansicolumn::ansicolumn>を呼び出します。\n"
+   ],
+   [
+      "Calls C<App::ansifold::ansifold>.\n",
+      "C<App::ansifold::ansifold>を呼び出します。\n"
+   ],
+   [
+      "Calls C<App::cat::v-E<gt>new-E<gt>run(@_)>.\n",
+      "C<App::cat::v-E<gt>new-E<gt>run(@_)>を呼び出します。\n"
+   ],
+   [
+      "Using a function call avoids the overhead of forking an external process for each invocation, which can significantly improve performance when used with the B<--discrete> option.\n",
+      "関数呼び出しを使用すると、呼び出しごとに外部プロセスをフォークするオーバーヘッドを回避でき、B<--discrete>オプションと併用した場合にパフォーマンスを大幅に向上させることができます。\n"
+   ],
+   [
       "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
       "B<greple> に B<--stretch>（B<-S>）オプションが実装されたため、B<--blocks> オプションは不要になりました。次のように簡単に実行できます。\n"
    ],
