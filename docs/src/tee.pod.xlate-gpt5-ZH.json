@@ -68,8 +68,8 @@
       "这在与 shell 别名或模块文件结合时很有用。\n"
    ],
    [
-      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>.\n",
-      "可用的参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>。\n"
+      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.\n",
+      "可用参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>、B<nofork>。\n"
    ],
    [
       "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",

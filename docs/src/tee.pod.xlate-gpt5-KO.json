@@ -68,8 +68,8 @@
       "셸 별칭이나 모듈 파일과 함께 사용하면 유용합니다.\n"
    ],
    [
-      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>.\n",
-      "사용 가능한 매개변수: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>.\n"
+      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.\n",
+      "사용 가능한 매개변수: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.\n"
    ],
    [
       "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",

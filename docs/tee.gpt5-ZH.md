@@ -8,7 +8,7 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 
 # VERSION
 
-Version 1.0401
+Version 1.05
 
 # DESCRIPTION
 
@@ -72,7 +72,7 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
 
 这在与 shell 别名或模块文件结合时很有用。
 
-可用的参数有：**discrete**、**bulkmode**、**crmode**、**fillup**、**squeeze**、**blocks**。
+可用参数有：**discrete**、**bulkmode**、**crmode**、**fillup**、**squeeze**、**blocks**、**nofork**。
 
 # FUNCTION CALL
 

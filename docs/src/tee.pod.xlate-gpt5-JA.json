@@ -68,8 +68,8 @@
       "これはシェルのエイリアスやモジュールファイルと組み合わせると便利です。\n"
    ],
    [
-      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>.\n",
-      "利用可能なパラメータは B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks> です。\n"
+      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.\n",
+      "利用可能なパラメータは次のとおりです: B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>、B<nofork>。\n"
    ],
    [
       "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",

@@ -10,7 +10,7 @@ App::Greple::tee - マッチしたテキストを外部コマンドの結果で�
 
 =head1 VERSION
 
-Version 1.0401
+Version 1.05
 
 =head1 DESCRIPTION
 
@@ -78,7 +78,7 @@ B<-ML> モジュールを使って、次のように偶数行のみを処理す�
 
 これはシェルのエイリアスやモジュールファイルと組み合わせると便利です。
 
-利用可能なパラメータは B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks> です。
+利用可能なパラメータは次のとおりです: B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>、B<nofork>。
 
 =head1 FUNCTION CALL
 

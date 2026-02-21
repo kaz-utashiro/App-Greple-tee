@@ -10,7 +10,7 @@ App::Greple::tee - 외부 명령 결과로 일치한 텍스트를 대체하는 �
 
 =head1 VERSION
 
-Version 1.0401
+Version 1.05
 
 =head1 DESCRIPTION
 
@@ -78,7 +78,7 @@ B<-ML> 모듈을 사용하여 다음과 같이 짝수 줄만 처리할 수도 �
 
 셸 별칭이나 모듈 파일과 함께 사용하면 유용합니다.
 
-사용 가능한 매개변수: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>.
+사용 가능한 매개변수: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.
 
 =head1 FUNCTION CALL
 

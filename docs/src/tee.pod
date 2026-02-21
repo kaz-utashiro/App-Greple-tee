@@ -10,7 +10,7 @@ App::Greple::tee - module to replace matched text by the external command result
 
 =head1 VERSION
 
-Version 1.0401
+Version 1.05
 
 =head1 DESCRIPTION
 
@@ -105,7 +105,7 @@ the following syntax:
 This is useful when combined with shell aliases or module files.
 
 Available parameters are: B<discrete>, B<bulkmode>, B<crmode>,
-B<fillup>, B<squeeze>, B<blocks>.
+B<fillup>, B<squeeze>, B<blocks>, B<nofork>.
 
 =head1 FUNCTION CALL
 

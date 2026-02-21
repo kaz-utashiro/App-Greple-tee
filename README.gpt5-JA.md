@@ -8,7 +8,7 @@ App::Greple::tee - マッチしたテキストを外部コマンドの結果で�
 
 # VERSION
 
-Version 1.0401
+Version 1.05
 
 # DESCRIPTION
 
@@ -72,7 +72,7 @@ Greple の **-Mtee** モジュールは、マッチしたテキスト部分を�
 
 これはシェルのエイリアスやモジュールファイルと組み合わせると便利です。
 
-利用可能なパラメータは **discrete**, **bulkmode**, **crmode**, **fillup**, **squeeze**, **blocks** です。
+利用可能なパラメータは次のとおりです: **discrete**、**bulkmode**、**crmode**、**fillup**、**squeeze**、**blocks**、**nofork**。
 
 # FUNCTION CALL
 

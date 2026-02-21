@@ -8,7 +8,7 @@ App::Greple::tee - 외부 명령 결과로 일치한 텍스트를 대체하는 �
 
 # VERSION
 
-Version 1.0401
+Version 1.05
 
 # DESCRIPTION
 
@@ -72,7 +72,7 @@ Greple의 **-Mtee** 모듈은 일치한 텍스트 부분을 지정한 필터 명
 
 셸 별칭이나 모듈 파일과 함께 사용하면 유용합니다.
 
-사용 가능한 매개변수: **discrete**, **bulkmode**, **crmode**, **fillup**, **squeeze**, **blocks**.
+사용 가능한 매개변수: **discrete**, **bulkmode**, **crmode**, **fillup**, **squeeze**, **blocks**, **nofork**.
 
 # FUNCTION CALL
 

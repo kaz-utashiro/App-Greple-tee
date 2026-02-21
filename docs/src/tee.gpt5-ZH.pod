@@ -10,7 +10,7 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 
 =head1 VERSION
 
-Version 1.0401
+Version 1.05
 
 =head1 DESCRIPTION
 
@@ -78,7 +78,7 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 这在与 shell 别名或模块文件结合时很有用。
 
-可用的参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>。
+可用参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>、B<nofork>。
 
 =head1 FUNCTION CALL
 
