@@ -105,7 +105,7 @@ the following syntax:
 This is useful when combined with shell aliases or module files.
 
 Available parameters are: B<discrete>, B<bulkmode>, B<crmode>,
-B<fillup>, B<squeeze>, B<blocks>.
+B<fillup>, B<squeeze>, B<blocks>, B<nofork>.
 
 =head1 FUNCTION CALL
 
@@ -336,6 +336,7 @@ my $config = Getopt::EX::Config->new(
     squeeze => 0,
     bulkmode => 0,
     crmode => 0,
+    nofork => 1,
     use => '',
 );
 
@@ -347,6 +348,7 @@ our $command;
 \our $squeeze  = \$config->{squeeze};
 \our $bulkmode = \$config->{bulkmode};
 \our $crmode   = \$config->{crmode};
+\our $nofork   = \$config->{nofork};
 
 my($mod, $argv);
 
@@ -413,7 +415,12 @@ sub call {
 	shift @command;
 	unshift @command, resolve($1);
     }
-    my $out = $exec->command(@command)->with(stdin => $data)->update->data // '';
+    my %run_opt = (stdin => $data);
+    if ($config->{nofork} and ref $command[0] eq 'CODE') {
+	$run_opt{nofork} = 1;
+	$run_opt{raw} = 1;
+    }
+    my $out = $exec->command(@command)->with(%run_opt)->update->data // '';
     if ($squeeze) {
 	$out =~ s/\n\n+/\n/g;
     }
@@ -497,6 +504,7 @@ builtin bulkmode! $bulkmode
 builtin crmode!   $crmode
 builtin fillup!   $fillup
 builtin squeeze   $squeeze
+builtin nofork!   $nofork
 
 option default \
 	--postgrep &__PACKAGE__::postgrep \

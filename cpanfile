@@ -2,7 +2,7 @@ requires 'perl', 'v5.24';
 
 requires 'App::Greple', '10.02';
 requires 'App::Greple::L', '1.01';
-requires 'Command::Run', '0.9902';
+requires 'Command::Run', '0.9903';
 requires 'Getopt::EX', '3.03';
 requires 'Getopt::EX::Config';
 requires 'Unicode::EastAsianWidth';

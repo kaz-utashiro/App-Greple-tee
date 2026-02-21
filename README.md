@@ -100,7 +100,7 @@ the following syntax:
 This is useful when combined with shell aliases or module files.
 
 Available parameters are: **discrete**, **bulkmode**, **crmode**,
-**fillup**, **squeeze**, **blocks**.
+**fillup**, **squeeze**, **blocks**, **nofork**.
 
 # FUNCTION CALL
 
