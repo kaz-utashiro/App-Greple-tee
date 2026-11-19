@@ -307,6 +307,7 @@ my $config = Getopt::EX::Config->new(
     nofork => 1,
     use => '',
 );
+$config->configure('require_order');
 
 our $command;
 \our $debug    = \$config->{debug};
@@ -317,20 +318,41 @@ our $command;
 \our $crmode   = \$config->{crmode};
 \our $nofork   = \$config->{nofork};
 
+my %MODE = (
+    'discrete!' => 'discrete',
+    'bulkmode!' => 'bulkmode',
+    'crmode!'   => 'crmode',
+    'fillup!'   => 'fillup',
+    'squeeze!'  => 'squeeze',
+    'nofork!'   => 'nofork',
+);
+
+my @filter;
+
+sub opt {
+    my($f, $key) = @_;
+    $f->{$key} // $config->{$key};
+}
+
 my($mod, $argv);
 
 sub initialize {
     ($mod, $argv) = @_;
-    if (defined (my $i = first { $argv->[$_] eq '--' } keys @$argv)) {
-	if (my @command = splice @$argv, 0, $i) {
-	    $command = \@command;
-	}
-	shift @$argv eq '--' or die;
-    }
 }
 
 sub finalize {
     ($mod, $argv) = @_;
+    my %f;
+    my $before = @$argv;
+    $config->deal_with($argv, map { $_ => \$f{$MODE{$_}} } keys %MODE);
+    if (@$argv != $before) {
+	$f{command} = [ $config->argv ];
+	@filter = (\%f);
+    }
+    $mod->setopt(default => [
+	'--postgrep', '&App::Greple::tee::postgrep',
+	'--callback', '&App::Greple::tee::callback',
+    ]);
     for my $mod (grep length, split /,/, $config->{use}) {
 	eval "require $mod; $mod->import()";
 	die $@ if $@;
@@ -367,41 +389,38 @@ sub fillup_paragraphs {
 }
 
 sub call {
-    my $data = shift;
-    $command // return $data;
+    my($f, $data) = @_;
+    my @command = @{ $f->{command} // [] } or return $data;
     my $exec = Command::Run->new;
-    if ($discrete and $fillup) {
+    if (opt($f, 'discrete') and opt($f, 'fillup')) {
 	fillup_paragraphs $data;
     }
-    if (ref $command ne 'ARRAY') {
-	$command = [ shellwords $command ];
-    }
-    my @command = @$command;
     # Resolve &function to code reference
     if (@command and $command[0] =~ /^&(.+)/) {
 	shift @command;
 	unshift @command, resolve($1);
     }
     my %run_opt = (stdin => $data);
-    if ($config->{nofork} and ref $command[0] eq 'CODE') {
+    if (opt($f, 'nofork') and ref $command[0] eq 'CODE') {
 	$run_opt{nofork} = 1;
 	$run_opt{raw} = 1;
     }
     my $out = $exec->command(@command)->with(%run_opt)->update->data // '';
-    if ($squeeze) {
+    if (opt($f, 'squeeze')) {
 	$out =~ s/\n\n+/\n/g;
     }
     $out;
 }
 
 sub bundle_call {
-    if ($fillup) {
+    my $f = shift;
+    if (opt($f, 'fillup')) {
 	fillup_paragraphs for @_;
     }
     my @chop = grep { $_[$_] =~ s/(?<!\n)\z/\n/ } keys @_;
     my @lines = map { int tr/\n/\n/ } @_;
     my $lines = sum @lines;
-    my $out = call join '', @_;
+    my $out = call $f, join '', @_;
     my @out = $out =~ /.*\n/g;
     if (@out < $lines) {
 	die "Unexpected short response:\n\n$out\n";
@@ -417,7 +436,8 @@ my @bundle;
 
 sub postgrep {
     my $grep = shift;
-    return if $discrete and not $bulkmode;
+    my $f = $filter[0] // {};
+    return if opt($f, 'discrete') and not opt($f, 'bulkmode');
     @bundle = my @block = ();
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
@@ -426,26 +446,27 @@ sub postgrep {
 	}
     }
 
-    if ($crmode) {
+    if (opt($f, 'crmode')) {
 	s/\n(?!\z)/\r/g for @block;
     }
 
     @bundle = do {
-	if ($discrete) {
-	    map { call $_ } @block;
+	if (opt($f, 'discrete')) {
+	    map { call $f, $_ } @block;
 	} else {
-	    bundle_call @block;
+	    bundle_call $f, @block;
 	}
     } if @block;
 
-    if ($crmode) {
+    if (opt($f, 'crmode')) {
 	s/\r/\n/g for @bundle;
     }
 }
 
 sub callback {
-    if ($discrete and not $bulkmode) {
-	call { @_ }->{match};
+    my $f = $filter[0] // {};
+    if (opt($f, 'discrete') and not opt($f, 'bulkmode')) {
+	call $f, { @_ }->{match};
     }
     else {
 	shift @bundle // die;
@@ -463,10 +484,6 @@ builtin crmode!   $crmode
 builtin fillup!   $fillup
 builtin squeeze   $squeeze
 builtin nofork!   $nofork
-
-option default \
-	--postgrep &__PACKAGE__::postgrep \
-	--callback &__PACKAGE__::callback
 
 option --tee-each --discrete
 
