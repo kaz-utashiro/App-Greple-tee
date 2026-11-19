@@ -31,4 +31,60 @@ subtest 'legacy parsing' => sub {
     my $r = greple('-Mtee', 'perl', '-pE', 's/^\h+/X/', '--', '-E', '^\h+a\n', '--filter')->setstdin("  a\n")->run;
     is($r->stdout, "Xa\n", 'argument with \h is passed as is');
 };
+my $TWO = "-Mtee -E foo $UP -- -Mtee -E qux $LT --";
+subtest 'two filters' => sub {
+    my($o) = tee("$TWO --filter $IN");
+    is($o, "FOO only\n<qux only\nFOO and <qux\nnone\n", 'each pattern gets its filter (OR)');
+    ($o) = tee("-Mtee -E qux $LT -- -Mtee -E foo $UP -- --filter $IN");
+    is($o, "FOO only\n<qux only\nFOO and <qux\nnone\n", 'order swapped');
+    ($o) = tee("$TWO $IN");
+    is($o, "FOO only\n<qux only\nFOO and <qux\n", '--need=1 is implied');
+    ($o) = tee("$TWO --need=2 $IN");
+    is($o, "FOO and <qux\n", 'user --need overrides');
+    ($o) = tee("$TWO -h --filter $IN $IN");
+    is($o, "FOO only\n<qux only\nFOO and <qux\nnone\n" x 2, 'multiple files');
+};
+subtest 'three filters, several patterns' => sub {
+    my($o) = tee("-Mtee -E foo -E none $UP -- -Mtee -E qux $LT -- -Mtee -E only 'sed s/o/0/g' -- --filter $IN");
+    is($o, "FOO 0nly\n<qux 0nly\nFOO and <qux\nNONE\n", 'patterns grouped per filter');
+};
+subtest 'empty command' => sub {
+    my($o) = tee("-Mtee -E foo $UP -- -Mtee -E qux -- $IN");
+    is($o, "FOO only\nqux only\nFOO and qux\n", 'empty command selects without change');
+};
+my $ONLY = q('^.*only\n');
+my $REST = q('^.*and.*\n|^none\n');
+subtest 'per-filter modes' => sub {
+    my($o) = tee("-Mtee --discrete -E $ONLY 'cat -n' -- -Mtee -E $REST 'cat -n' -- --filter $IN");
+    like($o, qr/\A\s+1\tfoo only\n\s+1\tqux only\n\s+1\tfoo and qux\n\s+2\tnone\n\z/, 'discrete for the first filter, bundled for the second');
+    ($o) = tee("-Mtee -E $ONLY 'cat -n' -- -Mtee --discrete -E $REST 'cat -n' -- --filter $IN");
+    like($o, qr/\A\s+1\tfoo only\n\s+2\tqux only\n\s+1\tfoo and qux\n\s+1\tnone\n\z/, 'discrete does not leak to the other filter');
+    ($o) = tee("-Mtee -E $ONLY 'cat -n' -- -Mtee --no-discrete -E $REST 'cat -n' -- --discrete --filter $IN");
+    like($o, qr/\A\s+1\tfoo only\n\s+1\tqux only\n\s+1\tfoo and qux\n\s+2\tnone\n\z/, '--no-discrete overrides global --discrete');
+    ($o) = tee("-Mtee::config(discrete=1) -E $ONLY 'cat -n' -- --filter $IN");
+    like($o, qr/\A\s+1\tfoo only\n\s+1\tqux only\n/, 'inherits ::config');
+    ($o) = tee("-Mtee::config(discrete=1) -Mtee -E $ONLY 'cat -n' -- --filter $IN");
+    like($o, qr/\A\s+1\tfoo only\n\s+1\tqux only\n/, 'config-only -Mtee followed by new form');
+};
+subtest 'crmode' => sub {
+    my $r = greple('-Mtee', '--crmode', '-E', '(?s)a\nb\n', 'perl', '-pE', 's/\r/+/g', '--',
+                   '-Mtee', '-E', 'foo', 'tr', 'a-z', 'A-Z', '--', '--filter')->setstdin("a\nb\nfoo\n")->run;
+    is($r->stdout, "a+b\nFOO\n", 'crmode only for the first filter');
+};
+subtest 'overlap and adjacency' => sub {
+    my($o) = tee("-Mtee -E 'foo and' $UP -- -Mtee -E 'and qux' $LT -- --filter $IN");
+    is((split /\n/, $o)[2], 'FOO AND QUX', 'overlap: merged region goes to the filter of the earlier match');
+    ($o) = tee("-Mtee -E foo $UP -- -Mtee -E ' and' $LT -- --filter $IN");
+    is((split /\n/, $o)[2], 'FOO< and qux', 'adjacent: both filters applied');
+};
+subtest 'no trailing newline' => sub {
+    my $r = greple('-Mtee', '-E', 'qux\z', 'tr', 'a-z', 'A-Z', '--',
+                   '-Mtee', '-E', 'foo', 'sed', 's/^/</', '--', '--filter')->setstdin("foo\nqux")->run;
+    is($r->stdout, "<foo\nQUX\n", 'match at EOF without newline (greple adds the final newline itself)');
+};
+subtest '&function filter' => sub {
+    plan skip_all => 'App::ansifold not installed' unless eval { require App::ansifold; 1 };
+    my($o) = tee("-Mtee --discrete -E 'foo and qux' '&ansifold' -w4 -- -Mtee -E none $UP -- --filter $IN");
+    is($o, "foo only\nqux only\nfoo \nand \nqux\nNONE\n", '&function works per filter');
+};
 done_testing;

@@ -290,8 +290,8 @@ use v5.24;
 use warnings;
 use experimental 'refaliasing';
 use Carp;
-use List::Util qw(sum first);
-use Text::ParseWords qw(shellwords);
+use List::Util qw(sum);
+use Scalar::Util qw(refaddr);
 use Command::Run;
 use Data::Dumper;
 use Getopt::EX::Config;
@@ -309,7 +309,6 @@ my $config = Getopt::EX::Config->new(
 );
 $config->configure('require_order');
 
-our $command;
 \our $debug    = \$config->{debug};
 \our $discrete = \$config->{discrete};
 \our $fillup   = \$config->{fillup};
@@ -329,6 +328,11 @@ my %MODE = (
 
 my @filter;
 
+# number of patterns given in new form -Mtee, and number of legacy -Mtee
+our $own = 0;
+our $legacy = 0;
+our @PEND;
+
 sub opt {
     my($f, $key) = @_;
     $f->{$key} // $config->{$key};
@@ -343,15 +347,44 @@ sub initialize {
 sub finalize {
     ($mod, $argv) = @_;
     my %f;
+    my @emit;
+    my $n = @filter;
+    my $pattern = sub {
+	my $opt = shift;
+	sub {
+	    push @emit, $opt, "$_[1]",
+		'--callback', "&App::Greple::tee::callback(filter=$n)";
+	    $f{patterns}++;
+	};
+    };
     my $before = @$argv;
-    $config->deal_with($argv, map { $_ => \$f{$MODE{$_}} } keys %MODE);
+    $config->deal_with($argv,
+		       (map { $_ => \$f{$MODE{$_}} } keys %MODE),
+		       'E|re=s' => $pattern->('--re'),
+		       'e=s'    => $pattern->('-e'),
+		       'fe=s'   => $pattern->('--fe'),
+		       'le=s'   => $pattern->('--le'),
+		       'cm=s'   => sub { push @emit, '--cm', "$_[1]" },
+	);
     if (@$argv != $before) {
 	$f{command} = [ $config->argv ];
-	@filter = (\%f);
+	if ($f{patterns}) {
+	    push @filter, \%f;
+	    $own += $f{patterns};
+	} else {
+	    $legacy++;
+	    @filter = (\%f);
+	}
+    }
+    push @PEND, @emit;
+    if (@PEND and not (@$argv and $argv->[0] =~ /^-M/)) {
+	splice @$argv, 0, 0, '--need=1', @PEND;
+	@PEND = ();
     }
     $mod->setopt(default => [
 	'--postgrep', '&App::Greple::tee::postgrep',
-	'--callback', '&App::Greple::tee::callback',
+	$own ? ( @PEND ? ('--need=1', @PEND) : () )
+	     : ( '--callback', '&App::Greple::tee::callback' ),
     ]);
     for my $mod (grep length, split /,/, $config->{use}) {
 	eval "require $mod; $mod->import()";
@@ -433,9 +466,12 @@ sub bundle_call {
 }
 
 my @bundle;
+my %out;
+my $last_grep;
 
 sub postgrep {
     my $grep = shift;
+    return own_postgrep($grep) if $own;
     my $f = $filter[0] // {};
     return if opt($f, 'discrete') and not opt($f, 'bulkmode');
     @bundle = my @block = ();
@@ -463,10 +499,54 @@ sub postgrep {
     }
 }
 
+# new form: process the matches of each filter, keyed by match start
+sub own_postgrep {
+    my $grep = shift;
+    # postgrep may be called more than once for the same grep object
+    # (through alias options).  Keep the reference so that the address
+    # is not reused by the next object.
+    return if $last_grep and refaddr $last_grep == refaddr $grep;
+    $last_grep = $grep;
+    %out = ();
+    my %group;
+    for my $r ($grep->result) {
+	my($b, @match) = @$r;
+	for my $m (@match) {
+	    my $cb = $m->[3] or next;
+	    my $n = $cb->call(query => 1);
+	    push @{$group{$n}}, [ $m->[0], $grep->cut(@$m[0,1]) ];
+	}
+    }
+    for my $n (keys %group) {
+	my $f = $filter[$n] // die "tee: unknown filter $n\n";
+	my @start = map { $_->[0] } @{$group{$n}};
+	my @block = map { $_->[1] } @{$group{$n}};
+	my @result = do {
+	    if (not @{ $f->{command} // [] }) {
+		@block;
+	    } elsif (opt($f, 'discrete')) {
+		map { call $f, $_ } @block;
+	    } else {
+		my $cr = opt($f, 'crmode');
+		if ($cr) { s/\n(?!\z)/\r/g for @block }
+		my @r = bundle_call $f, @block;
+		if ($cr) { s/\r/\n/g for @r }
+		@r;
+	    }
+	};
+	@out{@start} = @result;
+    }
+}
+
 sub callback {
+    my %arg = @_;
+    if (exists $arg{filter}) {
+	return $arg{filter} if $arg{query};
+	return $out{$arg{start}};
+    }
     my $f = $filter[0] // {};
     if (opt($f, 'discrete') and not opt($f, 'bulkmode')) {
-	call $f, { @_ }->{match};
+	call $f, $arg{match};
     }
     else {
 	shift @bundle // die;
