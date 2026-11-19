@@ -105,7 +105,7 @@ the following syntax:
 This is useful when combined with shell aliases or module files.
 
 Available parameters are: B<discrete>, B<bulkmode>, B<crmode>,
-B<fillup>, B<squeeze>, B<blocks>, B<nofork>.
+B<fillup>, B<squeeze>, B<nofork>.
 
 =head1 FUNCTION CALL
 
@@ -163,42 +163,11 @@ performance when used with the B<--discrete> option.
 
 =head1 LEGACIES
 
-The B<--blocks> option is no longer needed now that the B<--stretch>
-(B<-S>) option has been implemented in B<greple>.  You can simply
-perform the following.
+The B<--blocks> option has been removed.  It is no longer needed now that
+the B<--stretch> (B<-S>) option has been implemented in B<greple>.
+Use the following instead.
 
     greple -Mtee cat -n -- --all -SE foo
-
-It is not recommended to use B<--blocks> as it may be deprecated in
-the future.
-
-
-=over 7
-
-=item B<--blocks>
-
-Normally, the area matching the specified search pattern is sent to
-the external command. If this option is specified, not the matched
-area but the entire block containing it will be processed.
-
-For example, to send lines containing the pattern C<foo> to the
-external command, you need to specify the pattern which matches to
-entire line:
-
-    greple -Mtee cat -n -- '^.*foo.*\n' --all
-
-But with the B<--blocks> option, it can be done as simply as follows:
-
-    greple -Mtee cat -n -- foo --blocks
-
-With B<--blocks> option, this module behave more like L<teip(1)>'s
-B<-g> option.  Otherwise, the behavior is similar to L<teip(1)> with
-the B<-o> option.
-
-Do not use the B<--blocks> with the B<--all> option, since the block
-will be the entire data.
-
-=back
 
 =head1 WHY DO NOT USE TEIP
 
@@ -330,7 +299,6 @@ use App::Greple::tee::Autoload qw(resolve);
 
 my $config = Getopt::EX::Config->new(
     debug => 0,
-    blocks => 0,
     discrete => 0,
     fillup => 0,
     squeeze => 0,
@@ -342,7 +310,6 @@ my $config = Getopt::EX::Config->new(
 
 our $command;
 \our $debug    = \$config->{debug};
-\our $blocks   = \$config->{blocks};
 \our $discrete = \$config->{discrete};
 \our $fillup   = \$config->{fillup};
 \our $squeeze  = \$config->{squeeze};
@@ -450,14 +417,6 @@ my @bundle;
 
 sub postgrep {
     my $grep = shift;
-    if ($blocks) {
-	$grep->{RESULT} = [
-	    [ [ 0, length ],
-	      map {
-		  [ $_->[0][0], $_->[0][1], 0, $grep->{callback}->[0] ]
-	      } $grep->result
-	    ] ];
-    }
     return if $discrete and not $bulkmode;
     @bundle = my @block = ();
     for my $r ($grep->result) {
@@ -498,7 +457,6 @@ sub callback {
 __DATA__
 
 builtin tee-debug $debug
-builtin blocks    $blocks
 builtin discrete! $discrete
 builtin bulkmode! $bulkmode
 builtin crmode!   $crmode

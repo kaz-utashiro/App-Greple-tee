@@ -1,0 +1,4 @@
+foo only
+qux only
+foo and qux
+none
