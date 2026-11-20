@@ -58,6 +58,9 @@ Invoke new command individually for every matched part.
 With the <--discrete> option, each command is executed on demand.  The
 <--bulkmode> option causes all conversions to be performed at once.
 
+This option has no effect in the new form of L</MULTIPLE FILTERS>,
+where the filters are always executed for all the matches at once.
+
 =item B<--crmode>
 
 This option replaces all newline characters in the middle of each
@@ -133,7 +136,8 @@ Mixing the two forms is an error.  A B<-Mtee> without arguments up to
 C<-->, such as the first half of C<-Mtee::config(...) -Mtee ...>, only
 sets the configuration and counts as neither form.
 
-The errors are detected before the first file is processed.
+The errors are detected when the first file is searched, before any
+output.
 
 =head2 Options inside -Mtee
 
@@ -202,7 +206,9 @@ The one specified after C<-->, or by B<-Mtee::config(...)>.
 In the new form, B<--need=1> is added automatically, so that a block
 which includes any one of the patterns is processed (OR).  Specify
 B<--need> after C<--> to override it; B<--need=2> brings back AND.  The
-legacy form works as before (AND).
+legacy form works as before (AND).  Put B<--need> after all the
+B<-Mtee> and the alias options that include B<-Mtee>, because each of
+them adds B<--need=1> again.
 
 =item *
 
@@ -213,6 +219,12 @@ text but the text is not changed.
 
 In the new form, a pattern outside B<-Mtee> is an error.  So is
 B<--callback> outside B<-Mtee>.
+
+=item *
+
+In the new form, a pattern given without an option after C<--> is not
+taken as a pattern, because there are patterns given by options.
+B<greple> takes it as a file name.
 
 =item *
 
@@ -250,11 +262,11 @@ B<--cm> for all the patterns when specifying colors.
 
 =item *
 
-If an alias option ends with C<-Mtee ... --> followed by another
-module, and another new form B<-Mtee> follows it, the patterns are
-passed twice and detected as "pattern outside -Mtee" error (it never
-shifts silently).  For example, C<option --x -Mtee -E foo cmd --
--Mcolors> followed by C<--y>.  The reverse order works.
+When another module follows B<-Mtee> (C<-Mtee -E PAT cmd -- -Mcolors>),
+the patterns are passed to B<greple> through the B<default> option of
+the module, and the expansion of the option definition, such as
+C<$ENV{NAME}> and C<__PACKAGE__>, applies to them.  Escaping them is
+not attempted.
 
 =back
 
@@ -455,7 +467,7 @@ use warnings;
 use experimental 'refaliasing';
 use Carp;
 use List::Util qw(sum);
-use Scalar::Util qw(refaddr);
+use Scalar::Util qw(refaddr blessed);
 use Command::Run;
 use Data::Dumper;
 use Getopt::EX::Config;
@@ -499,6 +511,8 @@ our $legacy = 0;
 # options waiting to be inserted, and number of patterns among them
 our @PEND;
 our $pend_patterns = 0;
+# argument list being processed when @PEND was left in default
+our $pend_argv;
 
 # --need=1 goes with the patterns of new form only
 sub pending {
@@ -555,6 +569,14 @@ sub finalize {
 	    @filter = (\%f);
 	}
     }
+    # Getopt::EX::Loader copies the default when it finishes an
+    # argument list (the command line, or an alias expansion).  If
+    # @PEND was left there while processing another list, it has been
+    # copied already, and inserting it again would duplicate it.
+    if (@PEND and refaddr $pend_argv != refaddr $argv) {
+	@PEND = ();
+	$pend_patterns = 0;
+    }
     push @PEND, @emit;
     $pend_patterns += $f{patterns} // 0;
     if (@PEND and not (@$argv and $argv->[0] =~ /^-M/)) {
@@ -562,12 +584,15 @@ sub finalize {
 	@PEND = ();
 	$pend_patterns = 0;
     }
+    # keep the reference so that the address is not reused
+    $pend_argv = @PEND ? $argv : undef;
     $mod->setopt(default => [
 	'--postgrep', '&App::Greple::tee::postgrep',
-	$own ? () : ( '--callback', '&App::Greple::tee::callback' ),
+	$legacy && !$own ? ( '--callback', '&App::Greple::tee::callback' ) : (),
 	@PEND ? pending() : (),
     ]);
-    for my $mod (grep length, split /,/, $config->{use}) {
+    state %used;
+    for my $mod (grep { length and not $used{$_}++ } split /,/, $config->{use}) {
 	eval "require $mod; $mod->import()";
 	die $@ if $@;
     }
@@ -689,17 +714,17 @@ sub own_postgrep {
     return if $last_grep and refaddr $last_grep == refaddr $grep;
     $last_grep = $grep;
     die "tee: cannot mix -Mtee with and without patterns\n" if $legacy;
-    die "tee: pattern given outside -Mtee (put every pattern inside -Mtee ... --)\n"
-	if $grep->{pattern}->patterns != $own;
+    my @callback = @{ $grep->{callback} // [] };
     die "tee: --callback given outside -Mtee is not supported with patterns inside -Mtee\n"
-	if @{ $grep->{callback} // [] } != $own;
+	if grep { not defined filter_id($_) } @callback;
+    die "tee: pattern given outside -Mtee (put every pattern inside -Mtee ... --)\n"
+	if $grep->{pattern}->patterns != @callback;
     %out = ();
     my %group;
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
 	for my $m (@match) {
-	    my $cb = $m->[3] or next;
-	    my $n = $cb->call(query => 1);
+	    my $n = filter_id($m->[3]) // next;
 	    push @{$group{$n}}, [ $m->[0], $grep->cut(@$m[0,1]) ];
 	}
     }
@@ -710,12 +735,12 @@ sub own_postgrep {
 	my @result = do {
 	    if (not @{ $f->{command} // [] }) {
 		@block;
-	    } elsif (opt($f, 'discrete')) {
-		map { call $f, $_ } @block;
 	    } else {
 		my $cr = opt($f, 'crmode');
 		if ($cr) { s/\n(?!\z)/\r/g for @block }
-		my @r = bundle_call $f, @block;
+		my @r = opt($f, 'discrete')
+		    ? map { call $f, $_ } @block
+		    : bundle_call $f, @block;
 		if ($cr) { s/\r/\n/g for @r }
 		@r;
 	    }
@@ -724,10 +749,19 @@ sub own_postgrep {
     }
 }
 
+# filter number of tee's own new form callback, without calling it
+sub filter_id {
+    my $cb = shift;
+    blessed $cb and $cb->isa('Getopt::EX::Func') or return undef;
+    my($name, %arg) = @$cb;
+    return undef if ref $name or $name ne __PACKAGE__ . '::callback';
+    my $n = $arg{filter} // return undef;
+    $n =~ /^\d+\z/ and $filter[$n] ? $n : undef;
+}
+
 sub callback {
     my %arg = @_;
     if (exists $arg{filter}) {
-	return $arg{filter} if $arg{query};
 	return $out{$arg{start}};
     }
     my $f = $filter[0] // {};

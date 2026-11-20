@@ -71,6 +71,22 @@ subtest 'crmode' => sub {
                    '-Mtee', '-E', 'foo', 'tr', 'a-z', 'A-Z', '--', '--filter')->setstdin("a\nb\nfoo\n")->run;
     is($r->stdout, "a+b\nFOO\n", 'crmode only for the first filter');
 };
+subtest 'crmode with discrete' => sub {
+    my $r = greple('-Mtee', '--discrete', '--crmode', '-E', '(?s)a\nb\n', 'perl', '-pE', 's/\r/+/g', '--',
+                   '--filter')->setstdin("a\nb\n")->run;
+    is($r->stdout, "a+b\n", '--crmode works with --discrete inside -Mtee');
+    $r = greple('-Mtee', '-E', '(?s)a\nb\n', 'perl', '-pE', 's/\r/+/g', '--',
+                '--discrete', '--crmode', '--filter')->setstdin("a\nb\n")->run;
+    is($r->stdout, "a+b\n", '--crmode works with --discrete given after --');
+};
+subtest 'fillup and squeeze per filter' => sub {
+    my $r = greple('-Mtee', '--fillup', '-E', '(?s)a\nb\n', 'cat', '--',
+                   '-Mtee', '-E', '(?s)c\nd\n', 'cat', '--', '--filter')->setstdin("a\nb\n\nc\nd\n")->run;
+    is($r->stdout, "a b\n\nc\nd\n", '--fillup only for the first filter');
+    $r = greple('-Mtee', '--discrete', '--squeeze', '-E', '(?s)a\n\n\nb\n', 'cat', '--',
+                '-Mtee', '--discrete', '-E', '(?s)c\n\n\nd\n', 'cat', '--', '--filter')->setstdin("a\n\n\nb\nc\n\n\nd\n")->run;
+    is($r->stdout, "a\nb\nc\n\n\nd\n", '--squeeze only for the first filter');
+};
 subtest 'overlap and adjacency' => sub {
     my($o) = tee("-Mtee -E 'foo and' $UP -- -Mtee -E 'and qux' $LT -- --filter $IN");
     is((split /\n/, $o)[2], 'FOO AND QUX', 'overlap: merged region goes to the filter of the earlier match');
@@ -104,6 +120,7 @@ subtest 'errors' => sub {
         [ "-Mtee -E foo $UP -- -E qux $IN",                       qr/outside/i, 'pattern outside -Mtee' ],
         [ "-Mtee -E foo $UP -- --callback 'sub{}' $IN",           qr/callback/i, '--callback outside -Mtee' ],
         [ "-Mtee $UP -- -Mtee -E qux $LT -- -E foo $IN",           qr/mix/i,     'legacy and new mixed' ],
+        [ "-Mtee -E qux $LT -- -Mtee $UP -- -E foo $IN",           qr/mix/i,     'new and legacy mixed' ],
         [ "-Mtee --le 'foo qux' $UP -- $IN",                       qr/le/,       '--le with several keywords' ],
         [ "-Mtee --exclude foo -E qux $UP -- $IN",                 qr/Unknown option: exclude/, 'unknown option inside -Mtee' ],
     );
@@ -124,6 +141,17 @@ subtest 'aliases' => sub {
     is((tee("-Mteetest --up --lt --filter $IN"))[0], $ALL, 'alias a b');
     is((tee("-Mteetest --lt --up --filter $IN"))[0], $ALL, 'alias b a');
     is((tee("-Mteetest --mix --filter $IN"))[0], $ALL, 'two -Mtee in one alias');
+    is((tee("-Mtee::config(discrete=1) -Mteetest --up --filter $IN"))[0], "FOO only\nqux only\nFOO and qux\nnone\n", 'config-only -Mtee then alias');
+    is((tee("-Mteetest -Mtee::config(discrete=1) --up --filter $IN"))[0], "FOO only\nqux only\nFOO and qux\nnone\n", 'alias module then config-only -Mtee');
+    is((tee("-Mtee -E foo $UP -- -Mteetest --lt --filter $IN"))[0], $ALL, 'new form -Mtee then module and alias');
+    is((tee("-Mtee -E foo $UP -- -Mteetest --lt --need=2 $IN"))[0], "FOO and <qux\n", 'same with --need=2 (patterns are not duplicated)');
+    like((tee("-Mtee -E foo 'cat -n' -- -Mteetest --lt --filter $IN"))[0], qr/\A\s+1\tfoo only\n<qux only\n\s+2\tfoo and <qux\nnone\n\z/, 'same with bundled filter (each region sent once)');
+    is((tee("-Mteetest --upm --lt --filter $IN"))[0], $ALL, 'alias ending with another module, then alias');
+    is((tee("-Mteetest --upm --lt --need=2 $IN"))[0], "FOO and <qux\n", 'same with --need=2');
+    is((tee("-Mteetest --lt --upm --filter $IN"))[0], $ALL, 'same in reverse order');
+};
+subtest 'config-only -Mtee' => sub {
+    is((tee("-Mtee::config(discrete=1) foo $IN"))[0], "foo only\nfoo and qux\n", 'config-only -Mtee with patterns after it');
 };
 SKIP: {
     skip 'App::Greple::colors not installed', 1 unless eval { require App::Greple::colors };
@@ -138,5 +166,10 @@ subtest 'greple options' => sub {
     is((tee("$TWO --filter --exclude 'foo and.*' $IN"))[0], "FOO only\n<qux only\nfoo and qux\nnone\n", '--exclude applies to all');
     is((tee("$TWO --filter --inside '^.*only\\n' $IN"))[0], "FOO only\n<qux only\nfoo and qux\nnone\n", '--inside applies to all');
     like((tee("-Mtee --cm R -E foo $UP -- -Mtee --cm B -E qux $LT -- --filter $IN"))[0], qr/FOO/, '--cm passes through');
+    local $ENV{NO_COLOR};
+    delete $ENV{NO_COLOR};
+    my($o) = tee("-Mtee --cm R -E foo $UP -- -Mtee --cm B -E qux $LT -- --color=always --filter $IN");
+    like($o, qr/\e\[31mFOO/, '--cm R colors the first filter');
+    like($o, qr/\e\[34m<qux/, '--cm B colors the second filter');
 };
 done_testing;

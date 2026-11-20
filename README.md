@@ -55,6 +55,9 @@ with **--discrete** option.
     With the <--discrete> option, each command is executed on demand.  The
     <--bulkmode> option causes all conversions to be performed at once.
 
+    This option has no effect in the new form of ["MULTIPLE FILTERS"](#multiple-filters),
+    where the filters are always executed for all the matches at once.
+
 - **--crmode**
 
     This option replaces all newline characters in the middle of each
@@ -124,7 +127,8 @@ Mixing the two forms is an error.  A **-Mtee** without arguments up to
 `--`, such as the first half of `-Mtee::config(...) -Mtee ...`, only
 sets the configuration and counts as neither form.
 
-The errors are detected before the first file is processed.
+The errors are detected when the first file is searched, before any
+output.
 
 ## Options inside -Mtee
 
@@ -176,11 +180,16 @@ The value of a mode is decided at run time in the following order.
 - In the new form, **--need=1** is added automatically, so that a block
 which includes any one of the patterns is processed (OR).  Specify
 **--need** after `--` to override it; **--need=2** brings back AND.  The
-legacy form works as before (AND).
+legacy form works as before (AND).  Put **--need** after all the
+**-Mtee** and the alias options that include **-Mtee**, because each of
+them adds **--need=1** again.
 - If the command is omitted (`-Mtee -E PAT --`), the pattern selects
 text but the text is not changed.
 - In the new form, a pattern outside **-Mtee** is an error.  So is
 **--callback** outside **-Mtee**.
+- In the new form, a pattern given without an option after `--` is not
+taken as a pattern, because there are patterns given by options.
+**greple** takes it as a file name.
 - When the matches of different filters overlap, **greple** merges them
 into one area and the filter of the match which starts first is
 applied.
@@ -197,11 +206,11 @@ through an alias option.
 only some patterns, the colors of other patterns, including those in
 other **-Mtee**, change by the cyclic assignment of **greple**.  Specify
 **--cm** for all the patterns when specifying colors.
-- If an alias option ends with `-Mtee ... --` followed by another
-module, and another new form **-Mtee** follows it, the patterns are
-passed twice and detected as "pattern outside -Mtee" error (it never
-shifts silently).  For example, `option --x -Mtee -E foo cmd --
--Mcolors` followed by `--y`.  The reverse order works.
+- When another module follows **-Mtee** (`-Mtee -E PAT cmd -- -Mcolors`),
+the patterns are passed to **greple** through the **default** option of
+the module, and the expansion of the option definition, such as
+`$ENV{NAME}` and `__PACKAGE__`, applies to them.  Escaping them is
+not attempted.
 
 # CONFIGURATION
 
