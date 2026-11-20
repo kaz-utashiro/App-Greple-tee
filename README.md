@@ -6,6 +6,7 @@ App::Greple::tee - module to replace matched text by the external command result
 # SYNOPSIS
 
     greple -Mtee command -- ...
+    greple -Mtee -E PAT1 command1 -- -Mtee -E PAT2 command2 -- ...
 
 # VERSION
 
@@ -89,6 +90,119 @@ with **--discrete** option.
 
         greple -Mtee cat -n -- -ML 2::2
 
+# MULTIPLE FILTERS
+
+Repeating **-Mtee** with patterns inside it applies a different filter
+to each set of patterns.
+
+    -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
+
+Everything before the first non-option argument is an option of the
+module, and the rest up to `--` is the command.  For example, next
+command folds the lines that match `PAT1` or `PAT2` with
+**ansifold**, and puts the lines that match `PAT3` in columns with
+**ansicolumn**.
+
+    greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
+           -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
+           file
+
+There are two forms.
+
+- **Legacy form**
+
+    When there is no pattern inside **-Mtee**, the command is applied to
+    all the patterns that follow `--`, as before.  If it is specified
+    twice, the last one is effective.
+
+- **New form**
+
+    When there is a pattern inside **-Mtee**, the command is applied only to
+    the patterns in that **-Mtee**.
+
+Mixing the two forms is an error.  A **-Mtee** without arguments up to
+`--`, such as the first half of `-Mtee::config(...) -Mtee ...`, only
+sets the configuration and counts as neither form.
+
+The errors are detected before the first file is processed.
+
+## Options inside -Mtee
+
+- **--discrete**, **--bulkmode**, **--crmode**, **--fillup**, **--squeeze**, **--nofork**
+
+    Modes of the filter.  They can be negated with the **--no-** form, such
+    as **--no-crmode**.
+
+- **-E**, **--re**
+
+    Regular expression pattern.
+
+- **-e**
+
+    Pattern.  It is one pattern even if it includes spaces.
+
+- **--fe**
+
+    Fixed string pattern.
+
+- **--le**
+
+    A single keyword, or a `&function`.  Giving several keywords
+    separated by spaces is an error.
+
+- **--cm**
+
+    Passed to **greple** as is.  The color is not bound to the pattern but
+    is assigned to the pattern numbers cyclically in the order specified
+    (see ["LIMITATIONS"](#limitations)).
+
+- **--config**
+
+    A function of **Getopt::EX::Config**.  It changes the setting common to
+    **all** the filters.
+
+Other options such as **--exclude** are errors.  Write them after
+`--`; they apply to all the filters.
+
+## Priority of modes
+
+The value of a mode is decided at run time in the following order.
+
+1. The one specified inside the **-Mtee** (**--crmode**, **--no-crmode**).
+2. The one specified after `--`, or by **-Mtee::config(...)**.
+
+## Special cases
+
+- In the new form, **--need=1** is added automatically, so that a block
+which includes any one of the patterns is processed (OR).  Specify
+**--need** after `--` to override it; **--need=2** brings back AND.  The
+legacy form works as before (AND).
+- If the command is omitted (`-Mtee -E PAT --`), the pattern selects
+text but the text is not changed.
+- In the new form, a pattern outside **-Mtee** is an error.  So is
+**--callback** outside **-Mtee**.
+- When the matches of different filters overlap, **greple** merges them
+into one area and the filter of the match which starts first is
+applied.
+
+## LIMITATIONS
+
+- `{DEFINE}` written directly inside **-Mtee** on the command line is
+not expanded.  It is expanded inside an **option** definition.
+- No other option can be written between **-Mtee** modules, because
+**-M** must be at the head of the arguments.  They can be combined
+through an alias option.
+- `--` cannot be included in the command arguments, as before.
+- **--cm** is not independent for each filter.  If it is specified for
+only some patterns, the colors of other patterns, including those in
+other **-Mtee**, change by the cyclic assignment of **greple**.  Specify
+**--cm** for all the patterns when specifying colors.
+- If an alias option ends with `-Mtee ... --` followed by another
+module, and another new form **-Mtee** follows it, the patterns are
+passed twice and detected as "pattern outside -Mtee" error (it never
+shifts silently).  For example, `option --x -Mtee -E foo cmd --
+-Mcolors` followed by `--y`.  The reverse order works.
+
 # CONFIGURATION
 
 Module parameters can be set with **Getopt::EX::Config** module using
@@ -100,7 +214,7 @@ the following syntax:
 This is useful when combined with shell aliases or module files.
 
 Available parameters are: **discrete**, **bulkmode**, **crmode**,
-**fillup**, **squeeze**, **blocks**, **nofork**.
+**fillup**, **squeeze**, **nofork**.
 
 # FUNCTION CALL
 
@@ -142,37 +256,11 @@ performance when used with the **--discrete** option.
 
 # LEGACIES
 
-The **--blocks** option is no longer needed now that the **--stretch**
-(**-S**) option has been implemented in **greple**.  You can simply
-perform the following.
+The **--blocks** option has been removed.  It is no longer needed now that
+the **--stretch** (**-S**) option has been implemented in **greple**.
+Use the following instead.
 
     greple -Mtee cat -n -- --all -SE foo
-
-It is not recommended to use **--blocks** as it may be deprecated in
-the future.
-
-- **--blocks**
-
-    Normally, the area matching the specified search pattern is sent to
-    the external command. If this option is specified, not the matched
-    area but the entire block containing it will be processed.
-
-    For example, to send lines containing the pattern `foo` to the
-    external command, you need to specify the pattern which matches to
-    entire line:
-
-        greple -Mtee cat -n -- '^.*foo.*\n' --all
-
-    But with the **--blocks** option, it can be done as simply as follows:
-
-        greple -Mtee cat -n -- foo --blocks
-
-    With **--blocks** option, this module behave more like [teip(1)](http://man.he.net/man1/teip)'s
-    **-g** option.  Otherwise, the behavior is similar to [teip(1)](http://man.he.net/man1/teip) with
-    the **-o** option.
-
-    Do not use the **--blocks** with the **--all** option, since the block
-    will be the entire data.
 
 # WHY DO NOT USE TEIP
 

@@ -7,6 +7,7 @@ App::Greple::tee - module to replace matched text by the external command result
 =head1 SYNOPSIS
 
     greple -Mtee command -- ...
+    greple -Mtee -E PAT1 command1 -- -Mtee -E PAT2 command2 -- ...
 
 =head1 VERSION
 
@@ -91,6 +92,169 @@ You can also use the B<-ML> module to process only even-numbered lines
 as follows.
 
     greple -Mtee cat -n -- -ML 2::2
+
+=back
+
+=head1 MULTIPLE FILTERS
+
+Repeating B<-Mtee> with patterns inside it applies a different filter
+to each set of patterns.
+
+    -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
+
+Everything before the first non-option argument is an option of the
+module, and the rest up to C<--> is the command.  For example, next
+command folds the lines that match C<PAT1> or C<PAT2> with
+B<ansifold>, and puts the lines that match C<PAT3> in columns with
+B<ansicolumn>.
+
+    greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
+           -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
+           file
+
+There are two forms.
+
+=over 4
+
+=item B<Legacy form>
+
+When there is no pattern inside B<-Mtee>, the command is applied to
+all the patterns that follow C<-->, as before.  If it is specified
+twice, the last one is effective.
+
+=item B<New form>
+
+When there is a pattern inside B<-Mtee>, the command is applied only to
+the patterns in that B<-Mtee>.
+
+=back
+
+Mixing the two forms is an error.  A B<-Mtee> without arguments up to
+C<-->, such as the first half of C<-Mtee::config(...) -Mtee ...>, only
+sets the configuration and counts as neither form.
+
+The errors are detected before the first file is processed.
+
+=head2 Options inside -Mtee
+
+=over 4
+
+=item B<--discrete>, B<--bulkmode>, B<--crmode>, B<--fillup>, B<--squeeze>, B<--nofork>
+
+Modes of the filter.  They can be negated with the B<--no-> form, such
+as B<--no-crmode>.
+
+=item B<-E>, B<--re>
+
+Regular expression pattern.
+
+=item B<-e>
+
+Pattern.  It is one pattern even if it includes spaces.
+
+=item B<--fe>
+
+Fixed string pattern.
+
+=item B<--le>
+
+A single keyword, or a C<&function>.  Giving several keywords
+separated by spaces is an error.
+
+=item B<--cm>
+
+Passed to B<greple> as is.  The color is not bound to the pattern but
+is assigned to the pattern numbers cyclically in the order specified
+(see L</LIMITATIONS>).
+
+=item B<--config>
+
+A function of B<Getopt::EX::Config>.  It changes the setting common to
+B<all> the filters.
+
+=back
+
+Other options such as B<--exclude> are errors.  Write them after
+C<-->; they apply to all the filters.
+
+=head2 Priority of modes
+
+The value of a mode is decided at run time in the following order.
+
+=over 4
+
+=item 1.
+
+The one specified inside the B<-Mtee> (B<--crmode>, B<--no-crmode>).
+
+=item 2.
+
+The one specified after C<-->, or by B<-Mtee::config(...)>.
+
+=back
+
+=head2 Special cases
+
+=over 4
+
+=item *
+
+In the new form, B<--need=1> is added automatically, so that a block
+which includes any one of the patterns is processed (OR).  Specify
+B<--need> after C<--> to override it; B<--need=2> brings back AND.  The
+legacy form works as before (AND).
+
+=item *
+
+If the command is omitted (C<-Mtee -E PAT -->), the pattern selects
+text but the text is not changed.
+
+=item *
+
+In the new form, a pattern outside B<-Mtee> is an error.  So is
+B<--callback> outside B<-Mtee>.
+
+=item *
+
+When the matches of different filters overlap, B<greple> merges them
+into one area and the filter of the match which starts first is
+applied.
+
+=back
+
+=head2 LIMITATIONS
+
+=over 4
+
+=item *
+
+C<{DEFINE}> written directly inside B<-Mtee> on the command line is
+not expanded.  It is expanded inside an B<option> definition.
+
+=item *
+
+No other option can be written between B<-Mtee> modules, because
+B<-M> must be at the head of the arguments.  They can be combined
+through an alias option.
+
+=item *
+
+C<--> cannot be included in the command arguments, as before.
+
+=item *
+
+B<--cm> is not independent for each filter.  If it is specified for
+only some patterns, the colors of other patterns, including those in
+other B<-Mtee>, change by the cyclic assignment of B<greple>.  Specify
+B<--cm> for all the patterns when specifying colors.
+
+=item *
+
+If an alias option ends with C<-Mtee ... --> followed by another
+module, and another new form B<-Mtee> follows it, the patterns are
+passed twice and detected as "pattern outside -Mtee" error (it never
+shifts silently).  For example, C<option --x -Mtee -E foo cmd --
+-Mcolors> followed by C<--y>.  The reverse order works.
 
 =back
 
