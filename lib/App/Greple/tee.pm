@@ -268,6 +268,14 @@ the module, and the expansion of the option definition, such as
 C<$ENV{NAME}> and C<__PACKAGE__>, applies to them.  Escaping them is
 not attempted.
 
+=item *
+
+If a module whose B<default> option includes a new form B<-Mtee> is
+loaded before B<-Mtee> followed by another module, such as
+C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>, the patterns are lost, and it
+is detected as an error ("passed twice or lost").  Load the module
+after B<-Mtee>.
+
 =back
 
 =head1 CONFIGURATION
@@ -573,6 +581,8 @@ sub finalize {
     # argument list (the command line, or an alias expansion).  If
     # @PEND was left there while processing another list, it has been
     # copied already, and inserting it again would duplicate it.
+    # (The exception, a default option of a module loaded before tee,
+    # is detected in own_postgrep.)
     if (@PEND and refaddr $pend_argv != refaddr $argv) {
 	@PEND = ();
 	$pend_patterns = 0;
@@ -719,6 +729,8 @@ sub own_postgrep {
 	if grep { not defined filter_id($_) } @callback;
     die "tee: pattern given outside -Mtee (put every pattern inside -Mtee ... --)\n"
 	if $grep->{pattern}->patterns != @callback;
+    die "tee: patterns inside -Mtee are passed twice or lost (check the order of modules and aliases)\n"
+	if @callback != $own;
     %out = ();
     my %group;
     for my $r ($grep->result) {
@@ -756,7 +768,8 @@ sub filter_id {
     my($name, %arg) = @$cb;
     return undef if ref $name or $name ne __PACKAGE__ . '::callback';
     my $n = $arg{filter} // return undef;
-    $n =~ /^\d+\z/ and $filter[$n] ? $n : undef;
+    return undef unless $n =~ /^\d+\z/ and $filter[$n];
+    $n;
 }
 
 sub callback {

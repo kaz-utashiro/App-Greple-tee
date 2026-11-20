@@ -211,6 +211,11 @@ the patterns are passed to **greple** through the **default** option of
 the module, and the expansion of the option definition, such as
 `$ENV{NAME}` and `__PACKAGE__`, applies to them.  Escaping them is
 not attempted.
+- If a module whose **default** option includes a new form **-Mtee** is
+loaded before **-Mtee** followed by another module, such as
+`-Mfoo -Mtee -E PAT cmd -- -Mcolors`, the patterns are lost, and it
+is detected as an error ("passed twice or lost").  Load the module
+after **-Mtee**.
 
 # CONFIGURATION
 

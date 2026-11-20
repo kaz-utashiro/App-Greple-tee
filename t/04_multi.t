@@ -150,6 +150,14 @@ subtest 'aliases' => sub {
     is((tee("-Mteetest --upm --lt --need=2 $IN"))[0], "FOO and <qux\n", 'same with --need=2');
     is((tee("-Mteetest --lt --upm --filter $IN"))[0], $ALL, 'same in reverse order');
 };
+subtest 'module default with -Mtee' => sub {
+    is((tee("-Mtee -E foo $UP -- -Mteedef --filter $IN"))[0], $ALL, 'module default after -Mtee');
+    is((tee("-Mtee -E foo $UP -- -Mteedef --need=2 $IN"))[0], "FOO and <qux\n", 'same with --need=2');
+    my($o, $st) = tee("-Mteedef -Mtee -E foo $UP -- -ML --filter $IN");
+    isnt($st, 0, 'module default loaded before -Mtee followed by a module: fails');
+    like($o, qr/passed twice or lost/, 'same: message');
+    unlike($o, qr/FOO|<qux/, 'same: no output before error');
+};
 subtest 'config-only -Mtee' => sub {
     is((tee("-Mtee::config(discrete=1) foo $IN"))[0], "foo only\nfoo and qux\n", 'config-only -Mtee with patterns after it');
 };
