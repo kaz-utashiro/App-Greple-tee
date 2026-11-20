@@ -88,9 +88,9 @@ does not have to be the same.
 - **--nofork**
 
     Executes a function given by `&function` in the **greple** process
-    itself, without forking (see ["FUNCTION CALL"](#function-call)).  This is the default.
-    Use **--no-nofork** to execute it in a forked child process.  This
-    option has no effect on external commands.
+    itself, without forking.  This is the default.  Use **--no-nofork** to
+    execute it in a forked child process.  This option has no effect on
+    external commands.  See ["FUNCTION CALL"](#function-call).
 
 - **-ML** **--offload** _command_
 
@@ -114,8 +114,8 @@ filter.  Each filter is applied to the patterns given with it.
 Everything before the first non-option argument is an option of the
 module, and the rest up to `--` is the command.  For example, the
 next command folds the lines that match `PAT1` or `PAT2` with
-**ansifold**, and formats the lines that match `PAT3` as a table with
-**ansicolumn**.
+**ansifold**, and formats each part that matches `PAT3` as a separate
+table with **ansicolumn**.
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
