@@ -328,10 +328,18 @@ my %MODE = (
 
 my @filter;
 
-# number of patterns given in new form -Mtee, and number of legacy -Mtee
+# $own: total number of patterns given inside new form -Mtee
+# $legacy: number of legacy form -Mtee (no patterns inside)
 our $own = 0;
 our $legacy = 0;
+# options waiting to be inserted, and number of patterns among them
 our @PEND;
+our $pend_patterns = 0;
+
+# --need=1 goes with the patterns of new form only
+sub pending {
+    ( $pend_patterns ? '--need=1' : () ), @PEND;
+}
 
 sub opt {
     my($f, $key) = @_;
@@ -377,14 +385,16 @@ sub finalize {
 	}
     }
     push @PEND, @emit;
+    $pend_patterns += $f{patterns} // 0;
     if (@PEND and not (@$argv and $argv->[0] =~ /^-M/)) {
-	splice @$argv, 0, 0, '--need=1', @PEND;
+	splice @$argv, 0, 0, pending();
 	@PEND = ();
+	$pend_patterns = 0;
     }
     $mod->setopt(default => [
 	'--postgrep', '&App::Greple::tee::postgrep',
-	$own ? ( @PEND ? ('--need=1', @PEND) : () )
-	     : ( '--callback', '&App::Greple::tee::callback' ),
+	$own ? () : ( '--callback', '&App::Greple::tee::callback' ),
+	@PEND ? pending() : (),
     ]);
     for my $mod (grep length, split /,/, $config->{use}) {
 	eval "require $mod; $mod->import()";

@@ -87,4 +87,16 @@ subtest '&function filter' => sub {
     my($o) = tee("-Mtee --discrete -E 'foo and qux' '&ansifold' -w4 -- -Mtee -E none $UP -- --filter $IN");
     is($o, "foo only\nqux only\nfoo \nand \nqux\nNONE\n", '&function works per filter');
 };
+subtest 'legacy with --cm' => sub {
+    my($o) = tee("-Mtee --cm R $UP -- -E foo -E qux $IN");
+    is($o, "FOO and QUX\n", '--cm alone keeps legacy form (AND selection)');
+    ($o) = tee("-Mtee --cm R $UP -- -Mcolors -E foo -E qux $IN");
+    is($o, "FOO and QUX\n", 'same when another module follows');
+    local $ENV{NO_COLOR};
+    delete $ENV{NO_COLOR};
+    ($o) = tee("-Mtee --cm R $UP -- -E foo -E qux --color=always $IN");
+    like($o, qr/\e\[31mFOO/, '--cm is passed to greple');
+    ($o) = tee("-Mtee --cm R $UP -- -Mcolors -E foo -E qux --color=always $IN");
+    like($o, qr/\e\[31mFOO/, '--cm is passed to greple when another module follows');
+};
 done_testing;
