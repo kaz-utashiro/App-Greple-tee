@@ -15,35 +15,37 @@ Version 2.00_00
 
 =head1 DESCRIPTION
 
-Greple's B<-Mtee> module sends matched text part to the given filter
-command, and replace them by the command result.  The idea is derived
-from the command called B<teip>.  It is like bypassing partial data to
-the external filter command.
+Greple's B<-Mtee> module sends the matched parts of the text to the
+given filter command, and replaces them with the result of the command.
+The idea is derived from the command called B<teip>.  It is like
+passing only a part of the data through an external filter command.
 
-Filter command follows module declaration (C<-Mtee>) and terminates by
-two dashes (C<-->).  For example, next command call command C<tr>
-command with C<a-z A-Z> arguments for the matched word in the data.
+The filter command follows the module declaration (C<-Mtee>) and ends
+with two dashes (C<-->).  For example, the next command calls the
+C<tr> command with the arguments C<a-z A-Z> for the matched words in
+the data.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Above command convert all matched words from lower-case to upper-case.
-Actually this example itself is not so useful because B<greple> can do
-the same thing more effectively with B<--cm> option.
+The above command converts all the matched words from lower case to
+upper case.  This example itself is not so useful, because B<greple>
+can do the same thing more efficiently with the B<--cm> option.
 
-By default, the command is executed as a single process, and all
-matched data is sent to the process mixed together.  If the matched
-text does not end with newline, it is added before sending and removed
-after receiving.  Input and output data are mapped line by line, so
+By default, the command is executed as a single process, and all the
+matched data is sent to it together.  If the matched text does not
+end with a newline, one is added before sending and removed after
+receiving.  Input and output data are mapped line by line, so
 the number of lines of input and output must be identical.
 
-Using B<--discrete> option, individual command is called for each
-matched text area.  You can tell the difference by following commands.
+With the B<--discrete> option, the command is called separately for
+each matched area.  You can see the difference with the following
+commands.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
 
-Lines of input and output data do not have to be identical when used
-with B<--discrete> option.
+With the B<--discrete> option, the number of lines of input and output
+does not have to be the same.
 
 =head1 OPTIONS
 
@@ -51,12 +53,13 @@ with B<--discrete> option.
 
 =item B<--discrete>
 
-Invoke new command individually for every matched part.
+Invokes a new command for each matched part.
 
 =item B<--bulkmode>
 
-With the <--discrete> option, each command is executed on demand.  The
-<--bulkmode> option causes all conversions to be performed at once.
+With the B<--discrete> option, the command for each match is executed
+when the match is output.  The B<--bulkmode> option executes all of
+them at once before the output.
 
 This option has no effect in the new form of L</MULTIPLE FILTERS>,
 where the filters are always executed for all the matches at once.
@@ -65,29 +68,37 @@ where the filters are always executed for all the matches at once.
 
 This option replaces all newline characters in the middle of each
 block with carriage return characters.  Carriage returns contained in
-the result of executing the command are reverted back to the newline
-character. Thus, blocks consisting of multiple lines can be processed
+the result of executing the command are converted back to newline
+characters.  Thus, blocks consisting of multiple lines can be processed
 in batches without using the B<--discrete> option.
 
-This works well with L<ansifold> command's B<--crmode> option, which
-joins CR-separated text and outputs folded lines separated by CR.
+This works well with the B<--crmode> option of the L<ansifold>
+command, which joins CR-separated text and outputs folded lines
+separated by CR.
 
 =item B<--fillup>
 
-Combine a sequence of non-blank lines into a single line before
-passing them to the filter command.  Newline characters between wide
-width characters (Japanese, Chinese) are deleted, and other newline
+Combines a sequence of non-blank lines into a single line before
+passing them to the filter command.  Newline characters between
+full-width characters (Japanese, Chinese) are deleted, and other newline
 characters are replaced with spaces.  Korean (Hangul) is treated
-like ASCII text and joined with space.
+like ASCII text and joined with spaces.
 
 =item B<--squeeze>
 
 Combines two or more consecutive newline characters into one.
 
+=item B<--nofork>
+
+Executes a function given by C<&function> in the B<greple> process
+itself, without forking (see L</FUNCTION CALL>).  This is the default.
+Use B<--no-nofork> to execute it in a forked child process.  This
+option has no effect on external commands.
+
 =item B<-ML> B<--offload> I<command>
 
-L<teip(1)>'s B<--offload> option is implemented in the different
-module L<App::Greple::L> (B<-ML>).
+The equivalent of the B<--offload> option of L<teip(1)> is provided
+by another module, L<App::Greple::L> (B<-ML>).
 
     greple -Mtee cat -n -- -ML --offload 'seq 10 20'
 
@@ -100,15 +111,15 @@ as follows.
 
 =head1 MULTIPLE FILTERS
 
-Repeating B<-Mtee> with patterns inside it applies a different filter
-to each set of patterns.
+You can give B<-Mtee> more than once, each with its own patterns and
+filter.  Each filter is applied to the patterns given with it.
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
 Everything before the first non-option argument is an option of the
-module, and the rest up to C<--> is the command.  For example, next
-command folds the lines that match C<PAT1> or C<PAT2> with
-B<ansifold>, and puts the lines that match C<PAT3> in columns with
+module, and the rest up to C<--> is the command.  For example, the
+next command folds the lines that match C<PAT1> or C<PAT2> with
+B<ansifold>, and formats the lines that match C<PAT3> as a table with
 B<ansicolumn>.
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
@@ -122,8 +133,8 @@ There are two forms.
 =item B<Legacy form>
 
 When there is no pattern inside B<-Mtee>, the command is applied to
-all the patterns that follow C<-->, as before.  If it is specified
-twice, the last one is effective.
+all the patterns that follow C<-->, as before.  If it is given
+more than once, the last one takes effect.
 
 =item B<New form>
 
@@ -132,7 +143,7 @@ the patterns in that B<-Mtee>.
 
 =back
 
-Mixing the two forms is an error.  A B<-Mtee> without arguments up to
+Mixing the two forms is an error.  A B<-Mtee> with nothing before
 C<-->, such as the first half of C<-Mtee::config(...) -Mtee ...>, only
 sets the configuration and counts as neither form.
 
@@ -154,7 +165,7 @@ Regular expression pattern.
 
 =item B<-e>
 
-Pattern.  It is one pattern even if it includes spaces.
+Pattern.  It is taken as one pattern even if it includes spaces.
 
 =item B<--fe>
 
@@ -173,13 +184,13 @@ is assigned to the pattern numbers cyclically in the order specified
 
 =item B<--config>
 
-A function of B<Getopt::EX::Config>.  It changes the setting common to
-B<all> the filters.
+An option provided by B<Getopt::EX::Config>.  It changes the setting
+common to B<all> the filters.
 
 =back
 
-Other options such as B<--exclude> are errors.  Write them after
-C<-->; they apply to all the filters.
+Giving other options, such as B<--exclude>, is an error.  Write them
+after C<-->; they apply to all the filters.
 
 =head2 Priority of modes
 
@@ -189,7 +200,7 @@ The value of a mode is decided at run time in the following order.
 
 =item 1.
 
-The one specified inside the B<-Mtee> (B<--crmode>, B<--no-crmode>).
+The one specified inside B<-Mtee> (B<--crmode>, B<--no-crmode>).
 
 =item 2.
 
@@ -206,9 +217,9 @@ The one specified after C<-->, or by B<-Mtee::config(...)>.
 In the new form, B<--need=1> is added automatically, so that a block
 which includes any one of the patterns is processed (OR).  Specify
 B<--need> after C<--> to override it; B<--need=2> brings back AND.  The
-legacy form works as before (AND).  Put B<--need> after all the
-B<-Mtee> and the alias options that include B<-Mtee>, because each of
-them adds B<--need=1> again.
+legacy form works as before (AND).  Each B<-Mtee>, and each alias
+option that includes B<-Mtee>, adds B<--need=1> again, so put
+B<--need> after all of them.
 
 =item *
 
@@ -222,9 +233,9 @@ B<--callback> outside B<-Mtee>.
 
 =item *
 
-In the new form, a pattern given without an option after C<--> is not
-taken as a pattern, because there are patterns given by options.
-B<greple> takes it as a file name.
+In the new form, the first argument after C<--> is not taken as a
+pattern even if it is meant as one, because the patterns are already
+given by options.  B<greple> takes it as a file name.
 
 =item *
 
@@ -246,8 +257,8 @@ not expanded.  It is expanded inside an B<option> definition.
 =item *
 
 No other option can be written between B<-Mtee> modules, because
-B<-M> must be at the head of the arguments.  They can be combined
-through an alias option.
+B<-M> must be at the head of the arguments.  Use an alias option to
+combine B<-Mtee> modules and other options.
 
 =item *
 
@@ -257,30 +268,31 @@ C<--> cannot be included in the command arguments, as before.
 
 B<--cm> is not independent for each filter.  If it is specified for
 only some patterns, the colors of other patterns, including those in
-other B<-Mtee>, change by the cyclic assignment of B<greple>.  Specify
-B<--cm> for all the patterns when specifying colors.
+other B<-Mtee>, change because of the cyclic assignment by
+B<greple>.  Specify B<--cm> for all the patterns when specifying
+colors.
 
 =item *
 
 When another module follows B<-Mtee> (C<-Mtee -E PAT cmd -- -Mcolors>),
 the patterns are passed to B<greple> through the B<default> option of
 the module, and the expansion of the option definition, such as
-C<$ENV{NAME}> and C<__PACKAGE__>, applies to them.  Escaping them is
-not attempted.
+C<$ENV{NAME}> and C<__PACKAGE__>, applies to them.  They are not
+escaped.
 
 =item *
 
-If a module whose B<default> option includes a new form B<-Mtee> is
-loaded before B<-Mtee> followed by another module, such as
-C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>, the patterns are lost, and it
-is detected as an error ("passed twice or lost").  Load the module
-after B<-Mtee>.
+Suppose there is a module whose B<default> option includes a new
+form B<-Mtee>.  If it is loaded before a B<-Mtee> which is followed by
+another module, as in C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>, the
+patterns are lost.  This is detected as an error ("passed twice or
+lost").  Load such a module after B<-Mtee>.
 
 =back
 
 =head1 CONFIGURATION
 
-Module parameters can be set with B<Getopt::EX::Config> module using
+Module parameters can be set with the B<Getopt::EX::Config> module using
 the following syntax:
 
     greple -Mtee::config(discrete) ...
@@ -298,24 +310,29 @@ prefixing the command name with C<&>.
 
     greple -Mtee '&App::ansifold::ansifold' -w40 -- ...
 
-The function is executed in a forked child process, so it must follow
-these requirements:
+The function must follow these requirements:
 
 =over 4
 
 =item *
 
-Read matched text from B<STDIN>
+Read the matched text from B<STDIN>
 
 =item *
 
-Print converted result to B<STDOUT>
+Print the converted result to B<STDOUT>
 
 =item *
 
 Arguments are passed via both C<@ARGV> and C<@_>
 
 =back
+
+By default, the function is executed in the B<greple> process
+itself, without forking.  So, the values of global variables changed
+by the function remain in the next call, and calling B<exit> in the
+function terminates B<greple>.  With the B<--no-nofork> option, the
+function is executed in a forked child process.
 
 Any fully qualified function name can be used:
 
@@ -341,7 +358,7 @@ Calls C<App::cat::v-E<gt>new-E<gt>run(@_)>.
 
 =back
 
-Using a function call avoids the overhead of forking an external
+Using a function call avoids the overhead of starting an external
 process for each invocation, which can significantly improve
 performance when used with the B<--discrete> option.
 
@@ -353,7 +370,7 @@ Use the following instead.
 
     greple -Mtee cat -n -- --all -SE foo
 
-=head1 WHY DO NOT USE TEIP
+=head1 WHY NOT USE TEIP
 
 First of all, whenever you can do it with the B<teip> command, use
 it. It is an excellent tool and much faster than B<greple>.
@@ -368,23 +385,24 @@ consisting of multiple lines.
 
 =head1 EXAMPLE
 
-Next command will find text blocks inside L<perlpod(1)> style document
-included in Perl module file.
+The next command finds the text blocks of the L<perlpod(1)> style
+document in a Perl module file.
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
-You can translate them by DeepL service by executing the above command
-convined with B<-Mtee> module which calls B<deepl> command like this:
+You can translate them with the DeepL service by combining the above
+command with the B<-Mtee> module calling the B<deepl> command, like
+this:
 
     greple -Mtee deepl text --to JA - -- --fillup ...
 
 The dedicated module L<App::Greple::xlate::deepl> is more effective
-for this purpose, though.  In fact, the implementation hint of B<tee>
-module came from B<xlate> module.
+for this purpose, though.  In fact, the hint for implementing the
+B<tee> module came from the B<xlate> module.
 
 =head1 EXAMPLE 2
 
-Next command will find some indented part in LICENSE document.
+The next command finds some indented parts in the LICENSE document.
 
     greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
 
@@ -395,9 +413,9 @@ Next command will find some indented part in LICENSE document.
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
 
-You can reformat this part by using B<tee> module with B<ansifold>
-command.  Using both B<--crmode> options together allows efficient
-processing of multi-line blocks:
+You can reformat these parts by using the B<tee> module with the
+B<ansifold> command.  Using both B<--crmode> options together allows
+efficient processing of multi-line blocks:
 
     greple -Mtee ansifold -sw40 --prefix '     ' --crmode -- --crmode --re ...
 
@@ -416,22 +434,22 @@ processes, so it takes longer to execute.
 
 =head1 EXAMPLE 3
 
-Consider a situation where you want to grep for strings from
-non-header lines. For example, you may want to search for Docker image
-names from the C<docker image ls> command, but leave the header line.
-You can do it by following command.
+Consider a situation where you want to grep for strings in lines
+other than the header.  For example, you may want to search for Docker
+image names in the output of the C<docker image ls> command, but keep
+the header line.  You can do it with the following command.
 
     greple -Mtee grep perl -- -ML 2: --discrete --all
 
-Option C<-ML 2:> retrieves the second to last lines and sends
-them to the C<grep perl> command.  The option --discrete is required
-because the number of lines of input and output changes, but since the
-command is only executed once, there is no performance drawback.
+The option C<-ML 2:> takes the lines from the second line to the end,
+and sends them to the C<grep perl> command.  The option B<--discrete>
+is required because the number of lines changes, but since the
+command is executed only once, there is no performance drawback.
 
 If you try to do the same thing with the B<teip> command,
 C<teip -l 2- -- grep> will give an error because the number of output
-lines is less than the number of input lines. However, there is no
-problem with the result obtained.
+lines is less than the number of input lines, although the output
+itself is correct.
 
 =head1 INSTALL
 

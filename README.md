@@ -14,46 +14,49 @@ Version 2.00\_00
 
 # DESCRIPTION
 
-Greple's **-Mtee** module sends matched text part to the given filter
-command, and replace them by the command result.  The idea is derived
-from the command called **teip**.  It is like bypassing partial data to
-the external filter command.
+Greple's **-Mtee** module sends the matched parts of the text to the
+given filter command, and replaces them with the result of the command.
+The idea is derived from the command called **teip**.  It is like
+passing only a part of the data through an external filter command.
 
-Filter command follows module declaration (`-Mtee`) and terminates by
-two dashes (`--`).  For example, next command call command `tr`
-command with `a-z A-Z` arguments for the matched word in the data.
+The filter command follows the module declaration (`-Mtee`) and ends
+with two dashes (`--`).  For example, the next command calls the
+`tr` command with the arguments `a-z A-Z` for the matched words in
+the data.
 
     greple -Mtee tr a-z A-Z -- '\w+' ...
 
-Above command convert all matched words from lower-case to upper-case.
-Actually this example itself is not so useful because **greple** can do
-the same thing more effectively with **--cm** option.
+The above command converts all the matched words from lower case to
+upper case.  This example itself is not so useful, because **greple**
+can do the same thing more efficiently with the **--cm** option.
 
-By default, the command is executed as a single process, and all
-matched data is sent to the process mixed together.  If the matched
-text does not end with newline, it is added before sending and removed
-after receiving.  Input and output data are mapped line by line, so
+By default, the command is executed as a single process, and all the
+matched data is sent to it together.  If the matched text does not
+end with a newline, one is added before sending and removed after
+receiving.  Input and output data are mapped line by line, so
 the number of lines of input and output must be identical.
 
-Using **--discrete** option, individual command is called for each
-matched text area.  You can tell the difference by following commands.
+With the **--discrete** option, the command is called separately for
+each matched area.  You can see the difference with the following
+commands.
 
     greple -Mtee cat -n -- copyright LICENSE
     greple -Mtee cat -n -- copyright LICENSE --discrete
 
-Lines of input and output data do not have to be identical when used
-with **--discrete** option.
+With the **--discrete** option, the number of lines of input and output
+does not have to be the same.
 
 # OPTIONS
 
 - **--discrete**
 
-    Invoke new command individually for every matched part.
+    Invokes a new command for each matched part.
 
 - **--bulkmode**
 
-    With the <--discrete> option, each command is executed on demand.  The
-    <--bulkmode> option causes all conversions to be performed at once.
+    With the **--discrete** option, the command for each match is executed
+    when the match is output.  The **--bulkmode** option executes all of
+    them at once before the output.
 
     This option has no effect in the new form of ["MULTIPLE FILTERS"](#multiple-filters),
     where the filters are always executed for all the matches at once.
@@ -62,29 +65,37 @@ with **--discrete** option.
 
     This option replaces all newline characters in the middle of each
     block with carriage return characters.  Carriage returns contained in
-    the result of executing the command are reverted back to the newline
-    character. Thus, blocks consisting of multiple lines can be processed
+    the result of executing the command are converted back to newline
+    characters.  Thus, blocks consisting of multiple lines can be processed
     in batches without using the **--discrete** option.
 
-    This works well with [ansifold](https://metacpan.org/pod/ansifold) command's **--crmode** option, which
-    joins CR-separated text and outputs folded lines separated by CR.
+    This works well with the **--crmode** option of the [ansifold](https://metacpan.org/pod/ansifold)
+    command, which joins CR-separated text and outputs folded lines
+    separated by CR.
 
 - **--fillup**
 
-    Combine a sequence of non-blank lines into a single line before
-    passing them to the filter command.  Newline characters between wide
-    width characters (Japanese, Chinese) are deleted, and other newline
+    Combines a sequence of non-blank lines into a single line before
+    passing them to the filter command.  Newline characters between
+    full-width characters (Japanese, Chinese) are deleted, and other newline
     characters are replaced with spaces.  Korean (Hangul) is treated
-    like ASCII text and joined with space.
+    like ASCII text and joined with spaces.
 
 - **--squeeze**
 
     Combines two or more consecutive newline characters into one.
 
+- **--nofork**
+
+    Executes a function given by `&function` in the **greple** process
+    itself, without forking (see ["FUNCTION CALL"](#function-call)).  This is the default.
+    Use **--no-nofork** to execute it in a forked child process.  This
+    option has no effect on external commands.
+
 - **-ML** **--offload** _command_
 
-    [teip(1)](http://man.he.net/man1/teip)'s **--offload** option is implemented in the different
-    module [App::Greple::L](https://metacpan.org/pod/App%3A%3AGreple%3A%3AL) (**-ML**).
+    The equivalent of the **--offload** option of [teip(1)](http://man.he.net/man1/teip) is provided
+    by another module, [App::Greple::L](https://metacpan.org/pod/App%3A%3AGreple%3A%3AL) (**-ML**).
 
         greple -Mtee cat -n -- -ML --offload 'seq 10 20'
 
@@ -95,15 +106,15 @@ with **--discrete** option.
 
 # MULTIPLE FILTERS
 
-Repeating **-Mtee** with patterns inside it applies a different filter
-to each set of patterns.
+You can give **-Mtee** more than once, each with its own patterns and
+filter.  Each filter is applied to the patterns given with it.
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
 Everything before the first non-option argument is an option of the
-module, and the rest up to `--` is the command.  For example, next
-command folds the lines that match `PAT1` or `PAT2` with
-**ansifold**, and puts the lines that match `PAT3` in columns with
+module, and the rest up to `--` is the command.  For example, the
+next command folds the lines that match `PAT1` or `PAT2` with
+**ansifold**, and formats the lines that match `PAT3` as a table with
 **ansicolumn**.
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
@@ -115,15 +126,15 @@ There are two forms.
 - **Legacy form**
 
     When there is no pattern inside **-Mtee**, the command is applied to
-    all the patterns that follow `--`, as before.  If it is specified
-    twice, the last one is effective.
+    all the patterns that follow `--`, as before.  If it is given
+    more than once, the last one takes effect.
 
 - **New form**
 
     When there is a pattern inside **-Mtee**, the command is applied only to
     the patterns in that **-Mtee**.
 
-Mixing the two forms is an error.  A **-Mtee** without arguments up to
+Mixing the two forms is an error.  A **-Mtee** with nothing before
 `--`, such as the first half of `-Mtee::config(...) -Mtee ...`, only
 sets the configuration and counts as neither form.
 
@@ -143,7 +154,7 @@ output.
 
 - **-e**
 
-    Pattern.  It is one pattern even if it includes spaces.
+    Pattern.  It is taken as one pattern even if it includes spaces.
 
 - **--fe**
 
@@ -162,17 +173,17 @@ output.
 
 - **--config**
 
-    A function of **Getopt::EX::Config**.  It changes the setting common to
-    **all** the filters.
+    An option provided by **Getopt::EX::Config**.  It changes the setting
+    common to **all** the filters.
 
-Other options such as **--exclude** are errors.  Write them after
-`--`; they apply to all the filters.
+Giving other options, such as **--exclude**, is an error.  Write them
+after `--`; they apply to all the filters.
 
 ## Priority of modes
 
 The value of a mode is decided at run time in the following order.
 
-1. The one specified inside the **-Mtee** (**--crmode**, **--no-crmode**).
+1. The one specified inside **-Mtee** (**--crmode**, **--no-crmode**).
 2. The one specified after `--`, or by **-Mtee::config(...)**.
 
 ## Special cases
@@ -180,16 +191,16 @@ The value of a mode is decided at run time in the following order.
 - In the new form, **--need=1** is added automatically, so that a block
 which includes any one of the patterns is processed (OR).  Specify
 **--need** after `--` to override it; **--need=2** brings back AND.  The
-legacy form works as before (AND).  Put **--need** after all the
-**-Mtee** and the alias options that include **-Mtee**, because each of
-them adds **--need=1** again.
+legacy form works as before (AND).  Each **-Mtee**, and each alias
+option that includes **-Mtee**, adds **--need=1** again, so put
+**--need** after all of them.
 - If the command is omitted (`-Mtee -E PAT --`), the pattern selects
 text but the text is not changed.
 - In the new form, a pattern outside **-Mtee** is an error.  So is
 **--callback** outside **-Mtee**.
-- In the new form, a pattern given without an option after `--` is not
-taken as a pattern, because there are patterns given by options.
-**greple** takes it as a file name.
+- In the new form, the first argument after `--` is not taken as a
+pattern even if it is meant as one, because the patterns are already
+given by options.  **greple** takes it as a file name.
 - When the matches of different filters overlap, **greple** merges them
 into one area and the filter of the match which starts first is
 applied.
@@ -199,27 +210,28 @@ applied.
 - `{DEFINE}` written directly inside **-Mtee** on the command line is
 not expanded.  It is expanded inside an **option** definition.
 - No other option can be written between **-Mtee** modules, because
-**-M** must be at the head of the arguments.  They can be combined
-through an alias option.
+**-M** must be at the head of the arguments.  Use an alias option to
+combine **-Mtee** modules and other options.
 - `--` cannot be included in the command arguments, as before.
 - **--cm** is not independent for each filter.  If it is specified for
 only some patterns, the colors of other patterns, including those in
-other **-Mtee**, change by the cyclic assignment of **greple**.  Specify
-**--cm** for all the patterns when specifying colors.
+other **-Mtee**, change because of the cyclic assignment by
+**greple**.  Specify **--cm** for all the patterns when specifying
+colors.
 - When another module follows **-Mtee** (`-Mtee -E PAT cmd -- -Mcolors`),
 the patterns are passed to **greple** through the **default** option of
 the module, and the expansion of the option definition, such as
-`$ENV{NAME}` and `__PACKAGE__`, applies to them.  Escaping them is
-not attempted.
-- If a module whose **default** option includes a new form **-Mtee** is
-loaded before **-Mtee** followed by another module, such as
-`-Mfoo -Mtee -E PAT cmd -- -Mcolors`, the patterns are lost, and it
-is detected as an error ("passed twice or lost").  Load the module
-after **-Mtee**.
+`$ENV{NAME}` and `__PACKAGE__`, applies to them.  They are not
+escaped.
+- Suppose there is a module whose **default** option includes a new
+form **-Mtee**.  If it is loaded before a **-Mtee** which is followed by
+another module, as in `-Mfoo -Mtee -E PAT cmd -- -Mcolors`, the
+patterns are lost.  This is detected as an error ("passed twice or
+lost").  Load such a module after **-Mtee**.
 
 # CONFIGURATION
 
-Module parameters can be set with **Getopt::EX::Config** module using
+Module parameters can be set with the **Getopt::EX::Config** module using
 the following syntax:
 
     greple -Mtee::config(discrete) ...
@@ -237,12 +249,17 @@ prefixing the command name with `&`.
 
     greple -Mtee '&App::ansifold::ansifold' -w40 -- ...
 
-The function is executed in a forked child process, so it must follow
-these requirements:
+The function must follow these requirements:
 
-- Read matched text from **STDIN**
-- Print converted result to **STDOUT**
+- Read the matched text from **STDIN**
+- Print the converted result to **STDOUT**
 - Arguments are passed via both `@ARGV` and `@_`
+
+By default, the function is executed in the **greple** process
+itself, without forking.  So, the values of global variables changed
+by the function remain in the next call, and calling **exit** in the
+function terminates **greple**.  With the **--no-nofork** option, the
+function is executed in a forked child process.
 
 Any fully qualified function name can be used:
 
@@ -264,7 +281,7 @@ For convenience, the following short aliases are available:
 
     Calls `App::cat::v->new->run(@_)`.
 
-Using a function call avoids the overhead of forking an external
+Using a function call avoids the overhead of starting an external
 process for each invocation, which can significantly improve
 performance when used with the **--discrete** option.
 
@@ -276,7 +293,7 @@ Use the following instead.
 
     greple -Mtee cat -n -- --all -SE foo
 
-# WHY DO NOT USE TEIP
+# WHY NOT USE TEIP
 
 First of all, whenever you can do it with the **teip** command, use
 it. It is an excellent tool and much faster than **greple**.
@@ -291,23 +308,24 @@ consisting of multiple lines.
 
 # EXAMPLE
 
-Next command will find text blocks inside [perlpod(1)](http://man.he.net/man1/perlpod) style document
-included in Perl module file.
+The next command finds the text blocks of the [perlpod(1)](http://man.he.net/man1/perlpod) style
+document in a Perl module file.
 
     greple --inside '^=(?s:.*?)(^=cut|\z)' --re '^([\w\pP].+\n)+' tee.pm
 
-You can translate them by DeepL service by executing the above command
-convined with **-Mtee** module which calls **deepl** command like this:
+You can translate them with the DeepL service by combining the above
+command with the **-Mtee** module calling the **deepl** command, like
+this:
 
     greple -Mtee deepl text --to JA - -- --fillup ...
 
 The dedicated module [App::Greple::xlate::deepl](https://metacpan.org/pod/App%3A%3AGreple%3A%3Axlate%3A%3Adeepl) is more effective
-for this purpose, though.  In fact, the implementation hint of **tee**
-module came from **xlate** module.
+for this purpose, though.  In fact, the hint for implementing the
+**tee** module came from the **xlate** module.
 
 # EXAMPLE 2
 
-Next command will find some indented part in LICENSE document.
+The next command finds some indented parts in the LICENSE document.
 
     greple --re '^[ ]{2}[a-z][)] .+\n([ ]{5}.+\n)*' -C LICENSE
 
@@ -318,9 +336,9 @@ Next command will find some indented part in LICENSE document.
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
 
-You can reformat this part by using **tee** module with **ansifold**
-command.  Using both **--crmode** options together allows efficient
-processing of multi-line blocks:
+You can reformat these parts by using the **tee** module with the
+**ansifold** command.  Using both **--crmode** options together allows
+efficient processing of multi-line blocks:
 
     greple -Mtee ansifold -sw40 --prefix '     ' --crmode -- --crmode --re ...
 
@@ -339,22 +357,22 @@ processes, so it takes longer to execute.
 
 # EXAMPLE 3
 
-Consider a situation where you want to grep for strings from
-non-header lines. For example, you may want to search for Docker image
-names from the `docker image ls` command, but leave the header line.
-You can do it by following command.
+Consider a situation where you want to grep for strings in lines
+other than the header.  For example, you may want to search for Docker
+image names in the output of the `docker image ls` command, but keep
+the header line.  You can do it with the following command.
 
     greple -Mtee grep perl -- -ML 2: --discrete --all
 
-Option `-ML 2:` retrieves the second to last lines and sends
-them to the `grep perl` command.  The option --discrete is required
-because the number of lines of input and output changes, but since the
-command is only executed once, there is no performance drawback.
+The option `-ML 2:` takes the lines from the second line to the end,
+and sends them to the `grep perl` command.  The option **--discrete**
+is required because the number of lines changes, but since the
+command is executed only once, there is no performance drawback.
 
 If you try to do the same thing with the **teip** command,
 `teip -l 2- -- grep` will give an error because the number of output
-lines is less than the number of input lines. However, there is no
-problem with the result obtained.
+lines is less than the number of input lines, although the output
+itself is correct.
 
 # INSTALL
 
