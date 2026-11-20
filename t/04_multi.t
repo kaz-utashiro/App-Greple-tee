@@ -119,4 +119,24 @@ subtest 'errors' => sub {
     ($o, $st) = tee("-Mtee $UP -- -Mtee $LT -- foo $IN");
     is($o, "<foo only\n<foo and qux\n", 'legacy twice: last wins');
 };
+my $ALL = "FOO only\n<qux only\nFOO and <qux\nnone\n";
+subtest 'aliases' => sub {
+    is((tee("-Mteetest --up --lt --filter $IN"))[0], $ALL, 'alias a b');
+    is((tee("-Mteetest --lt --up --filter $IN"))[0], $ALL, 'alias b a');
+    is((tee("-Mteetest --mix --filter $IN"))[0], $ALL, 'two -Mtee in one alias');
+};
+SKIP: {
+    skip 'App::Greple::colors not installed', 1 unless eval { require App::Greple::colors };
+    subtest 'other modules' => sub {
+        is((tee("$TWO -Mcolors --filter $IN"))[0], $ALL, 'followed by another module');
+        is((tee("-Mtee -E foo $UP -- -Mcolors -Mtee -E qux $LT -- --filter $IN"))[0], $ALL, 'module between -Mtee');
+        is((tee("-Mtee -E foo $UP -- -Mcolors --filter $IN"))[0], "FOO only\nqux only\nFOO and qux\nnone\n", 'single -Mtee then module');
+    };
+}
+subtest 'greple options' => sub {
+    is((tee("-Mtee -E FOO $UP -- -i --filter $IN"))[0], "FOO only\nqux only\nFOO and qux\nnone\n", '-i applies');
+    is((tee("$TWO --filter --exclude 'foo and.*' $IN"))[0], "FOO only\n<qux only\nfoo and qux\nnone\n", '--exclude applies to all');
+    is((tee("$TWO --filter --inside '^.*only\\n' $IN"))[0], "FOO only\n<qux only\nfoo and qux\nnone\n", '--inside applies to all');
+    like((tee("-Mtee --cm R -E foo $UP -- -Mtee --cm B -E qux $LT -- --filter $IN"))[0], qr/FOO/, '--cm passes through');
+};
 done_testing;
