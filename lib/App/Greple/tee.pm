@@ -473,11 +473,9 @@ our $VERSION = "1.05";
 use v5.24;
 use warnings;
 use experimental 'refaliasing';
-use Carp;
 use List::Util qw(sum);
 use Scalar::Util qw(refaddr blessed);
 use Command::Run;
-use Data::Dumper;
 use Getopt::EX::Config;
 use App::Greple::tee::Autoload qw(resolve);
 
@@ -639,22 +637,24 @@ sub fillup_paragraphs {
 
 sub call {
     my($f, $data) = @_;
-    my @command = @{ $f->{command} // [] } or return $data;
-    my $exec = Command::Run->new;
+    # resolve &function once, and keep one Command::Run object for the
+    # filter: a new object makes new temporary files for every call
+    my $command = $f->{_command} //= do {
+	my @command = @{ $f->{command} // [] };
+	$command[0] = resolve($1) if @command and $command[0] =~ /^&(.+)/;
+	\@command;
+    };
+    @$command or return $data;
     if (opt($f, 'discrete') and opt($f, 'fillup')) {
 	fillup_paragraphs $data;
     }
-    # Resolve &function to code reference
-    if (@command and $command[0] =~ /^&(.+)/) {
-	shift @command;
-	unshift @command, resolve($1);
-    }
     my %run_opt = (stdin => $data);
-    if (opt($f, 'nofork') and ref $command[0] eq 'CODE') {
+    if (opt($f, 'nofork') and ref $command->[0] eq 'CODE') {
 	$run_opt{nofork} = 1;
 	$run_opt{raw} = 1;
     }
-    my $out = $exec->command(@command)->with(%run_opt)->update->data // '';
+    my $exec = $f->{_exec} //= Command::Run->new;
+    my $out = $exec->command(@$command)->with(%run_opt)->update->data // '';
     if (opt($f, 'squeeze')) {
 	$out =~ s/\n\n+/\n/g;
     }
@@ -681,6 +681,18 @@ sub bundle_call {
     return @ret;
 }
 
+# run the filter for the blocks, and return the results
+sub run_filter {
+    my($f, @block) = @_;
+    my $cr = opt($f, 'crmode');
+    if ($cr) { s/\n(?!\z)/\r/g for @block }
+    my @r = opt($f, 'discrete')
+	? map { call $f, $_ } @block
+	: bundle_call $f, @block;
+    if ($cr) { s/\r/\n/g for @r }
+    @r;
+}
+
 my @bundle;
 my %out;
 my $last_grep;
@@ -688,31 +700,14 @@ my $last_grep;
 sub postgrep {
     my $grep = shift;
     return own_postgrep($grep) if $own;
-    my $f = $filter[0] // {};
+    my $f = $filter[0] //= {};
     return if opt($f, 'discrete') and not opt($f, 'bulkmode');
     @bundle = my @block = ();
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
-	for my $m (@match) {
-	    push @block, $grep->cut(@$m);
-	}
+	push @block, map { $grep->cut(@$_) } @match;
     }
-
-    if (opt($f, 'crmode')) {
-	s/\n(?!\z)/\r/g for @block;
-    }
-
-    @bundle = do {
-	if (opt($f, 'discrete')) {
-	    map { call $f, $_ } @block;
-	} else {
-	    bundle_call $f, @block;
-	}
-    } if @block;
-
-    if (opt($f, 'crmode')) {
-	s/\r/\n/g for @bundle;
-    }
+    @bundle = run_filter($f, @block) if @block;
 }
 
 # new form: process the matches of each filter, keyed by match start
@@ -732,32 +727,20 @@ sub own_postgrep {
     die "tee: patterns inside -Mtee are passed twice or lost (check the order of modules and aliases)\n"
 	if @callback != $own;
     %out = ();
-    my %group;
+    my(%start, %block);
     for my $r ($grep->result) {
 	my($b, @match) = @$r;
 	for my $m (@match) {
 	    my $n = filter_id($m->[3]) // next;
-	    push @{$group{$n}}, [ $m->[0], $grep->cut(@$m[0,1]) ];
+	    push @{$start{$n}}, $m->[0];
+	    push @{$block{$n}}, $grep->cut(@$m[0,1]);
 	}
     }
-    for my $n (keys %group) {
+    for my $n (keys %block) {
 	my $f = $filter[$n] // die "tee: unknown filter $n\n";
-	my @start = map { $_->[0] } @{$group{$n}};
-	my @block = map { $_->[1] } @{$group{$n}};
-	my @result = do {
-	    if (not @{ $f->{command} // [] }) {
-		@block;
-	    } else {
-		my $cr = opt($f, 'crmode');
-		if ($cr) { s/\n(?!\z)/\r/g for @block }
-		my @r = opt($f, 'discrete')
-		    ? map { call $f, $_ } @block
-		    : bundle_call $f, @block;
-		if ($cr) { s/\r/\n/g for @r }
-		@r;
-	    }
-	};
-	@out{@start} = @result;
+	my @block = @{$block{$n}};
+	@out{@{$start{$n}}} =
+	    @{ $f->{command} // [] } ? run_filter($f, @block) : @block;
     }
 }
 
@@ -777,7 +760,7 @@ sub callback {
     if (exists $arg{filter}) {
 	return $out{$arg{start}};
     }
-    my $f = $filter[0] // {};
+    my $f = $filter[0] //= {};
     if (opt($f, 'discrete') and not opt($f, 'bulkmode')) {
 	call $f, $arg{match};
     }
