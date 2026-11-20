@@ -99,4 +99,24 @@ subtest 'legacy with --cm' => sub {
     ($o) = tee("-Mtee --cm R $UP -- -Mcolors -E foo -E qux --color=always $IN");
     like($o, qr/\e\[31mFOO/, '--cm is passed to greple when another module follows');
 };
+subtest 'errors' => sub {
+    my @case = (
+        [ "-Mtee -E foo $UP -- -E qux $IN",                       qr/outside/i, 'pattern outside -Mtee' ],
+        [ "-Mtee -E foo $UP -- --callback 'sub{}' $IN",           qr/callback/i, '--callback outside -Mtee' ],
+        [ "-Mtee $UP -- -Mtee -E qux $LT -- -E foo $IN",           qr/mix/i,     'legacy and new mixed' ],
+        [ "-Mtee --le 'foo qux' $UP -- $IN",                       qr/le/,       '--le with several keywords' ],
+        [ "-Mtee --exclude foo -E qux $UP -- $IN",                 qr/Unknown option: exclude/, 'unknown option inside -Mtee' ],
+    );
+    for (@case) {
+        my($cmd, $re, $name) = @$_;
+        my($o, $st) = tee($cmd);
+        isnt($st, 0, "$name: fails");
+        like($o, $re, "$name: message");
+        unlike($o, qr/FOO|<qux/, "$name: no output before error");
+    }
+    my($o, $st) = tee("-Mtee --le foo $UP -- $IN");
+    is($st, 0, '--le with one keyword is accepted');
+    ($o, $st) = tee("-Mtee $UP -- -Mtee $LT -- foo $IN");
+    is($o, "<foo only\n<foo and qux\n", 'legacy twice: last wins');
+};
 done_testing;

@@ -371,7 +371,14 @@ sub finalize {
 		       'E|re=s' => $pattern->('--re'),
 		       'e=s'    => $pattern->('-e'),
 		       'fe=s'   => $pattern->('--fe'),
-		       'le=s'   => $pattern->('--le'),
+		       'le=s'   => do {
+			   my $le = $pattern->('--le');
+			   sub {
+			       die "tee: --le inside -Mtee takes a single keyword or &function\n"
+				   if $_[1] !~ /^&/ and $_[1] =~ /\s/;
+			       goto &$le;
+			   };
+		       },
 		       'cm=s'   => sub { push @emit, '--cm', "$_[1]" },
 	);
     if (@$argv != $before) {
@@ -517,6 +524,11 @@ sub own_postgrep {
     # is not reused by the next object.
     return if $last_grep and refaddr $last_grep == refaddr $grep;
     $last_grep = $grep;
+    die "tee: cannot mix -Mtee with and without patterns\n" if $legacy;
+    die "tee: pattern given outside -Mtee (put every pattern inside -Mtee ... --)\n"
+	if $grep->{pattern}->patterns != $own;
+    die "tee: --callback given outside -Mtee is not supported with patterns inside -Mtee\n"
+	if @{ $grep->{callback} // [] } != $own;
     %out = ();
     my %group;
     for my $r ($grep->result) {
