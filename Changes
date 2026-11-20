@@ -2,6 +2,22 @@ Revision history for Perl extension App-Greple-tee
 
 {{$NEXT}}
 
+2.00_00 2026-11-20T13:50:05Z
+
+    - Multiple filters: repeat -Mtee with patterns inside it to apply
+      a different filter to each set of patterns
+          greple -Mtee -E PAT1 '&ansifold' -w80 -- \
+                 -Mtee --discrete -E PAT2 '&ansicolumn' -t -- file
+      - Patterns are given inside -Mtee by -E (--re), -e, --fe and --le
+      - Mode options (--discrete, --crmode, --fillup, ...) inside -Mtee
+        apply to that filter only
+      - -Mtee without patterns inside it works as before
+      - See MULTIPLE FILTERS in the document
+    - Remove deprecated --blocks option (incompatible change; use
+      greple --stretch instead)
+    - Require Getopt::EX::Config 1.0202
+    - Faster --discrete with &function filters
+
 1.05 2026-02-21T11:55:14Z
 
     - Use nofork+raw mode for code ref calls (configurable via --no-nofork)

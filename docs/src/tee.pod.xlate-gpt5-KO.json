@@ -36,6 +36,10 @@
       "B<--discrete> 옵션을 사용하면 각 명령이 필요할 때 실행됩니다. B<--bulkmode> 옵션을 사용하면 모든 변환이 한 번에 수행됩니다.\n"
    ],
    [
+      "This option has no effect in the new form of L</MULTIPLE FILTERS>, where the filters are always executed for all the matches at once.\n",
+      "이 옵션은 L</MULTIPLE FILTERS>의 새 형식에서는 효과가 없으며, 이 경우 필터는 항상 모든 일치 항목에 대해 한 번에 실행됩니다.\n"
+   ],
+   [
       "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
       "이 옵션은 각 블록 중간의 모든 개행 문자를 캐리지 리턴 문자로 바꿉니다. 명령 실행 결과에 포함된 캐리지 리턴은 다시 개행 문자로 복원됩니다. 따라서 B<--discrete> 옵션을 사용하지 않고도 여러 줄로 구성된 블록을 일괄 처리할 수 있습니다.\n"
    ],
@@ -60,6 +64,122 @@
       "B<-ML> 모듈을 사용하여 다음과 같이 짝수 줄만 처리할 수도 있습니다.\n"
    ],
    [
+      "Repeating B<-Mtee> with patterns inside it applies a different filter to each set of patterns.\n",
+      "내부에 패턴을 포함한 B<-Mtee>를 반복하면 각 패턴 집합에 서로 다른 필터가 적용됩니다.\n"
+   ],
+   [
+      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and puts the lines that match C<PAT3> in columns with B<ansicolumn>.\n",
+      "첫 번째 비옵션 인수 앞의 모든 것은 모듈 옵션이고, 그 뒤부터 C<-->까지는 명령입니다. 예를 들어, 다음 명령은 C<PAT1> 또는 C<PAT2>와 일치하는 줄을 B<ansifold>로 접고, C<PAT3>와 일치하는 줄은 B<ansicolumn>으로 열 형식으로 만듭니다.\n"
+   ],
+   [
+      "There are two forms.\n",
+      "형식은 두 가지입니다.\n"
+   ],
+   [
+      "When there is no pattern inside B<-Mtee>, the command is applied to all the patterns that follow C<-->, as before. If it is specified twice, the last one is effective.\n",
+      "B<-Mtee> 내부에 패턴이 없으면, 이전과 같이 C<--> 뒤에 오는 모든 패턴에 명령이 적용됩니다. 두 번 지정하면 마지막 것이 유효합니다.\n"
+   ],
+   [
+      "When there is a pattern inside B<-Mtee>, the command is applied only to the patterns in that B<-Mtee>.\n",
+      "B<-Mtee> 내부에 패턴이 있으면, 명령은 해당 B<-Mtee> 안의 패턴에만 적용됩니다.\n"
+   ],
+   [
+      "Mixing the two forms is an error. A B<-Mtee> without arguments up to C<-->, such as the first half of C<-Mtee::config(...) -Mtee ...>, only sets the configuration and counts as neither form.\n",
+      "두 형식을 섞으면 오류입니다. C<-Mtee::config(...) -Mtee ...>의 앞부분처럼 C<-->까지 인수가 없는 B<-Mtee>는 구성만 설정하며 어느 형식에도 해당하지 않습니다.\n"
+   ],
+   [
+      "The errors are detected when the first file is searched, before any output.\n",
+      "오류는 출력 전에 첫 번째 파일을 검색할 때 감지됩니다.\n"
+   ],
+   [
+      "Modes of the filter. They can be negated with the B<--no-> form, such as B<--no-crmode>.\n",
+      "필터의 모드입니다. B<--no-crmode>처럼 B<--no-> 형식으로 부정할 수 있습니다.\n"
+   ],
+   [
+      "Regular expression pattern.\n",
+      "정규 표현식 패턴.\n"
+   ],
+   [
+      "Pattern. It is one pattern even if it includes spaces.\n",
+      "패턴입니다. 공백을 포함하더라도 하나의 패턴입니다.\n"
+   ],
+   [
+      "Fixed string pattern.\n",
+      "고정 문자열 패턴.\n"
+   ],
+   [
+      "A single keyword, or a C<&function>. Giving several keywords separated by spaces is an error.\n",
+      "단일 키워드 또는 C<&function>입니다. 공백으로 구분된 여러 키워드를 지정하면 오류입니다.\n"
+   ],
+   [
+      "Passed to B<greple> as is. The color is not bound to the pattern but is assigned to the pattern numbers cyclically in the order specified (see L</LIMITATIONS>).\n",
+      "B<greple>에 그대로 전달됩니다. 색상은 패턴에 묶이지 않고 지정된 순서대로 패턴 번호에 순환하여 할당됩니다(L</LIMITATIONS> 참조).\n"
+   ],
+   [
+      "A function of B<Getopt::EX::Config>. It changes the setting common to B<all> the filters.\n",
+      "B<Getopt::EX::Config>의 함수입니다. B<모든> 필터에 공통인 설정을 변경합니다.\n"
+   ],
+   [
+      "Other options such as B<--exclude> are errors. Write them after C<-->; they apply to all the filters.\n",
+      "B<--exclude> 같은 다른 옵션은 오류입니다. C<--> 뒤에 작성해야 하며, 모든 필터에 적용됩니다.\n"
+   ],
+   [
+      "The value of a mode is decided at run time in the following order.\n",
+      "모드의 값은 실행 시 다음 순서로 결정됩니다.\n"
+   ],
+   [
+      "The one specified inside the B<-Mtee> (B<--crmode>, B<--no-crmode>).\n",
+      "B<-Mtee> 내부에서 지정한 것(B<--crmode>, B<--no-crmode>)입니다.\n"
+   ],
+   [
+      "The one specified after C<-->, or by B<-Mtee::config(...)>.\n",
+      "C<--> 뒤에서 또는 B<-Mtee::config(...)>로 지정한 것입니다.\n"
+   ],
+   [
+      "In the new form, B<--need=1> is added automatically, so that a block which includes any one of the patterns is processed (OR). Specify B<--need> after C<--> to override it; B<--need=2> brings back AND. The legacy form works as before (AND). Put B<--need> after all the B<-Mtee> and the alias options that include B<-Mtee>, because each of them adds B<--need=1> again.\n",
+      "새 형식에서는 패턴 중 하나라도 포함하는 블록이 처리되도록 B<--need=1>이 자동으로 추가됩니다(OR). 이를 재정의하려면 C<--> 뒤에 B<--need>를 지정하십시오. B<--need=2>는 AND로 되돌립니다. 기존 형식은 이전과 같이 작동합니다(AND). 각각이 B<--need=1>을 다시 추가하므로, B<--need>는 모든 B<-Mtee> 및 B<-Mtee>를 포함하는 별칭 옵션 뒤에 두십시오.\n"
+   ],
+   [
+      "If the command is omitted (C<-Mtee -E PAT -->), the pattern selects text but the text is not changed.\n",
+      "명령을 생략하면(C<-Mtee -E PAT -->) 패턴은 텍스트를 선택하지만 텍스트는 변경되지 않습니다.\n"
+   ],
+   [
+      "In the new form, a pattern outside B<-Mtee> is an error. So is B<--callback> outside B<-Mtee>.\n",
+      "새 형식에서는 B<-Mtee> 밖의 패턴은 오류입니다. B<-Mtee> 밖의 B<--callback>도 마찬가지입니다.\n"
+   ],
+   [
+      "In the new form, a pattern given without an option after C<--> is not taken as a pattern, because there are patterns given by options. B<greple> takes it as a file name.\n",
+      "새 형식에서는 옵션 없이 C<--> 뒤에 지정한 패턴은 패턴으로 간주되지 않습니다. 옵션으로 지정된 패턴이 있기 때문입니다. B<greple>은 이를 파일 이름으로 간주합니다.\n"
+   ],
+   [
+      "When the matches of different filters overlap, B<greple> merges them into one area and the filter of the match which starts first is applied.\n",
+      "서로 다른 필터의 일치 영역이 겹치면 B<greple>은 이를 하나의 영역으로 병합하고, 먼저 시작하는 일치 영역의 필터를 적용합니다.\n"
+   ],
+   [
+      "C<{DEFINE}> written directly inside B<-Mtee> on the command line is not expanded. It is expanded inside an B<option> definition.\n",
+      "명령줄에서 B<-Mtee> 내부에 직접 작성한 C<{DEFINE}>은 확장되지 않습니다. B<option> 정의 내부에서는 확장됩니다.\n"
+   ],
+   [
+      "No other option can be written between B<-Mtee> modules, because B<-M> must be at the head of the arguments. They can be combined through an alias option.\n",
+      "B<-M>는 인수의 맨 앞에 있어야 하므로 B<-Mtee> 모듈 사이에는 다른 옵션을 작성할 수 없습니다. 별칭 옵션을 통해 결합할 수 있습니다.\n"
+   ],
+   [
+      "C<--> cannot be included in the command arguments, as before.\n",
+      "이전과 마찬가지로 C<-->는 명령 인수에 포함할 수 없습니다.\n"
+   ],
+   [
+      "B<--cm> is not independent for each filter. If it is specified for only some patterns, the colors of other patterns, including those in other B<-Mtee>, change by the cyclic assignment of B<greple>. Specify B<--cm> for all the patterns when specifying colors.\n",
+      "B<--cm>은 각 필터마다 독립적이지 않습니다. 일부 패턴에만 지정하면 다른 B<-Mtee>의 패턴을 포함한 다른 패턴의 색상이 B<greple>의 순환 할당에 의해 변경됩니다. 색상을 지정할 때는 모든 패턴에 B<--cm>을 지정하십시오.\n"
+   ],
+   [
+      "When another module follows B<-Mtee> (C<-Mtee -E PAT cmd -- -Mcolors>), the patterns are passed to B<greple> through the B<default> option of the module, and the expansion of the option definition, such as C<$ENV{NAME}> and C<__PACKAGE__>, applies to them. Escaping them is not attempted.\n",
+      "다른 모듈이 B<-Mtee> 뒤에 오는 경우(C<-Mtee -E PAT cmd -- -Mcolors>), 패턴은 모듈의 B<default> 옵션을 통해 B<greple>에 전달되며, C<$ENV{NAME}> 및 C<__PACKAGE__>와 같은 옵션 정의의 확장이 해당 패턴에 적용됩니다. 이들을 이스케이프하려는 시도는 하지 않습니다.\n"
+   ],
+   [
+      "If a module whose B<default> option includes a new form B<-Mtee> is loaded before B<-Mtee> followed by another module, such as C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>, the patterns are lost, and it is detected as an error (\"passed twice or lost\"). Load the module after B<-Mtee>.\n",
+      "B<default> 옵션에 새 형식의 B<-Mtee>를 포함하는 모듈이 C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>처럼 다른 모듈이 뒤따르는 B<-Mtee>보다 먼저 로드되면 패턴이 손실되고 오류(\"두 번 전달되었거나 손실됨\")로 감지됩니다. 모듈은 B<-Mtee> 뒤에 로드하십시오.\n"
+   ],
+   [
       "Module parameters can be set with B<Getopt::EX::Config> module using the following syntax:\n",
       "모듈 매개변수는 다음 구문을 사용하여 B<Getopt::EX::Config> 모듈로 설정할 수 있습니다:\n"
    ],
@@ -68,8 +188,8 @@
       "셸 별칭이나 모듈 파일과 함께 사용하면 유용합니다.\n"
    ],
    [
-      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.\n",
-      "사용 가능한 매개변수: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.\n"
+      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<nofork>.\n",
+      "사용 가능한 매개변수: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<nofork>.\n"
    ],
    [
       "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",
@@ -120,32 +240,8 @@
       "함수 호출을 사용하면 각 호출마다 외부 프로세스를 fork하는 오버헤드를 피할 수 있으므로, B<--discrete> 옵션과 함께 사용할 때 성능을 크게 향상시킬 수 있습니다.\n"
    ],
    [
-      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
-      "B<greple>에 B<--stretch> (B<-S>) 옵션이 구현됨에 따라 B<--blocks> 옵션은 더 이상 필요하지 않습니다. 다음과 같이 간단히 수행할 수 있습니다.\n"
-   ],
-   [
-      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
-      "향후 폐기될 수 있으므로 B<--blocks> 사용은 권장하지 않습니다.\n"
-   ],
-   [
-      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
-      "일반적으로 지정된 검색 패턴과 일치하는 영역이 외부 명령으로 보내집니다. 이 옵션을 지정하면 일치한 영역이 아니라 그것을 포함하는 전체 블록이 처리됩니다.\n"
-   ],
-   [
-      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
-      "예를 들어 패턴 C<foo>를 포함하는 줄을 외부 명령으로 보내려면, 전체 줄에 일치하는 패턴을 지정해야 합니다:\n"
-   ],
-   [
-      "But with the B<--blocks> option, it can be done as simply as follows:\n",
-      "하지만 B<--blocks> 옵션을 사용하면 다음과 같이 간단히 수행할 수 있습니다:\n"
-   ],
-   [
-      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
-      "B<--blocks> 옵션을 사용하면 이 모듈은 L<teip(1)>의 B<-g> 옵션과 더 비슷하게 동작합니다. 그렇지 않으면 B<-o> 옵션을 사용한 L<teip(1)>과 유사하게 동작합니다.\n"
-   ],
-   [
-      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
-      "B<--blocks>와 B<--all> 옵션을 함께 사용하지 마십시오. 블록이 전체 데이터가 되기 때문입니다.\n"
+      "The B<--blocks> option has been removed. It is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. Use the following instead.\n",
+      "B<--blocks> 옵션이 제거되었습니다. B<greple>에 B<--stretch> (B<-S>) 옵션이 구현됨에 따라 더 이상 필요하지 않습니다. 대신 다음을 사용하십시오.\n"
    ],
    [
       "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",

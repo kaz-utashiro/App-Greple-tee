@@ -36,6 +36,10 @@
       "使用 <--discrete> 选项时，每个命令按需执行。使用 <--bulkmode> 选项时，所有转换将一次性完成。\n"
    ],
    [
+      "This option has no effect in the new form of L</MULTIPLE FILTERS>, where the filters are always executed for all the matches at once.\n",
+      "在 L</MULTIPLE FILTERS> 的新形式中，此选项无效，因为筛选器始终会一次性对所有匹配项执行。\n"
+   ],
+   [
       "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
       "该选项会将每个块中间的所有换行符替换为回车符。执行命令得到的结果中包含的回车符会还原为换行符。这样就可以在不使用 B<--discrete> 选项的情况下批量处理由多行组成的块。\n"
    ],
@@ -60,6 +64,122 @@
       "你也可以使用 B<-ML> 模块如下只处理偶数行。\n"
    ],
    [
+      "Repeating B<-Mtee> with patterns inside it applies a different filter to each set of patterns.\n",
+      "在 B<-Mtee> 中重复指定模式，会对每组模式应用不同的过滤器。\n"
+   ],
+   [
+      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and puts the lines that match C<PAT3> in columns with B<ansicolumn>.\n",
+      "第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将匹配 C<PAT3> 的行排成列。\n"
+   ],
+   [
+      "There are two forms.\n",
+      "有两种形式。\n"
+   ],
+   [
+      "When there is no pattern inside B<-Mtee>, the command is applied to all the patterns that follow C<-->, as before. If it is specified twice, the last one is effective.\n",
+      "当 B<-Mtee> 中没有模式时，命令会像以前一样应用于 C<--> 之后的所有模式。如果指定两次，则最后一个生效。\n"
+   ],
+   [
+      "When there is a pattern inside B<-Mtee>, the command is applied only to the patterns in that B<-Mtee>.\n",
+      "当 B<-Mtee> 中有模式时，命令只应用于该 B<-Mtee> 中的模式。\n"
+   ],
+   [
+      "Mixing the two forms is an error. A B<-Mtee> without arguments up to C<-->, such as the first half of C<-Mtee::config(...) -Mtee ...>, only sets the configuration and counts as neither form.\n",
+      "混用这两种形式会导致错误。直到 C<--> 之前不带参数的 B<-Mtee>，例如 C<-Mtee::config(...) -Mtee ...> 的前半部分，只设置配置，且不属于任何一种形式。\n"
+   ],
+   [
+      "The errors are detected when the first file is searched, before any output.\n",
+      "错误会在搜索第一个文件时、任何输出之前被检测到。\n"
+   ],
+   [
+      "Modes of the filter. They can be negated with the B<--no-> form, such as B<--no-crmode>.\n",
+      "过滤器的模式。可使用 B<--no-> 形式将其否定，例如 B<--no-crmode>。\n"
+   ],
+   [
+      "Regular expression pattern.\n",
+      "正则表达式模式。\n"
+   ],
+   [
+      "Pattern. It is one pattern even if it includes spaces.\n",
+      "模式。即使包含空格也算作一个模式。\n"
+   ],
+   [
+      "Fixed string pattern.\n",
+      "固定字符串模式。\n"
+   ],
+   [
+      "A single keyword, or a C<&function>. Giving several keywords separated by spaces is an error.\n",
+      "单个关键字，或一个 C<&function>。给出多个以空格分隔的关键字会导致错误。\n"
+   ],
+   [
+      "Passed to B<greple> as is. The color is not bound to the pattern but is assigned to the pattern numbers cyclically in the order specified (see L</LIMITATIONS>).\n",
+      "原样传递给 B<greple>。颜色不绑定到模式，而是按指定顺序循环分配给模式编号（参见 L</LIMITATIONS>）。\n"
+   ],
+   [
+      "A function of B<Getopt::EX::Config>. It changes the setting common to B<all> the filters.\n",
+      "B<Getopt::EX::Config> 的一个函数。它会更改 B<所有> 过滤器共用的设置。\n"
+   ],
+   [
+      "Other options such as B<--exclude> are errors. Write them after C<-->; they apply to all the filters.\n",
+      "其他选项（如 B<--exclude>）会导致错误。请将它们写在 C<--> 之后；它们会应用于所有过滤器。\n"
+   ],
+   [
+      "The value of a mode is decided at run time in the following order.\n",
+      "模式的值在运行时按以下顺序决定。\n"
+   ],
+   [
+      "The one specified inside the B<-Mtee> (B<--crmode>, B<--no-crmode>).\n",
+      "在 B<-Mtee> 内指定的值（B<--crmode>、B<--no-crmode>）。\n"
+   ],
+   [
+      "The one specified after C<-->, or by B<-Mtee::config(...)>.\n",
+      "在 C<--> 之后指定的值，或由 B<-Mtee::config(...)> 指定的值。\n"
+   ],
+   [
+      "In the new form, B<--need=1> is added automatically, so that a block which includes any one of the patterns is processed (OR). Specify B<--need> after C<--> to override it; B<--need=2> brings back AND. The legacy form works as before (AND). Put B<--need> after all the B<-Mtee> and the alias options that include B<-Mtee>, because each of them adds B<--need=1> again.\n",
+      "在新形式中，会自动添加 B<--need=1>，因此会处理包含任一模式的块（OR）。在 C<--> 之后指定 B<--need> 可覆盖它；B<--need=2> 会恢复 AND。旧形式仍按原来的方式工作（AND）。请将 B<--need> 放在所有 B<-Mtee> 以及包含 B<-Mtee> 的别名选项之后，因为它们各自都会再次添加 B<--need=1>。\n"
+   ],
+   [
+      "If the command is omitted (C<-Mtee -E PAT -->), the pattern selects text but the text is not changed.\n",
+      "如果省略命令（C<-Mtee -E PAT -->），模式会选择文本，但不会更改文本。\n"
+   ],
+   [
+      "In the new form, a pattern outside B<-Mtee> is an error. So is B<--callback> outside B<-Mtee>.\n",
+      "在新形式中，B<-Mtee> 外的模式会导致错误。B<-Mtee> 外的 B<--callback> 也是如此。\n"
+   ],
+   [
+      "In the new form, a pattern given without an option after C<--> is not taken as a pattern, because there are patterns given by options. B<greple> takes it as a file name.\n",
+      "在新形式中，C<--> 之后未带选项给出的模式不会被视为模式，因为已有通过选项给出的模式。B<greple> 会将其视为文件名。\n"
+   ],
+   [
+      "When the matches of different filters overlap, B<greple> merges them into one area and the filter of the match which starts first is applied.\n",
+      "当不同过滤器的匹配区域重叠时，B<greple> 会将它们合并为一个区域，并应用最先开始的匹配所对应的过滤器。\n"
+   ],
+   [
+      "C<{DEFINE}> written directly inside B<-Mtee> on the command line is not expanded. It is expanded inside an B<option> definition.\n",
+      "直接在命令行的 B<-Mtee> 内编写的 C<{DEFINE}> 不会展开。在 B<option> 定义内则会展开。\n"
+   ],
+   [
+      "No other option can be written between B<-Mtee> modules, because B<-M> must be at the head of the arguments. They can be combined through an alias option.\n",
+      "不能在 B<-Mtee> 模块之间写入其他选项，因为 B<-M> 必须位于参数开头。它们可以通过别名选项组合。\n"
+   ],
+   [
+      "C<--> cannot be included in the command arguments, as before.\n",
+      "与以前一样，命令参数中不能包含 C<-->。\n"
+   ],
+   [
+      "B<--cm> is not independent for each filter. If it is specified for only some patterns, the colors of other patterns, including those in other B<-Mtee>, change by the cyclic assignment of B<greple>. Specify B<--cm> for all the patterns when specifying colors.\n",
+      "B<--cm> 并非对每个过滤器独立。如果仅为部分模式指定它，包括其他 B<-Mtee> 中的模式在内的其他模式颜色会因 B<greple> 的循环分配而改变。指定颜色时，请为所有模式指定 B<--cm>。\n"
+   ],
+   [
+      "When another module follows B<-Mtee> (C<-Mtee -E PAT cmd -- -Mcolors>), the patterns are passed to B<greple> through the B<default> option of the module, and the expansion of the option definition, such as C<$ENV{NAME}> and C<__PACKAGE__>, applies to them. Escaping them is not attempted.\n",
+      "当另一个模块位于 B<-Mtee> 之后时（C<-Mtee -E PAT cmd -- -Mcolors>），模式会通过该模块的 B<default> 选项传递给 B<greple>，并且选项定义中的扩展（如 C<$ENV{NAME}> 和 C<__PACKAGE__>）会应用于这些模式。不会尝试对它们进行转义。\n"
+   ],
+   [
+      "If a module whose B<default> option includes a new form B<-Mtee> is loaded before B<-Mtee> followed by another module, such as C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>, the patterns are lost, and it is detected as an error (\"passed twice or lost\"). Load the module after B<-Mtee>.\n",
+      "如果某个 B<default> 选项包含新形式 B<-Mtee> 的模块，在 B<-Mtee> 后跟另一个模块之前加载，例如 C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>，模式会丢失，并被检测为错误（“重复传递或丢失”）。请在 B<-Mtee> 之后加载该模块。\n"
+   ],
+   [
       "Module parameters can be set with B<Getopt::EX::Config> module using the following syntax:\n",
       "模块参数可使用 B<Getopt::EX::Config> 模块按以下语法设置：\n"
    ],
@@ -68,8 +188,8 @@
       "这在与 shell 别名或模块文件结合时很有用。\n"
    ],
    [
-      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.\n",
-      "可用参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>、B<nofork>。\n"
+      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<nofork>.\n",
+      "可用参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<nofork>。\n"
    ],
    [
       "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",
@@ -120,32 +240,8 @@
       "使用函数调用可避免每次调用都为外部进程派生所带来的开销，当与 B<--discrete> 选项一起使用时，可显著提升性能。\n"
    ],
    [
-      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
-      "由于 B<greple> 中已实现 B<--stretch>（B<-S>）选项，B<--blocks> 选项已不再需要。你只需进行如下操作即可。\n"
-   ],
-   [
-      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
-      "不推荐使用 B<--blocks>，因为它将来可能被弃用。\n"
-   ],
-   [
-      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
-      "通常，符合指定搜索模式的区域会被发送到外部命令。如果指定了此选项，将处理包含该匹配区域的整个区块，而不是仅处理匹配区域。\n"
-   ],
-   [
-      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
-      "例如，要将包含模式 C<foo> 的行发送到外部命令，需要指定能匹配整行的模式：\n"
-   ],
-   [
-      "But with the B<--blocks> option, it can be done as simply as follows:\n",
-      "但使用 B<--blocks> 选项，可以像下面这样简单完成：\n"
-   ],
-   [
-      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
-      "使用 B<--blocks> 选项时，本模块的行为更像 L<teip(1)> 的 B<-g> 选项。否则，其行为类似于带 B<-o> 选项的 L<teip(1)>。\n"
-   ],
-   [
-      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
-      "不要将 B<--blocks> 与 B<--all> 选项一起使用，因为该区块将变为整个数据。\n"
+      "The B<--blocks> option has been removed. It is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. Use the following instead.\n",
+      "B<--blocks> 选项已被移除。由于 B<greple> 中已实现 B<--stretch>（B<-S>）选项，它已不再需要。请改用以下方式。\n"
    ],
    [
       "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",

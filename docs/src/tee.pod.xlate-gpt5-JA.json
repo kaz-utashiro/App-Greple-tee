@@ -36,6 +36,10 @@
       "<--discrete> オプションでは各コマンドはオンデマンドで実行されます。<--bulkmode> オプションではすべての変換を一括で実行します。\n"
    ],
    [
+      "This option has no effect in the new form of L</MULTIPLE FILTERS>, where the filters are always executed for all the matches at once.\n",
+      "このオプションは、L</MULTIPLE FILTERS> の新形式では効果がありません。新形式ではフィルターは常にすべてのマッチに対して一度に実行されます。\n"
+   ],
+   [
       "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
       "このオプションは、各ブロックの途中にあるすべての改行文字をキャリッジリターンに置き換えます。コマンド実行結果に含まれるキャリッジリターンは改めて改行に戻されます。これにより、B<--discrete> オプションを使わずとも、複数行から成るブロックをバッチ処理できます。\n"
    ],
@@ -60,6 +64,122 @@
       "B<-ML> モジュールを使って、次のように偶数行のみを処理することもできます。\n"
    ],
    [
+      "Repeating B<-Mtee> with patterns inside it applies a different filter to each set of patterns.\n",
+      "内部にパターンを含む B<-Mtee> を繰り返すと、パターンの各組に異なるフィルタが適用されます。\n"
+   ],
+   [
+      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and puts the lines that match C<PAT3> in columns with B<ansicolumn>.\n",
+      "最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する行を B<ansicolumn> で列に整形します。\n"
+   ],
+   [
+      "There are two forms.\n",
+      "形式は2つあります。\n"
+   ],
+   [
+      "When there is no pattern inside B<-Mtee>, the command is applied to all the patterns that follow C<-->, as before. If it is specified twice, the last one is effective.\n",
+      "B<-Mtee> 内にパターンがない場合、従来どおり C<--> に続くすべてのパターンにコマンドが適用されます。2回指定した場合は、最後のものが有効です。\n"
+   ],
+   [
+      "When there is a pattern inside B<-Mtee>, the command is applied only to the patterns in that B<-Mtee>.\n",
+      "B<-Mtee> 内にパターンがある場合、コマンドはその B<-Mtee> 内のパターンにのみ適用されます。\n"
+   ],
+   [
+      "Mixing the two forms is an error. A B<-Mtee> without arguments up to C<-->, such as the first half of C<-Mtee::config(...) -Mtee ...>, only sets the configuration and counts as neither form.\n",
+      "2つの形式を混在させるとエラーになります。C<-Mtee::config(...) -Mtee ...> の前半のように、C<--> まで引数のない B<-Mtee> は設定のみを行い、どちらの形式にも数えられません。\n"
+   ],
+   [
+      "The errors are detected when the first file is searched, before any output.\n",
+      "エラーは、出力が行われる前の最初のファイルの検索時に検出されます。\n"
+   ],
+   [
+      "Modes of the filter. They can be negated with the B<--no-> form, such as B<--no-crmode>.\n",
+      "フィルタのモードです。B<--no-crmode> のように、B<--no-> 形式で否定できます。\n"
+   ],
+   [
+      "Regular expression pattern.\n",
+      "正規表現パターン。\n"
+   ],
+   [
+      "Pattern. It is one pattern even if it includes spaces.\n",
+      "パターン。空白を含んでいても1つのパターンです。\n"
+   ],
+   [
+      "Fixed string pattern.\n",
+      "固定文字列パターン。\n"
+   ],
+   [
+      "A single keyword, or a C<&function>. Giving several keywords separated by spaces is an error.\n",
+      "単一のキーワード、または C<&function>。空白で区切った複数のキーワードを指定するとエラーになります。\n"
+   ],
+   [
+      "Passed to B<greple> as is. The color is not bound to the pattern but is assigned to the pattern numbers cyclically in the order specified (see L</LIMITATIONS>).\n",
+      "そのまま B<greple> に渡されます。色はパターンに結び付けられるのではなく、指定された順にパターン番号へ循環的に割り当てられます（L</LIMITATIONS> を参照）。\n"
+   ],
+   [
+      "A function of B<Getopt::EX::Config>. It changes the setting common to B<all> the filters.\n",
+      "B<Getopt::EX::Config> の機能です。B<すべて>のフィルタに共通する設定を変更します。\n"
+   ],
+   [
+      "Other options such as B<--exclude> are errors. Write them after C<-->; they apply to all the filters.\n",
+      "B<--exclude> などのほかのオプションはエラーです。C<--> の後に記述してください。これらはすべてのフィルタに適用されます。\n"
+   ],
+   [
+      "The value of a mode is decided at run time in the following order.\n",
+      "モードの値は、実行時に次の順序で決定されます。\n"
+   ],
+   [
+      "The one specified inside the B<-Mtee> (B<--crmode>, B<--no-crmode>).\n",
+      "B<-Mtee> 内で指定したもの（B<--crmode>、B<--no-crmode>）。\n"
+   ],
+   [
+      "The one specified after C<-->, or by B<-Mtee::config(...)>.\n",
+      "C<--> の後、または B<-Mtee::config(...)> で指定したもの。\n"
+   ],
+   [
+      "In the new form, B<--need=1> is added automatically, so that a block which includes any one of the patterns is processed (OR). Specify B<--need> after C<--> to override it; B<--need=2> brings back AND. The legacy form works as before (AND). Put B<--need> after all the B<-Mtee> and the alias options that include B<-Mtee>, because each of them adds B<--need=1> again.\n",
+      "新形式では、いずれか1つのパターンを含むブロックが処理されるように（OR）、B<--need=1> が自動的に追加されます。これを上書きするには C<--> の後で B<--need> を指定します。B<--need=2> を指定すると AND に戻ります。旧形式は従来どおり（AND）動作します。B<-Mtee> および B<-Mtee> を含むエイリアスオプションのそれぞれが再び B<--need=1> を追加するため、B<--need> はすべてのそれらの後に置いてください。\n"
+   ],
+   [
+      "If the command is omitted (C<-Mtee -E PAT -->), the pattern selects text but the text is not changed.\n",
+      "コマンドを省略した場合（C<-Mtee -E PAT -->）、パターンはテキストを選択しますが、テキストは変更されません。\n"
+   ],
+   [
+      "In the new form, a pattern outside B<-Mtee> is an error. So is B<--callback> outside B<-Mtee>.\n",
+      "新形式では、B<-Mtee> の外にあるパターンはエラーです。B<-Mtee> の外にある B<--callback> も同様です。\n"
+   ],
+   [
+      "In the new form, a pattern given without an option after C<--> is not taken as a pattern, because there are patterns given by options. B<greple> takes it as a file name.\n",
+      "新形式では、オプションなしで C<--> の後に指定したパターンは、オプションでパターンが指定されているためパターンとして扱われません。B<greple> はそれをファイル名として扱います。\n"
+   ],
+   [
+      "When the matches of different filters overlap, B<greple> merges them into one area and the filter of the match which starts first is applied.\n",
+      "異なるフィルタの一致箇所が重なった場合、B<greple> はそれらを1つの領域に結合し、先に開始する一致のフィルタを適用します。\n"
+   ],
+   [
+      "C<{DEFINE}> written directly inside B<-Mtee> on the command line is not expanded. It is expanded inside an B<option> definition.\n",
+      "コマンドラインで B<-Mtee> 内に直接記述した C<{DEFINE}> は展開されません。B<option> 定義内では展開されます。\n"
+   ],
+   [
+      "No other option can be written between B<-Mtee> modules, because B<-M> must be at the head of the arguments. They can be combined through an alias option.\n",
+      "B<-M> は引数の先頭になければならないため、B<-Mtee> モジュールの間にほかのオプションを記述することはできません。これらはエイリアスオプションを介して組み合わせられます。\n"
+   ],
+   [
+      "C<--> cannot be included in the command arguments, as before.\n",
+      "従来どおり、C<--> をコマンド引数に含めることはできません。\n"
+   ],
+   [
+      "B<--cm> is not independent for each filter. If it is specified for only some patterns, the colors of other patterns, including those in other B<-Mtee>, change by the cyclic assignment of B<greple>. Specify B<--cm> for all the patterns when specifying colors.\n",
+      "B<--cm> はフィルタごとに独立していません。一部のパターンにだけ指定すると、他の B<-Mtee> 内のものを含む他のパターンの色が、B<greple> の循環割り当てによって変化します。色を指定する際は、すべてのパターンに B<--cm> を指定してください。\n"
+   ],
+   [
+      "When another module follows B<-Mtee> (C<-Mtee -E PAT cmd -- -Mcolors>), the patterns are passed to B<greple> through the B<default> option of the module, and the expansion of the option definition, such as C<$ENV{NAME}> and C<__PACKAGE__>, applies to them. Escaping them is not attempted.\n",
+      "別のモジュールが B<-Mtee> に続く場合（C<-Mtee -E PAT cmd -- -Mcolors>）、パターンはモジュールの B<default> オプションを介して B<greple> に渡され、C<$ENV{NAME}> や C<__PACKAGE__> などのオプション定義の展開がそれらに適用されます。これらをエスケープする処理は行われません。\n"
+   ],
+   [
+      "If a module whose B<default> option includes a new form B<-Mtee> is loaded before B<-Mtee> followed by another module, such as C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>, the patterns are lost, and it is detected as an error (\"passed twice or lost\"). Load the module after B<-Mtee>.\n",
+      "B<default> オプションに新形式の B<-Mtee> を含むモジュールが、C<-Mfoo -Mtee -E PAT cmd -- -Mcolors> のように、別のモジュールが続く B<-Mtee> より前に読み込まれると、パターンが失われ、エラー（「passed twice or lost」）として検出されます。モジュールは B<-Mtee> の後に読み込んでください。\n"
+   ],
+   [
       "Module parameters can be set with B<Getopt::EX::Config> module using the following syntax:\n",
       "モジュールのパラメータは、次の文法で B<Getopt::EX::Config> モジュールにより設定できます。\n"
    ],
@@ -68,8 +188,8 @@
       "これはシェルのエイリアスやモジュールファイルと組み合わせると便利です。\n"
    ],
    [
-      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<blocks>, B<nofork>.\n",
-      "利用可能なパラメータは次のとおりです: B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>、B<nofork>。\n"
+      "Available parameters are: B<discrete>, B<bulkmode>, B<crmode>, B<fillup>, B<squeeze>, B<nofork>.\n",
+      "利用可能なパラメータは次のとおりです: B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<nofork>。\n"
    ],
    [
       "Instead of an external command, you can call a Perl function by prefixing the command name with C<&>.\n",
@@ -120,32 +240,8 @@
       "関数呼び出しを使用すると、呼び出しごとに外部プロセスをフォークするオーバーヘッドを回避でき、B<--discrete>オプションと併用した場合にパフォーマンスを大幅に向上させることができます。\n"
    ],
    [
-      "The B<--blocks> option is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. You can simply perform the following.\n",
-      "B<greple> に B<--stretch>（B<-S>）オプションが実装されたため、B<--blocks> オプションは不要になりました。次のように簡単に実行できます。\n"
-   ],
-   [
-      "It is not recommended to use B<--blocks> as it may be deprecated in the future.\n",
-      "将来的に非推奨となる可能性があるため、B<--blocks> の使用は推奨されません。\n"
-   ],
-   [
-      "Normally, the area matching the specified search pattern is sent to the external command. If this option is specified, not the matched area but the entire block containing it will be processed.\n",
-      "通常、指定された検索パターンに一致する領域が外部コマンドに送られます。このオプションを指定すると、一致した領域ではなく、それを含むブロック全体が処理されます。\n"
-   ],
-   [
-      "For example, to send lines containing the pattern C<foo> to the external command, you need to specify the pattern which matches to entire line:\n",
-      "例えば、パターン C<foo> を含む行を外部コマンドに送るには、行全体に一致するパターンを指定する必要があります:\n"
-   ],
-   [
-      "But with the B<--blocks> option, it can be done as simply as follows:\n",
-      "しかし B<--blocks> オプションを使えば、次のように簡単に実行できます:\n"
-   ],
-   [
-      "With B<--blocks> option, this module behave more like L<teip(1)>'s B<-g> option. Otherwise, the behavior is similar to L<teip(1)> with the B<-o> option.\n",
-      "B<--blocks> オプションを用いると、このモジュールは L<teip(1)> の B<-g> オプションにより近い動作になります。そうでなければ、動作は B<-o> オプションを付けた L<teip(1)> に似ています。\n"
-   ],
-   [
-      "Do not use the B<--blocks> with the B<--all> option, since the block will be the entire data.\n",
-      "B<--blocks> を B<--all> オプションと併用しないでください。ブロックがデータ全体になってしまいます。\n"
+      "The B<--blocks> option has been removed. It is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. Use the following instead.\n",
+      "B<--blocks> オプションは削除されました。B<greple> に B<--stretch>（B<-S>）オプションが実装されたため、もはや不要です。代わりに次を使用してください。\n"
    ],
    [
       "First of all, whenever you can do it with the B<teip> command, use it. It is an excellent tool and much faster than B<greple>.\n",

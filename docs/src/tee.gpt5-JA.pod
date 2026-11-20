@@ -7,10 +7,11 @@ App::Greple::tee - マッチしたテキストを外部コマンドの結果で�
 =head1 SYNOPSIS
 
     greple -Mtee command -- ...
+    greple -Mtee -E PAT1 command1 -- -Mtee -E PAT2 command2 -- ...
 
 =head1 VERSION
 
-Version 1.05
+Version 2.00_00
 
 =head1 DESCRIPTION
 
@@ -43,6 +44,8 @@ B<--discrete> オプションを用いる場合、入力と出力の行数は一
 
 <--discrete> オプションでは各コマンドはオンデマンドで実行されます。<--bulkmode> オプションではすべての変換を一括で実行します。
 
+このオプションは、L</MULTIPLE FILTERS> の新形式では効果がありません。新形式ではフィルターは常にすべてのマッチに対して一度に実行されます。
+
 =item B<--crmode>
 
 このオプションは、各ブロックの途中にあるすべての改行文字をキャリッジリターンに置き換えます。コマンド実行結果に含まれるキャリッジリターンは改めて改行に戻されます。これにより、B<--discrete> オプションを使わずとも、複数行から成るブロックをバッチ処理できます。
@@ -69,6 +72,144 @@ B<-ML> モジュールを使って、次のように偶数行のみを処理す�
 
 =back
 
+=head1 MULTIPLE FILTERS
+
+内部にパターンを含む B<-Mtee> を繰り返すと、パターンの各組に異なるフィルタが適用されます。
+
+    -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
+
+最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する行を B<ansicolumn> で列に整形します。
+
+    greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
+           -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
+           file
+
+形式は2つあります。
+
+=over 4
+
+=item B<Legacy form>
+
+B<-Mtee> 内にパターンがない場合、従来どおり C<--> に続くすべてのパターンにコマンドが適用されます。2回指定した場合は、最後のものが有効です。
+
+=item B<New form>
+
+B<-Mtee> 内にパターンがある場合、コマンドはその B<-Mtee> 内のパターンにのみ適用されます。
+
+=back
+
+2つの形式を混在させるとエラーになります。C<-Mtee::config(...) -Mtee ...> の前半のように、C<--> まで引数のない B<-Mtee> は設定のみを行い、どちらの形式にも数えられません。
+
+エラーは、出力が行われる前の最初のファイルの検索時に検出されます。
+
+=head2 Options inside -Mtee
+
+=over 4
+
+=item B<--discrete>, B<--bulkmode>, B<--crmode>, B<--fillup>, B<--squeeze>, B<--nofork>
+
+フィルタのモードです。B<--no-crmode> のように、B<--no-> 形式で否定できます。
+
+=item B<-E>, B<--re>
+
+正規表現パターン。
+
+=item B<-e>
+
+パターン。空白を含んでいても1つのパターンです。
+
+=item B<--fe>
+
+固定文字列パターン。
+
+=item B<--le>
+
+単一のキーワード、または C<&function>。空白で区切った複数のキーワードを指定するとエラーになります。
+
+=item B<--cm>
+
+そのまま B<greple> に渡されます。色はパターンに結び付けられるのではなく、指定された順にパターン番号へ循環的に割り当てられます（L</LIMITATIONS> を参照）。
+
+=item B<--config>
+
+B<Getopt::EX::Config> の機能です。B<すべて>のフィルタに共通する設定を変更します。
+
+=back
+
+B<--exclude> などのほかのオプションはエラーです。C<--> の後に記述してください。これらはすべてのフィルタに適用されます。
+
+=head2 Priority of modes
+
+モードの値は、実行時に次の順序で決定されます。
+
+=over 4
+
+=item 1.
+
+B<-Mtee> 内で指定したもの（B<--crmode>、B<--no-crmode>）。
+
+=item 2.
+
+C<--> の後、または B<-Mtee::config(...)> で指定したもの。
+
+=back
+
+=head2 Special cases
+
+=over 4
+
+=item *
+
+新形式では、いずれか1つのパターンを含むブロックが処理されるように（OR）、B<--need=1> が自動的に追加されます。これを上書きするには C<--> の後で B<--need> を指定します。B<--need=2> を指定すると AND に戻ります。旧形式は従来どおり（AND）動作します。B<-Mtee> および B<-Mtee> を含むエイリアスオプションのそれぞれが再び B<--need=1> を追加するため、B<--need> はすべてのそれらの後に置いてください。
+
+=item *
+
+コマンドを省略した場合（C<-Mtee -E PAT -->）、パターンはテキストを選択しますが、テキストは変更されません。
+
+=item *
+
+新形式では、B<-Mtee> の外にあるパターンはエラーです。B<-Mtee> の外にある B<--callback> も同様です。
+
+=item *
+
+新形式では、オプションなしで C<--> の後に指定したパターンは、オプションでパターンが指定されているためパターンとして扱われません。B<greple> はそれをファイル名として扱います。
+
+=item *
+
+異なるフィルタの一致箇所が重なった場合、B<greple> はそれらを1つの領域に結合し、先に開始する一致のフィルタを適用します。
+
+=back
+
+=head2 LIMITATIONS
+
+=over 4
+
+=item *
+
+コマンドラインで B<-Mtee> 内に直接記述した C<{DEFINE}> は展開されません。B<option> 定義内では展開されます。
+
+=item *
+
+B<-M> は引数の先頭になければならないため、B<-Mtee> モジュールの間にほかのオプションを記述することはできません。これらはエイリアスオプションを介して組み合わせられます。
+
+=item *
+
+従来どおり、C<--> をコマンド引数に含めることはできません。
+
+=item *
+
+B<--cm> はフィルタごとに独立していません。一部のパターンにだけ指定すると、他の B<-Mtee> 内のものを含む他のパターンの色が、B<greple> の循環割り当てによって変化します。色を指定する際は、すべてのパターンに B<--cm> を指定してください。
+
+=item *
+
+別のモジュールが B<-Mtee> に続く場合（C<-Mtee -E PAT cmd -- -Mcolors>）、パターンはモジュールの B<default> オプションを介して B<greple> に渡され、C<$ENV{NAME}> や C<__PACKAGE__> などのオプション定義の展開がそれらに適用されます。これらをエスケープする処理は行われません。
+
+=item *
+
+B<default> オプションに新形式の B<-Mtee> を含むモジュールが、C<-Mfoo -Mtee -E PAT cmd -- -Mcolors> のように、別のモジュールが続く B<-Mtee> より前に読み込まれると、パターンが失われ、エラー（「passed twice or lost」）として検出されます。モジュールは B<-Mtee> の後に読み込んでください。
+
+=back
+
 =head1 CONFIGURATION
 
 モジュールのパラメータは、次の文法で B<Getopt::EX::Config> モジュールにより設定できます。
@@ -78,7 +219,7 @@ B<-ML> モジュールを使って、次のように偶数行のみを処理す�
 
 これはシェルのエイリアスやモジュールファイルと組み合わせると便利です。
 
-利用可能なパラメータは次のとおりです: B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>、B<nofork>。
+利用可能なパラメータは次のとおりです: B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<nofork>。
 
 =head1 FUNCTION CALL
 
@@ -132,32 +273,9 @@ C<App::cat::v-E<gt>new-E<gt>run(@_)>を呼び出します。
 
 =head1 LEGACIES
 
-B<greple> に B<--stretch>（B<-S>）オプションが実装されたため、B<--blocks> オプションは不要になりました。次のように簡単に実行できます。
+B<--blocks> オプションは削除されました。B<greple> に B<--stretch>（B<-S>）オプションが実装されたため、もはや不要です。代わりに次を使用してください。
 
     greple -Mtee cat -n -- --all -SE foo
-
-将来的に非推奨となる可能性があるため、B<--blocks> の使用は推奨されません。
-
-
-=over 7
-
-=item B<--blocks>
-
-通常、指定された検索パターンに一致する領域が外部コマンドに送られます。このオプションを指定すると、一致した領域ではなく、それを含むブロック全体が処理されます。
-
-例えば、パターン C<foo> を含む行を外部コマンドに送るには、行全体に一致するパターンを指定する必要があります:
-
-    greple -Mtee cat -n -- '^.*foo.*\n' --all
-
-しかし B<--blocks> オプションを使えば、次のように簡単に実行できます:
-
-    greple -Mtee cat -n -- foo --blocks
-
-B<--blocks> オプションを用いると、このモジュールは L<teip(1)> の B<-g> オプションにより近い動作になります。そうでなければ、動作は B<-o> オプションを付けた L<teip(1)> に似ています。
-
-B<--blocks> を B<--all> オプションと併用しないでください。ブロックがデータ全体になってしまいます。
-
-=back
 
 =head1 WHY DO NOT USE TEIP
 

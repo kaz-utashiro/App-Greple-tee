@@ -7,10 +7,11 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 =head1 SYNOPSIS
 
     greple -Mtee command -- ...
+    greple -Mtee -E PAT1 command1 -- -Mtee -E PAT2 command2 -- ...
 
 =head1 VERSION
 
-Version 1.05
+Version 2.00_00
 
 =head1 DESCRIPTION
 
@@ -43,6 +44,8 @@ Greple 的 B<-Mtee> 模块将匹配到的文本片段发送给指定的过滤命
 
 使用 <--discrete> 选项时，每个命令按需执行。使用 <--bulkmode> 选项时，所有转换将一次性完成。
 
+在 L</MULTIPLE FILTERS> 的新形式中，此选项无效，因为筛选器始终会一次性对所有匹配项执行。
+
 =item B<--crmode>
 
 该选项会将每个块中间的所有换行符替换为回车符。执行命令得到的结果中包含的回车符会还原为换行符。这样就可以在不使用 B<--discrete> 选项的情况下批量处理由多行组成的块。
@@ -69,6 +72,144 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 =back
 
+=head1 MULTIPLE FILTERS
+
+在 B<-Mtee> 中重复指定模式，会对每组模式应用不同的过滤器。
+
+    -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
+
+第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将匹配 C<PAT3> 的行排成列。
+
+    greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
+           -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
+           file
+
+有两种形式。
+
+=over 4
+
+=item B<Legacy form>
+
+当 B<-Mtee> 中没有模式时，命令会像以前一样应用于 C<--> 之后的所有模式。如果指定两次，则最后一个生效。
+
+=item B<New form>
+
+当 B<-Mtee> 中有模式时，命令只应用于该 B<-Mtee> 中的模式。
+
+=back
+
+混用这两种形式会导致错误。直到 C<--> 之前不带参数的 B<-Mtee>，例如 C<-Mtee::config(...) -Mtee ...> 的前半部分，只设置配置，且不属于任何一种形式。
+
+错误会在搜索第一个文件时、任何输出之前被检测到。
+
+=head2 Options inside -Mtee
+
+=over 4
+
+=item B<--discrete>, B<--bulkmode>, B<--crmode>, B<--fillup>, B<--squeeze>, B<--nofork>
+
+过滤器的模式。可使用 B<--no-> 形式将其否定，例如 B<--no-crmode>。
+
+=item B<-E>, B<--re>
+
+正则表达式模式。
+
+=item B<-e>
+
+模式。即使包含空格也算作一个模式。
+
+=item B<--fe>
+
+固定字符串模式。
+
+=item B<--le>
+
+单个关键字，或一个 C<&function>。给出多个以空格分隔的关键字会导致错误。
+
+=item B<--cm>
+
+原样传递给 B<greple>。颜色不绑定到模式，而是按指定顺序循环分配给模式编号（参见 L</LIMITATIONS>）。
+
+=item B<--config>
+
+B<Getopt::EX::Config> 的一个函数。它会更改 B<所有> 过滤器共用的设置。
+
+=back
+
+其他选项（如 B<--exclude>）会导致错误。请将它们写在 C<--> 之后；它们会应用于所有过滤器。
+
+=head2 Priority of modes
+
+模式的值在运行时按以下顺序决定。
+
+=over 4
+
+=item 1.
+
+在 B<-Mtee> 内指定的值（B<--crmode>、B<--no-crmode>）。
+
+=item 2.
+
+在 C<--> 之后指定的值，或由 B<-Mtee::config(...)> 指定的值。
+
+=back
+
+=head2 Special cases
+
+=over 4
+
+=item *
+
+在新形式中，会自动添加 B<--need=1>，因此会处理包含任一模式的块（OR）。在 C<--> 之后指定 B<--need> 可覆盖它；B<--need=2> 会恢复 AND。旧形式仍按原来的方式工作（AND）。请将 B<--need> 放在所有 B<-Mtee> 以及包含 B<-Mtee> 的别名选项之后，因为它们各自都会再次添加 B<--need=1>。
+
+=item *
+
+如果省略命令（C<-Mtee -E PAT -->），模式会选择文本，但不会更改文本。
+
+=item *
+
+在新形式中，B<-Mtee> 外的模式会导致错误。B<-Mtee> 外的 B<--callback> 也是如此。
+
+=item *
+
+在新形式中，C<--> 之后未带选项给出的模式不会被视为模式，因为已有通过选项给出的模式。B<greple> 会将其视为文件名。
+
+=item *
+
+当不同过滤器的匹配区域重叠时，B<greple> 会将它们合并为一个区域，并应用最先开始的匹配所对应的过滤器。
+
+=back
+
+=head2 LIMITATIONS
+
+=over 4
+
+=item *
+
+直接在命令行的 B<-Mtee> 内编写的 C<{DEFINE}> 不会展开。在 B<option> 定义内则会展开。
+
+=item *
+
+不能在 B<-Mtee> 模块之间写入其他选项，因为 B<-M> 必须位于参数开头。它们可以通过别名选项组合。
+
+=item *
+
+与以前一样，命令参数中不能包含 C<-->。
+
+=item *
+
+B<--cm> 并非对每个过滤器独立。如果仅为部分模式指定它，包括其他 B<-Mtee> 中的模式在内的其他模式颜色会因 B<greple> 的循环分配而改变。指定颜色时，请为所有模式指定 B<--cm>。
+
+=item *
+
+当另一个模块位于 B<-Mtee> 之后时（C<-Mtee -E PAT cmd -- -Mcolors>），模式会通过该模块的 B<default> 选项传递给 B<greple>，并且选项定义中的扩展（如 C<$ENV{NAME}> 和 C<__PACKAGE__>）会应用于这些模式。不会尝试对它们进行转义。
+
+=item *
+
+如果某个 B<default> 选项包含新形式 B<-Mtee> 的模块，在 B<-Mtee> 后跟另一个模块之前加载，例如 C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>，模式会丢失，并被检测为错误（“重复传递或丢失”）。请在 B<-Mtee> 之后加载该模块。
+
+=back
+
 =head1 CONFIGURATION
 
 模块参数可使用 B<Getopt::EX::Config> 模块按以下语法设置：
@@ -78,7 +219,7 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 这在与 shell 别名或模块文件结合时很有用。
 
-可用参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<blocks>、B<nofork>。
+可用参数有：B<discrete>、B<bulkmode>、B<crmode>、B<fillup>、B<squeeze>、B<nofork>。
 
 =head1 FUNCTION CALL
 
@@ -132,32 +273,9 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 =head1 LEGACIES
 
-由于 B<greple> 中已实现 B<--stretch>（B<-S>）选项，B<--blocks> 选项已不再需要。你只需进行如下操作即可。
+B<--blocks> 选项已被移除。由于 B<greple> 中已实现 B<--stretch>（B<-S>）选项，它已不再需要。请改用以下方式。
 
     greple -Mtee cat -n -- --all -SE foo
-
-不推荐使用 B<--blocks>，因为它将来可能被弃用。
-
-
-=over 7
-
-=item B<--blocks>
-
-通常，符合指定搜索模式的区域会被发送到外部命令。如果指定了此选项，将处理包含该匹配区域的整个区块，而不是仅处理匹配区域。
-
-例如，要将包含模式 C<foo> 的行发送到外部命令，需要指定能匹配整行的模式：
-
-    greple -Mtee cat -n -- '^.*foo.*\n' --all
-
-但使用 B<--blocks> 选项，可以像下面这样简单完成：
-
-    greple -Mtee cat -n -- foo --blocks
-
-使用 B<--blocks> 选项时，本模块的行为更像 L<teip(1)> 的 B<-g> 选项。否则，其行为类似于带 B<-o> 选项的 L<teip(1)>。
-
-不要将 B<--blocks> 与 B<--all> 选项一起使用，因为该区块将变为整个数据。
-
-=back
 
 =head1 WHY DO NOT USE TEIP
 

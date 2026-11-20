@@ -5,10 +5,11 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 # SYNOPSIS
 
     greple -Mtee command -- ...
+    greple -Mtee -E PAT1 command1 -- -Mtee -E PAT2 command2 -- ...
 
 # VERSION
 
-Version 1.05
+Version 2.00\_00
 
 # DESCRIPTION
 
@@ -39,6 +40,8 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
 
     使用 <--discrete> 选项时，每个命令按需执行。使用 <--bulkmode> 选项时，所有转换将一次性完成。
 
+    在 ["MULTIPLE FILTERS"](#multiple-filters) 的新形式中，此选项无效，因为筛选器始终会一次性对所有匹配项执行。
+
 - **--crmode**
 
     该选项会将每个块中间的所有换行符替换为回车符。执行命令得到的结果中包含的回车符会还原为换行符。这样就可以在不使用 **--discrete** 选项的情况下批量处理由多行组成的块。
@@ -63,6 +66,88 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
 
         greple -Mtee cat -n -- -ML 2::2
 
+# MULTIPLE FILTERS
+
+在 **-Mtee** 中重复指定模式，会对每组模式应用不同的过滤器。
+
+    -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
+
+第一个非选项参数之前的所有内容都是模块选项，其余直到 `--` 为止的是命令。例如，以下命令使用 **ansifold** 折叠匹配 `PAT1` 或 `PAT2` 的行，并使用 **ansicolumn** 将匹配 `PAT3` 的行排成列。
+
+    greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
+           -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
+           file
+
+有两种形式。
+
+- **Legacy form**
+
+    当 **-Mtee** 中没有模式时，命令会像以前一样应用于 `--` 之后的所有模式。如果指定两次，则最后一个生效。
+
+- **New form**
+
+    当 **-Mtee** 中有模式时，命令只应用于该 **-Mtee** 中的模式。
+
+混用这两种形式会导致错误。直到 `--` 之前不带参数的 **-Mtee**，例如 `-Mtee::config(...) -Mtee ...` 的前半部分，只设置配置，且不属于任何一种形式。
+
+错误会在搜索第一个文件时、任何输出之前被检测到。
+
+## Options inside -Mtee
+
+- **--discrete**, **--bulkmode**, **--crmode**, **--fillup**, **--squeeze**, **--nofork**
+
+    过滤器的模式。可使用 **--no-** 形式将其否定，例如 **--no-crmode**。
+
+- **-E**, **--re**
+
+    正则表达式模式。
+
+- **-e**
+
+    模式。即使包含空格也算作一个模式。
+
+- **--fe**
+
+    固定字符串模式。
+
+- **--le**
+
+    单个关键字，或一个 `&function`。给出多个以空格分隔的关键字会导致错误。
+
+- **--cm**
+
+    原样传递给 **greple**。颜色不绑定到模式，而是按指定顺序循环分配给模式编号（参见 ["LIMITATIONS"](#limitations)）。
+
+- **--config**
+
+    **Getopt::EX::Config** 的一个函数。它会更改 **所有** 过滤器共用的设置。
+
+其他选项（如 **--exclude**）会导致错误。请将它们写在 `--` 之后；它们会应用于所有过滤器。
+
+## Priority of modes
+
+模式的值在运行时按以下顺序决定。
+
+1. 在 **-Mtee** 内指定的值（**--crmode**、**--no-crmode**）。
+2. 在 `--` 之后指定的值，或由 **-Mtee::config(...)** 指定的值。
+
+## Special cases
+
+- 在新形式中，会自动添加 **--need=1**，因此会处理包含任一模式的块（OR）。在 `--` 之后指定 **--need** 可覆盖它；**--need=2** 会恢复 AND。旧形式仍按原来的方式工作（AND）。请将 **--need** 放在所有 **-Mtee** 以及包含 **-Mtee** 的别名选项之后，因为它们各自都会再次添加 **--need=1**。
+- 如果省略命令（`-Mtee -E PAT --`），模式会选择文本，但不会更改文本。
+- 在新形式中，**-Mtee** 外的模式会导致错误。**-Mtee** 外的 **--callback** 也是如此。
+- 在新形式中，`--` 之后未带选项给出的模式不会被视为模式，因为已有通过选项给出的模式。**greple** 会将其视为文件名。
+- 当不同过滤器的匹配区域重叠时，**greple** 会将它们合并为一个区域，并应用最先开始的匹配所对应的过滤器。
+
+## LIMITATIONS
+
+- 直接在命令行的 **-Mtee** 内编写的 `{DEFINE}` 不会展开。在 **option** 定义内则会展开。
+- 不能在 **-Mtee** 模块之间写入其他选项，因为 **-M** 必须位于参数开头。它们可以通过别名选项组合。
+- 与以前一样，命令参数中不能包含 `--`。
+- **--cm** 并非对每个过滤器独立。如果仅为部分模式指定它，包括其他 **-Mtee** 中的模式在内的其他模式颜色会因 **greple** 的循环分配而改变。指定颜色时，请为所有模式指定 **--cm**。
+- 当另一个模块位于 **-Mtee** 之后时（`-Mtee -E PAT cmd -- -Mcolors`），模式会通过该模块的 **default** 选项传递给 **greple**，并且选项定义中的扩展（如 `$ENV{NAME}` 和 `__PACKAGE__`）会应用于这些模式。不会尝试对它们进行转义。
+- 如果某个 **default** 选项包含新形式 **-Mtee** 的模块，在 **-Mtee** 后跟另一个模块之前加载，例如 `-Mfoo -Mtee -E PAT cmd -- -Mcolors`，模式会丢失，并被检测为错误（“重复传递或丢失”）。请在 **-Mtee** 之后加载该模块。
+
 # CONFIGURATION
 
 模块参数可使用 **Getopt::EX::Config** 模块按以下语法设置：
@@ -72,7 +157,7 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
 
 这在与 shell 别名或模块文件结合时很有用。
 
-可用参数有：**discrete**、**bulkmode**、**crmode**、**fillup**、**squeeze**、**blocks**、**nofork**。
+可用参数有：**discrete**、**bulkmode**、**crmode**、**fillup**、**squeeze**、**nofork**。
 
 # FUNCTION CALL
 
@@ -110,27 +195,9 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
 
 # LEGACIES
 
-由于 **greple** 中已实现 **--stretch**（**-S**）选项，**--blocks** 选项已不再需要。你只需进行如下操作即可。
+**--blocks** 选项已被移除。由于 **greple** 中已实现 **--stretch**（**-S**）选项，它已不再需要。请改用以下方式。
 
     greple -Mtee cat -n -- --all -SE foo
-
-不推荐使用 **--blocks**，因为它将来可能被弃用。
-
-- **--blocks**
-
-    通常，符合指定搜索模式的区域会被发送到外部命令。如果指定了此选项，将处理包含该匹配区域的整个区块，而不是仅处理匹配区域。
-
-    例如，要将包含模式 `foo` 的行发送到外部命令，需要指定能匹配整行的模式：
-
-        greple -Mtee cat -n -- '^.*foo.*\n' --all
-
-    但使用 **--blocks** 选项，可以像下面这样简单完成：
-
-        greple -Mtee cat -n -- foo --blocks
-
-    使用 **--blocks** 选项时，本模块的行为更像 [teip(1)](http://man.he.net/man1/teip) 的 **-g** 选项。否则，其行为类似于带 **-o** 选项的 [teip(1)](http://man.he.net/man1/teip)。
-
-    不要将 **--blocks** 与 **--all** 选项一起使用，因为该区块将变为整个数据。
 
 # WHY DO NOT USE TEIP
 
