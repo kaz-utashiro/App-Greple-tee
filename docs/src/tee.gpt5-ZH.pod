@@ -42,7 +42,7 @@ Greple 的 B<-Mtee> 模块将匹配到的文本片段发送给指定的过滤命
 
 =item B<--bulkmode>
 
-使用 <--discrete> 选项时，每个命令按需执行。使用 <--bulkmode> 选项时，所有转换将一次性完成。
+使用 B<--discrete> 选项时，每个匹配项的命令会在输出匹配项时执行。B<--bulkmode> 选项会在输出前一次性执行所有命令。
 
 在 L</MULTIPLE FILTERS> 的新形式中，此选项无效，因为筛选器始终会一次性对所有匹配项执行。
 
@@ -54,15 +54,19 @@ Greple 的 B<-Mtee> 模块将匹配到的文本片段发送给指定的过滤命
 
 =item B<--fillup>
 
-在传给过滤命令之前，将连续的非空行合并为一行。位宽字符（中文、日文）之间的换行会被删除，其他换行会被替换为空格。韩文（谚文/Hangul）按 ASCII 文本处理，以空格连接。
+在传给过滤命令之前，将连续的非空行合并为一行。全角字符（中文、日文）之间的换行会被删除，其他换行会被替换为空格。韩文（谚文/Hangul）按 ASCII 文本处理，以空格连接。
 
 =item B<--squeeze>
 
 将两个或更多连续的换行合并为一个。
 
+=item B<--nofork>
+
+在 B<greple> 进程本身中执行由 C<&function> 指定的函数，而不创建子进程（参见 L</FUNCTION CALL>）。这是默认设置。使用 B<--no-nofork> 可在创建的子进程中执行它。此选项对外部命令无效。
+
 =item B<-ML> B<--offload> I<command>
 
-L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>）中实现。
+L<teip(1)> 的 B<--offload> 选项的等效功能由另一个模块 L<App::Greple::L>（B<-ML>）提供。
 
     greple -Mtee cat -n -- -ML --offload 'seq 10 20'
 
@@ -74,11 +78,11 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 =head1 MULTIPLE FILTERS
 
-在 B<-Mtee> 中重复指定模式，会对每组模式应用不同的过滤器。
+可以多次指定 B<-Mtee>，每次都有自己的模式和过滤器。每个过滤器都应用于与其一起指定的模式。
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
-第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将匹配 C<PAT3> 的行排成列。
+第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将匹配 C<PAT3> 的行格式化为表格。
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
@@ -90,7 +94,7 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 =item B<Legacy form>
 
-当 B<-Mtee> 中没有模式时，命令会像以前一样应用于 C<--> 之后的所有模式。如果指定两次，则最后一个生效。
+当 B<-Mtee> 中没有模式时，命令会像以前一样应用于 C<--> 之后的所有模式。如果给出多次，则最后一个生效。
 
 =item B<New form>
 
@@ -98,7 +102,7 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 =back
 
-混用这两种形式会导致错误。直到 C<--> 之前不带参数的 B<-Mtee>，例如 C<-Mtee::config(...) -Mtee ...> 的前半部分，只设置配置，且不属于任何一种形式。
+混用这两种形式会导致错误。C<--> 之前没有任何内容的 B<-Mtee>，例如 C<-Mtee::config(...) -Mtee ...> 的前半部分，只设置配置，且不属于任何一种形式。
 
 错误会在搜索第一个文件时、任何输出之前被检测到。
 
@@ -116,7 +120,7 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 =item B<-e>
 
-模式。即使包含空格也算作一个模式。
+模式。即使包含空格，也会被视为一个模式。
 
 =item B<--fe>
 
@@ -132,11 +136,11 @@ L<teip(1)> 的 B<--offload> 选项在不同的模块 L<App::Greple::L>（B<-ML>�
 
 =item B<--config>
 
-B<Getopt::EX::Config> 的一个函数。它会更改 B<所有> 过滤器共用的设置。
+由 B<Getopt::EX::Config> 提供的一个选项。它会更改 B<所有> 过滤器共用的设置。
 
 =back
 
-其他选项（如 B<--exclude>）会导致错误。请将它们写在 C<--> 之后；它们会应用于所有过滤器。
+给出其他选项（如 B<--exclude>）会导致错误。请将它们写在 C<--> 之后；它们会应用于所有过滤器。
 
 =head2 Priority of modes
 
@@ -160,7 +164,7 @@ B<Getopt::EX::Config> 的一个函数。它会更改 B<所有> 过滤器共用�
 
 =item *
 
-在新形式中，会自动添加 B<--need=1>，因此会处理包含任一模式的块（OR）。在 C<--> 之后指定 B<--need> 可覆盖它；B<--need=2> 会恢复 AND。旧形式仍按原来的方式工作（AND）。请将 B<--need> 放在所有 B<-Mtee> 以及包含 B<-Mtee> 的别名选项之后，因为它们各自都会再次添加 B<--need=1>。
+在新形式中，会自动添加 B<--need=1>，因此会处理包含任一模式的块（OR）。在 C<--> 之后指定 B<--need> 可覆盖它；B<--need=2> 会恢复 AND。旧形式仍按原来的方式工作（AND）。每个 B<-Mtee> 以及每个包含 B<-Mtee> 的别名选项都会再次添加 B<--need=1>，因此请将 B<--need> 放在它们全部之后。
 
 =item *
 
@@ -172,7 +176,7 @@ B<Getopt::EX::Config> 的一个函数。它会更改 B<所有> 过滤器共用�
 
 =item *
 
-在新形式中，C<--> 之后未带选项给出的模式不会被视为模式，因为已有通过选项给出的模式。B<greple> 会将其视为文件名。
+在新形式中，C<--> 之后的第一个参数即使本意是模式，也不会被视为模式，因为模式已通过选项给出。B<greple> 会将其视为文件名。
 
 =item *
 
@@ -190,7 +194,7 @@ B<Getopt::EX::Config> 的一个函数。它会更改 B<所有> 过滤器共用�
 
 =item *
 
-不能在 B<-Mtee> 模块之间写入其他选项，因为 B<-M> 必须位于参数开头。它们可以通过别名选项组合。
+不能在 B<-Mtee> 模块之间写入其他选项，因为 B<-M> 必须位于参数开头。使用别名选项将 B<-Mtee> 模块与其他选项组合。
 
 =item *
 
@@ -202,11 +206,11 @@ B<--cm> 并非对每个过滤器独立。如果仅为部分模式指定它，包
 
 =item *
 
-当另一个模块位于 B<-Mtee> 之后时（C<-Mtee -E PAT cmd -- -Mcolors>），模式会通过该模块的 B<default> 选项传递给 B<greple>，并且选项定义中的扩展（如 C<$ENV{NAME}> 和 C<__PACKAGE__>）会应用于这些模式。不会尝试对它们进行转义。
+当另一个模块位于 B<-Mtee> 之后时（C<-Mtee -E PAT cmd -- -Mcolors>），模式会通过该模块的 B<default> 选项传递给 B<greple>，并且选项定义中的扩展（如 C<$ENV{NAME}> 和 C<__PACKAGE__>）会应用于这些模式。它们不会被转义。
 
 =item *
 
-如果某个 B<default> 选项包含新形式 B<-Mtee> 的模块，在 B<-Mtee> 后跟另一个模块之前加载，例如 C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>，模式会丢失，并被检测为错误（“重复传递或丢失”）。请在 B<-Mtee> 之后加载该模块。
+假设存在某个 B<default> 选项包含新形式 B<-Mtee> 的模块。如果它在 B<-Mtee> 后跟另一个模块之前加载，例如 C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>，模式会丢失。这会被检测为错误（“重复传递或丢失”）。请在 B<-Mtee> 之后加载此类模块。
 
 =back
 
@@ -227,7 +231,7 @@ B<--cm> 并非对每个过滤器独立。如果仅为部分模式指定它，包
 
     greple -Mtee '&App::ansifold::ansifold' -w40 -- ...
 
-该函数在派生的子进程中执行，因此必须遵循以下要求：
+该函数必须遵循以下要求：
 
 =over 4
 
@@ -244,6 +248,8 @@ B<--cm> 并非对每个过滤器独立。如果仅为部分模式指定它，包
 参数通过 C<@ARGV> 和 C<@_> 同时传递
 
 =back
+
+默认情况下，函数在 B<greple> 进程本身中执行，不会 fork。因此，函数更改的全局变量值会保留到下一次调用，并且在函数中调用 B<exit> 会终止 B<greple>。使用 B<--no-nofork> 选项时，函数会在 fork 出来的子进程中执行。
 
 可以使用任何完全限定的函数名：
 
@@ -269,7 +275,7 @@ B<--cm> 并非对每个过滤器独立。如果仅为部分模式指定它，包
 
 =back
 
-使用函数调用可避免每次调用都为外部进程派生所带来的开销，当与 B<--discrete> 选项一起使用时，可显著提升性能。
+使用函数调用可避免每次调用都启动外部进程所带来的开销，当与 B<--discrete> 选项一起使用时，可显著提升性能。
 
 =head1 LEGACIES
 
@@ -277,7 +283,7 @@ B<--blocks> 选项已被移除。由于 B<greple> 中已实现 B<--stretch>（B<
 
     greple -Mtee cat -n -- --all -SE foo
 
-=head1 WHY DO NOT USE TEIP
+=head1 WHY NOT USE TEIP
 
 首先，只要可以用 B<teip> 命令做到，就用它。它是一个优秀且比 B<greple> 快得多的工具。
 
@@ -310,7 +316,7 @@ B<--blocks> 选项已被移除。由于 B<greple> 中已实现 B<--stretch>（B<
       b) accompany the distribution with the machine-readable source of the Package
          with your modifications.
 
-你可以用带有 B<ansifold> 命令的 B<tee> 模块来重新格式化这部分。两个 B<--crmode> 选项一起使用可以高效处理多行区块：
+你可以用带有 B<ansifold> 命令的 B<tee> 模块来重新格式化这些部分。两个 B<--crmode> 选项一起使用可以高效处理多行区块：
 
     greple -Mtee ansifold -sw40 --prefix '     ' --crmode -- --crmode --re ...
 
@@ -328,13 +334,13 @@ B<--discrete> 选项也可以使用，但会启动多个进程，因此执行时
 
 =head1 EXAMPLE 3
 
-考虑一种情况：你想从非表头行中 grep 字符串。例如，你可能想从 C<docker image ls> 命令中搜索 Docker 镜像名称，但保留表头行。可以用下面的命令实现。
+考虑一种情况：你想从表头以外的行中 grep 字符串。例如，你可能想在 C<docker image ls> 命令的输出中搜索 Docker 镜像名称，但保留表头行。可以用下面的命令实现。
 
     greple -Mtee grep perl -- -ML 2: --discrete --all
 
-选项 C<-ML 2:> 取出从第二行到倒数第一行的内容，并将其发送到 C<grep perl> 命令。由于输入与输出的行数发生变化，需要使用 --discrete 选项，但因为命令只执行一次，所以没有性能上的劣势。
+选项 C<-ML 2:> 取出从第二行到末尾的内容，并将其发送到 C<grep perl> 命令。由于行数发生变化，需要使用 B<--discrete> 选项，但因为命令只执行一次，所以没有性能上的劣势。
 
-如果尝试用 B<teip> 命令做同样的事情，C<teip -l 2- -- grep> 会报错，因为输出行数少于输入行数。然而，得到的结果本身并没有问题。
+如果尝试用 B<teip> 命令做同样的事情，C<teip -l 2- -- grep> 会报错，因为输出行数少于输入行数，尽管输出结果本身是正确的。
 
 =head1 INSTALL
 

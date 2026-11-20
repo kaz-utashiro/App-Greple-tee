@@ -4,51 +4,51 @@
       "App::Greple::tee - マッチしたテキストを外部コマンドの結果で置き換えるモジュール\n"
    ],
    [
-      "Greple's B<-Mtee> module sends matched text part to the given filter command, and replace them by the command result. The idea is derived from the command called B<teip>. It is like bypassing partial data to the external filter command.\n",
-      "Greple の B<-Mtee> モジュールは、マッチしたテキスト部分を指定したフィルタコマンドに送り、そのコマンドの結果で置き換えます。アイデアは B<teip> と呼ばれるコマンドに由来します。データの一部を外部フィルタコマンドにバイパスするようなイメージです。\n"
+      "Greple's B<-Mtee> module sends the matched parts of the text to the given filter command, and replaces them with the result of the command. The idea is derived from the command called B<teip>. It is like passing only a part of the data through an external filter command.\n",
+      "Greple の B<-Mtee> モジュールは、マッチしたテキスト部分を指定したフィルタコマンドに送り、そのコマンドの結果で置き換えます。アイデアは B<teip> と呼ばれるコマンドに由来します。データの一部だけを外部フィルタコマンドに通すようなイメージです。\n"
    ],
    [
-      "Filter command follows module declaration (C<-Mtee>) and terminates by two dashes (C<-->). For example, next command call command C<tr> command with C<a-z A-Z> arguments for the matched word in the data.\n",
+      "The filter command follows the module declaration (C<-Mtee>) and ends with two dashes (C<-->). For example, the next command calls the C<tr> command with the arguments C<a-z A-Z> for the matched words in the data.\n",
       "フィルタコマンドはモジュール宣言（C<-Mtee>）に続けて記述し、二つのダッシュ（C<-->）で終端します。例えば、次のコマンドはデータ中のマッチした単語に対して、コマンド C<tr> を C<a-z A-Z> の引数で呼び出します。\n"
    ],
    [
-      "Above command convert all matched words from lower-case to upper-case. Actually this example itself is not so useful because B<greple> can do the same thing more effectively with B<--cm> option.\n",
+      "The above command converts all the matched words from lower case to upper case. This example itself is not so useful, because B<greple> can do the same thing more efficiently with the B<--cm> option.\n",
       "上記のコマンドは、マッチした単語をすべて小文字から大文字に変換します。実はこの例自体はあまり有用ではありません。というのも、B<greple> 自身が B<--cm> オプションで同様のことをより効率的に行えるからです。\n"
    ],
    [
-      "By default, the command is executed as a single process, and all matched data is sent to the process mixed together. If the matched text does not end with newline, it is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
-      "デフォルトでは、コマンドは単一プロセスとして実行され、すべてのマッチしたデータは混在したままそのプロセスに送られます。マッチしたテキストが改行で終わっていなければ、送信前に改行が追加され、受信後に取り除かれます。入力と出力のデータは行単位で対応付けられるため、入力と出力の行数は一致していなければなりません。\n"
+      "By default, the command is executed as a single process, and all the matched data is sent to it together. If the matched text does not end with a newline, one is added before sending and removed after receiving. Input and output data are mapped line by line, so the number of lines of input and output must be identical.\n",
+      "デフォルトでは、コマンドは単一プロセスとして実行され、すべてのマッチしたデータはまとめてそのプロセスに送られます。マッチしたテキストが改行で終わっていなければ、送信前に改行が追加され、受信後に取り除かれます。入力と出力のデータは行単位で対応付けられるため、入力と出力の行数は一致していなければなりません。\n"
    ],
    [
-      "Using B<--discrete> option, individual command is called for each matched text area. You can tell the difference by following commands.\n",
+      "With the B<--discrete> option, the command is called separately for each matched area. You can see the difference with the following commands.\n",
       "B<--discrete> オプションを使うと、マッチした各テキスト領域ごとに個別のコマンドが呼び出されます。違いは次のコマンド群で確認できます。\n"
    ],
    [
-      "Lines of input and output data do not have to be identical when used with B<--discrete> option.\n",
+      "With the B<--discrete> option, the number of lines of input and output does not have to be the same.\n",
       "B<--discrete> オプションを用いる場合、入力と出力の行数は一致している必要はありません。\n"
    ],
    [
-      "Invoke new command individually for every matched part.\n",
+      "Invokes a new command for each matched part.\n",
       "マッチした各部分ごとに新しいコマンドを個別に起動します。\n"
    ],
    [
-      "With the <--discrete> option, each command is executed on demand. The <--bulkmode> option causes all conversions to be performed at once.\n",
-      "<--discrete> オプションでは各コマンドはオンデマンドで実行されます。<--bulkmode> オプションではすべての変換を一括で実行します。\n"
+      "With the B<--discrete> option, the command for each match is executed when the match is output. The B<--bulkmode> option executes all of them at once before the output.\n",
+      "B<--discrete> オプションでは、各マッチに対するコマンドはマッチが出力されるときに実行されます。B<--bulkmode> オプションでは、出力前にすべてを一括で実行します。\n"
    ],
    [
       "This option has no effect in the new form of L</MULTIPLE FILTERS>, where the filters are always executed for all the matches at once.\n",
       "このオプションは、L</MULTIPLE FILTERS> の新形式では効果がありません。新形式ではフィルターは常にすべてのマッチに対して一度に実行されます。\n"
    ],
    [
-      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are reverted back to the newline character. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
-      "このオプションは、各ブロックの途中にあるすべての改行文字をキャリッジリターンに置き換えます。コマンド実行結果に含まれるキャリッジリターンは改めて改行に戻されます。これにより、B<--discrete> オプションを使わずとも、複数行から成るブロックをバッチ処理できます。\n"
+      "This option replaces all newline characters in the middle of each block with carriage return characters. Carriage returns contained in the result of executing the command are converted back to newline characters. Thus, blocks consisting of multiple lines can be processed in batches without using the B<--discrete> option.\n",
+      "このオプションは、各ブロックの途中にあるすべての改行文字をキャリッジリターンに置き換えます。コマンド実行結果に含まれるキャリッジリターンは改行文字に戻されます。これにより、B<--discrete> オプションを使わずとも、複数行から成るブロックをバッチ処理できます。\n"
    ],
    [
-      "This works well with L<ansifold> command's B<--crmode> option, which joins CR-separated text and outputs folded lines separated by CR.\n",
+      "This works well with the B<--crmode> option of the L<ansifold> command, which joins CR-separated text and outputs folded lines separated by CR.\n",
       "これは L<ansifold> コマンドの B<--crmode> オプションと相性がよく、CR 区切りのテキストを結合し、CR で区切られた折り畳み行を出力します。\n"
    ],
    [
-      "Combine a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between wide width characters (Japanese, Chinese) are deleted, and other newline characters are replaced with spaces. Korean (Hangul) is treated like ASCII text and joined with space.\n",
+      "Combines a sequence of non-blank lines into a single line before passing them to the filter command. Newline characters between full-width characters (Japanese, Chinese) are deleted, and other newline characters are replaced with spaces. Korean (Hangul) is treated like ASCII text and joined with spaces.\n",
       "フィルタコマンドに渡す前に、連続する非空行を1行にまとめます。全角文字（日本語、中国語）の間の改行は削除し、その他の改行は空白に置き換えます。韓国語（ハングル）は ASCII テキスト同様に空白で連結します。\n"
    ],
    [
@@ -56,36 +56,40 @@
       "連続する2つ以上の改行を1つにまとめます。\n"
    ],
    [
-      "L<teip(1)>'s B<--offload> option is implemented in the different module L<App::Greple::L> (B<-ML>).\n",
-      "L<teip(1)> の B<--offload> オプションは、別モジュール L<App::Greple::L>（B<-ML>）で実装されています。\n"
+      "Executes a function given by C<&function> in the B<greple> process itself, without forking (see L</FUNCTION CALL>). This is the default. Use B<--no-nofork> to execute it in a forked child process. This option has no effect on external commands.\n",
+      "C<&function> で指定した関数を、フォークせずに B<greple> プロセス自身で実行します（L</FUNCTION CALL> を参照）。これがデフォルトです。フォークした子プロセスで実行するには B<--no-nofork> を使用します。このオプションは外部コマンドには影響しません。\n"
+   ],
+   [
+      "The equivalent of the B<--offload> option of L<teip(1)> is provided by another module, L<App::Greple::L> (B<-ML>).\n",
+      "L<teip(1)> の B<--offload> オプションに相当する機能は、別モジュール L<App::Greple::L>（B<-ML>）で提供されています。\n"
    ],
    [
       "You can also use the B<-ML> module to process only even-numbered lines as follows.\n",
       "B<-ML> モジュールを使って、次のように偶数行のみを処理することもできます。\n"
    ],
    [
-      "Repeating B<-Mtee> with patterns inside it applies a different filter to each set of patterns.\n",
-      "内部にパターンを含む B<-Mtee> を繰り返すと、パターンの各組に異なるフィルタが適用されます。\n"
+      "You can give B<-Mtee> more than once, each with its own patterns and filter. Each filter is applied to the patterns given with it.\n",
+      "B<-Mtee> は複数回指定でき、それぞれに独自のパターンとフィルタを指定できます。各フィルタは、それとともに指定されたパターンに適用されます。\n"
    ],
    [
-      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and puts the lines that match C<PAT3> in columns with B<ansicolumn>.\n",
-      "最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する行を B<ansicolumn> で列に整形します。\n"
+      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, the next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and formats the lines that match C<PAT3> as a table with B<ansicolumn>.\n",
+      "最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する行を B<ansicolumn> で表として整形します。\n"
    ],
    [
       "There are two forms.\n",
       "形式は2つあります。\n"
    ],
    [
-      "When there is no pattern inside B<-Mtee>, the command is applied to all the patterns that follow C<-->, as before. If it is specified twice, the last one is effective.\n",
-      "B<-Mtee> 内にパターンがない場合、従来どおり C<--> に続くすべてのパターンにコマンドが適用されます。2回指定した場合は、最後のものが有効です。\n"
+      "When there is no pattern inside B<-Mtee>, the command is applied to all the patterns that follow C<-->, as before. If it is given more than once, the last one takes effect.\n",
+      "B<-Mtee> 内にパターンがない場合、従来どおり C<--> に続くすべてのパターンにコマンドが適用されます。複数回指定した場合は、最後のものが有効です。\n"
    ],
    [
       "When there is a pattern inside B<-Mtee>, the command is applied only to the patterns in that B<-Mtee>.\n",
       "B<-Mtee> 内にパターンがある場合、コマンドはその B<-Mtee> 内のパターンにのみ適用されます。\n"
    ],
    [
-      "Mixing the two forms is an error. A B<-Mtee> without arguments up to C<-->, such as the first half of C<-Mtee::config(...) -Mtee ...>, only sets the configuration and counts as neither form.\n",
-      "2つの形式を混在させるとエラーになります。C<-Mtee::config(...) -Mtee ...> の前半のように、C<--> まで引数のない B<-Mtee> は設定のみを行い、どちらの形式にも数えられません。\n"
+      "Mixing the two forms is an error. A B<-Mtee> with nothing before C<-->, such as the first half of C<-Mtee::config(...) -Mtee ...>, only sets the configuration and counts as neither form.\n",
+      "2つの形式を混在させるとエラーになります。C<-Mtee::config(...) -Mtee ...> の前半のように、C<--> より前に何もない B<-Mtee> は設定のみを行い、どちらの形式にも数えられません。\n"
    ],
    [
       "The errors are detected when the first file is searched, before any output.\n",
@@ -100,8 +104,8 @@
       "正規表現パターン。\n"
    ],
    [
-      "Pattern. It is one pattern even if it includes spaces.\n",
-      "パターン。空白を含んでいても1つのパターンです。\n"
+      "Pattern. It is taken as one pattern even if it includes spaces.\n",
+      "パターン。空白を含んでいても1つのパターンとして扱われます。\n"
    ],
    [
       "Fixed string pattern.\n",
@@ -116,19 +120,19 @@
       "そのまま B<greple> に渡されます。色はパターンに結び付けられるのではなく、指定された順にパターン番号へ循環的に割り当てられます（L</LIMITATIONS> を参照）。\n"
    ],
    [
-      "A function of B<Getopt::EX::Config>. It changes the setting common to B<all> the filters.\n",
-      "B<Getopt::EX::Config> の機能です。B<すべて>のフィルタに共通する設定を変更します。\n"
+      "An option provided by B<Getopt::EX::Config>. It changes the setting common to B<all> the filters.\n",
+      "B<Getopt::EX::Config> が提供するオプションです。B<すべて>のフィルタに共通する設定を変更します。\n"
    ],
    [
-      "Other options such as B<--exclude> are errors. Write them after C<-->; they apply to all the filters.\n",
-      "B<--exclude> などのほかのオプションはエラーです。C<--> の後に記述してください。これらはすべてのフィルタに適用されます。\n"
+      "Giving other options, such as B<--exclude>, is an error. Write them after C<-->; they apply to all the filters.\n",
+      "B<--exclude> などのほかのオプションを指定するとエラーになります。C<--> の後に記述してください。これらはすべてのフィルタに適用されます。\n"
    ],
    [
       "The value of a mode is decided at run time in the following order.\n",
       "モードの値は、実行時に次の順序で決定されます。\n"
    ],
    [
-      "The one specified inside the B<-Mtee> (B<--crmode>, B<--no-crmode>).\n",
+      "The one specified inside B<-Mtee> (B<--crmode>, B<--no-crmode>).\n",
       "B<-Mtee> 内で指定したもの（B<--crmode>、B<--no-crmode>）。\n"
    ],
    [
@@ -136,8 +140,8 @@
       "C<--> の後、または B<-Mtee::config(...)> で指定したもの。\n"
    ],
    [
-      "In the new form, B<--need=1> is added automatically, so that a block which includes any one of the patterns is processed (OR). Specify B<--need> after C<--> to override it; B<--need=2> brings back AND. The legacy form works as before (AND). Put B<--need> after all the B<-Mtee> and the alias options that include B<-Mtee>, because each of them adds B<--need=1> again.\n",
-      "新形式では、いずれか1つのパターンを含むブロックが処理されるように（OR）、B<--need=1> が自動的に追加されます。これを上書きするには C<--> の後で B<--need> を指定します。B<--need=2> を指定すると AND に戻ります。旧形式は従来どおり（AND）動作します。B<-Mtee> および B<-Mtee> を含むエイリアスオプションのそれぞれが再び B<--need=1> を追加するため、B<--need> はすべてのそれらの後に置いてください。\n"
+      "In the new form, B<--need=1> is added automatically, so that a block which includes any one of the patterns is processed (OR). Specify B<--need> after C<--> to override it; B<--need=2> brings back AND. The legacy form works as before (AND). Each B<-Mtee>, and each alias option that includes B<-Mtee>, adds B<--need=1> again, so put B<--need> after all of them.\n",
+      "新形式では、いずれか1つのパターンを含むブロックが処理されるように（OR）、B<--need=1> が自動的に追加されます。これを上書きするには C<--> の後で B<--need> を指定します。B<--need=2> を指定すると AND に戻ります。旧形式は従来どおり（AND）動作します。各 B<-Mtee> および B<-Mtee> を含む各エイリアスオプションが再び B<--need=1> を追加するため、B<--need> はそのすべての後に置いてください。\n"
    ],
    [
       "If the command is omitted (C<-Mtee -E PAT -->), the pattern selects text but the text is not changed.\n",
@@ -148,8 +152,8 @@
       "新形式では、B<-Mtee> の外にあるパターンはエラーです。B<-Mtee> の外にある B<--callback> も同様です。\n"
    ],
    [
-      "In the new form, a pattern given without an option after C<--> is not taken as a pattern, because there are patterns given by options. B<greple> takes it as a file name.\n",
-      "新形式では、オプションなしで C<--> の後に指定したパターンは、オプションでパターンが指定されているためパターンとして扱われません。B<greple> はそれをファイル名として扱います。\n"
+      "In the new form, the first argument after C<--> is not taken as a pattern even if it is meant as one, because the patterns are already given by options. B<greple> takes it as a file name.\n",
+      "新形式では、C<--> の後の最初の引数は、パターンとして意図されていても、パターンがすでにオプションで指定されているためパターンとして扱われません。B<greple> はそれをファイル名として扱います。\n"
    ],
    [
       "When the matches of different filters overlap, B<greple> merges them into one area and the filter of the match which starts first is applied.\n",
@@ -160,27 +164,27 @@
       "コマンドラインで B<-Mtee> 内に直接記述した C<{DEFINE}> は展開されません。B<option> 定義内では展開されます。\n"
    ],
    [
-      "No other option can be written between B<-Mtee> modules, because B<-M> must be at the head of the arguments. They can be combined through an alias option.\n",
-      "B<-M> は引数の先頭になければならないため、B<-Mtee> モジュールの間にほかのオプションを記述することはできません。これらはエイリアスオプションを介して組み合わせられます。\n"
+      "No other option can be written between B<-Mtee> modules, because B<-M> must be at the head of the arguments. Use an alias option to combine B<-Mtee> modules and other options.\n",
+      "B<-M> は引数の先頭になければならないため、B<-Mtee> モジュールの間にほかのオプションを記述することはできません。エイリアスオプションを使用して B<-Mtee> モジュールとほかのオプションを組み合わせます。\n"
    ],
    [
       "C<--> cannot be included in the command arguments, as before.\n",
       "従来どおり、C<--> をコマンド引数に含めることはできません。\n"
    ],
    [
-      "B<--cm> is not independent for each filter. If it is specified for only some patterns, the colors of other patterns, including those in other B<-Mtee>, change by the cyclic assignment of B<greple>. Specify B<--cm> for all the patterns when specifying colors.\n",
+      "B<--cm> is not independent for each filter. If it is specified for only some patterns, the colors of other patterns, including those in other B<-Mtee>, change because of the cyclic assignment by B<greple>. Specify B<--cm> for all the patterns when specifying colors.\n",
       "B<--cm> はフィルタごとに独立していません。一部のパターンにだけ指定すると、他の B<-Mtee> 内のものを含む他のパターンの色が、B<greple> の循環割り当てによって変化します。色を指定する際は、すべてのパターンに B<--cm> を指定してください。\n"
    ],
    [
-      "When another module follows B<-Mtee> (C<-Mtee -E PAT cmd -- -Mcolors>), the patterns are passed to B<greple> through the B<default> option of the module, and the expansion of the option definition, such as C<$ENV{NAME}> and C<__PACKAGE__>, applies to them. Escaping them is not attempted.\n",
+      "When another module follows B<-Mtee> (C<-Mtee -E PAT cmd -- -Mcolors>), the patterns are passed to B<greple> through the B<default> option of the module, and the expansion of the option definition, such as C<$ENV{NAME}> and C<__PACKAGE__>, applies to them. They are not escaped.\n",
       "別のモジュールが B<-Mtee> に続く場合（C<-Mtee -E PAT cmd -- -Mcolors>）、パターンはモジュールの B<default> オプションを介して B<greple> に渡され、C<$ENV{NAME}> や C<__PACKAGE__> などのオプション定義の展開がそれらに適用されます。これらをエスケープする処理は行われません。\n"
    ],
    [
-      "If a module whose B<default> option includes a new form B<-Mtee> is loaded before B<-Mtee> followed by another module, such as C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>, the patterns are lost, and it is detected as an error (\"passed twice or lost\"). Load the module after B<-Mtee>.\n",
+      "Suppose there is a module whose B<default> option includes a new form B<-Mtee>. If it is loaded before a B<-Mtee> which is followed by another module, as in C<-Mfoo -Mtee -E PAT cmd -- -Mcolors>, the patterns are lost. This is detected as an error (\"passed twice or lost\"). Load such a module after B<-Mtee>.\n",
       "B<default> オプションに新形式の B<-Mtee> を含むモジュールが、C<-Mfoo -Mtee -E PAT cmd -- -Mcolors> のように、別のモジュールが続く B<-Mtee> より前に読み込まれると、パターンが失われ、エラー（「passed twice or lost」）として検出されます。モジュールは B<-Mtee> の後に読み込んでください。\n"
    ],
    [
-      "Module parameters can be set with B<Getopt::EX::Config> module using the following syntax:\n",
+      "Module parameters can be set with the B<Getopt::EX::Config> module using the following syntax:\n",
       "モジュールのパラメータは、次の文法で B<Getopt::EX::Config> モジュールにより設定できます。\n"
    ],
    [
@@ -196,20 +200,24 @@
       "外部コマンドの代わりに、コマンド名の前にC<&>を付けることでPerl関数を呼び出せます。\n"
    ],
    [
-      "The function is executed in a forked child process, so it must follow these requirements:\n",
-      "関数はフォークされた子プロセスで実行されるため、次の要件に従う必要があります:\n"
+      "The function must follow these requirements:\n",
+      "関数は次の要件に従う必要があります:\n"
    ],
    [
-      "Read matched text from B<STDIN>\n",
+      "Read the matched text from B<STDIN>\n",
       "一致したテキストをB<STDIN>から読み込む\n"
    ],
    [
-      "Print converted result to B<STDOUT>\n",
+      "Print the converted result to B<STDOUT>\n",
       "変換結果をB<STDOUT>へ出力する\n"
    ],
    [
       "Arguments are passed via both C<@ARGV> and C<@_>\n",
       "引数はC<@ARGV>およびC<@_>の両方で渡される\n"
+   ],
+   [
+      "By default, the function is executed in the B<greple> process itself, without forking. So, the values of global variables changed by the function remain in the next call, and calling B<exit> in the function terminates B<greple>. With the B<--no-nofork> option, the function is executed in a forked child process.\n",
+      "デフォルトでは、関数はフォークせずにB<greple>プロセス自体で実行されます。したがって、関数によって変更されたグローバル変数の値は次回の呼び出しにも残り、関数内でB<exit>を呼び出すとB<greple>が終了します。B<--no-nofork>オプションを指定すると、関数はフォークされた子プロセスで実行されます。\n"
    ],
    [
       "Any fully qualified function name can be used:\n",
@@ -236,8 +244,8 @@
       "C<App::cat::v-E<gt>new-E<gt>run(@_)>を呼び出します。\n"
    ],
    [
-      "Using a function call avoids the overhead of forking an external process for each invocation, which can significantly improve performance when used with the B<--discrete> option.\n",
-      "関数呼び出しを使用すると、呼び出しごとに外部プロセスをフォークするオーバーヘッドを回避でき、B<--discrete>オプションと併用した場合にパフォーマンスを大幅に向上させることができます。\n"
+      "Using a function call avoids the overhead of starting an external process for each invocation, which can significantly improve performance when used with the B<--discrete> option.\n",
+      "関数呼び出しを使用すると、呼び出しごとに外部プロセスを起動するオーバーヘッドを回避でき、B<--discrete>オプションと併用した場合にパフォーマンスを大幅に向上させることができます。\n"
    ],
    [
       "The B<--blocks> option has been removed. It is no longer needed now that the B<--stretch> (B<-S>) option has been implemented in B<greple>. Use the following instead.\n",
@@ -256,39 +264,39 @@
       "また、B<teip> は複数行のデータをひとつの単位として扱えませんが、B<greple> は複数行からなるデータチャンクに対して個別のコマンドを実行できます。\n"
    ],
    [
-      "Next command will find text blocks inside L<perlpod(1)> style document included in Perl module file.\n",
-      "次のコマンドは、Perl モジュールファイルに含まれる L<perlpod(1)> 形式ドキュメント内のテキストブロックを見つけます。\n"
+      "The next command finds the text blocks of the L<perlpod(1)> style document in a Perl module file.\n",
+      "次のコマンドは、Perl モジュールファイル内の L<perlpod(1)> 形式ドキュメントのテキストブロックを見つけます。\n"
    ],
    [
-      "You can translate them by DeepL service by executing the above command convined with B<-Mtee> module which calls B<deepl> command like this:\n",
-      "上記コマンドに B<-Mtee> モジュールを組み合わせて B<deepl> コマンドを呼び出すことで、DeepL サービスで翻訳できます。使い方は次のとおりです:\n"
+      "You can translate them with the DeepL service by combining the above command with the B<-Mtee> module calling the B<deepl> command, like this:\n",
+      "上記コマンドに B<deepl> コマンドを呼び出す B<-Mtee> モジュールを組み合わせることで、DeepL サービスで翻訳できます。使い方は次のとおりです:\n"
    ],
    [
-      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the implementation hint of B<tee> module came from B<xlate> module.\n",
+      "The dedicated module L<App::Greple::xlate::deepl> is more effective for this purpose, though. In fact, the hint for implementing the B<tee> module came from the B<xlate> module.\n",
       "ただし、この目的には専用モジュール L<App::Greple::xlate::deepl> のほうが効果的です。実際、B<tee> モジュールの実装のヒントは B<xlate> モジュールから得られました。\n"
    ],
    [
-      "Next command will find some indented part in LICENSE document.\n",
+      "The next command finds some indented parts in the LICENSE document.\n",
       "次のコマンドは、LICENSE ドキュメント内のいくつかのインデントされた部分を見つけます。\n"
    ],
    [
-      "You can reformat this part by using B<tee> module with B<ansifold> command. Using both B<--crmode> options together allows efficient processing of multi-line blocks:\n",
-      "この部分は、B<tee> モジュールと B<ansifold> コマンドを使って再整形できます。両方の B<--crmode> オプションを併用すると、複数行ブロックを効率よく処理できます:\n"
+      "You can reformat these parts by using the B<tee> module with the B<ansifold> command. Using both B<--crmode> options together allows efficient processing of multi-line blocks:\n",
+      "これらの部分は、B<tee> モジュールと B<ansifold> コマンドを使って再整形できます。両方の B<--crmode> オプションを併用すると、複数行ブロックを効率よく処理できます:\n"
    ],
    [
       "The B<--discrete> option can also be used but will start multiple processes, so it takes longer to execute.\n",
       "B<--discrete> オプションも使用できますが、複数のプロセスを起動するため、実行に時間がかかります。\n"
    ],
    [
-      "Consider a situation where you want to grep for strings from non-header lines. For example, you may want to search for Docker image names from the C<docker image ls> command, but leave the header line. You can do it by following command.\n",
-      "ヘッダー行以外から文字列を grep したい状況を考えてみます。例えば、C<docker image ls> コマンドから Docker イメージ名を検索したいが、ヘッダー行は残したい場合です。以下のコマンドで実現できます。\n"
+      "Consider a situation where you want to grep for strings in lines other than the header. For example, you may want to search for Docker image names in the output of the C<docker image ls> command, but keep the header line. You can do it with the following command.\n",
+      "ヘッダー行以外の行から文字列を grep したい状況を考えてみます。例えば、C<docker image ls> コマンドの出力から Docker イメージ名を検索したいが、ヘッダー行は残したい場合です。以下のコマンドで実現できます。\n"
    ],
    [
-      "Option C<-ML 2:> retrieves the second to last lines and sends them to the C<grep perl> command. The option --discrete is required because the number of lines of input and output changes, but since the command is only executed once, there is no performance drawback.\n",
-      "オプション C<-ML 2:> は、後ろから2行目以降を取り出して C<grep perl> コマンドに送ります。入力と出力の行数が変わるため --discrete オプションが必要ですが、コマンドは一度しか実行されないので性能上のデメリットはありません。\n"
+      "The option C<-ML 2:> takes the lines from the second line to the end, and sends them to the C<grep perl> command. The option B<--discrete> is required because the number of lines changes, but since the command is executed only once, there is no performance drawback.\n",
+      "オプション C<-ML 2:> は、2行目から最後までを取り出して C<grep perl> コマンドに送ります。行数が変わるため B<--discrete> オプションが必要ですが、コマンドは一度しか実行されないので性能上のデメリットはありません。\n"
    ],
    [
-      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines. However, there is no problem with the result obtained.\n",
+      "If you try to do the same thing with the B<teip> command, C<teip -l 2- -- grep> will give an error because the number of output lines is less than the number of input lines, although the output itself is correct.\n",
       "同じことを B<teip> コマンドでやろうとすると、C<teip -l 2- -- grep> は出力行数が入力行数より少ないためエラーになります。ただし、得られる結果自体に問題はありません。\n"
    ],
    [
