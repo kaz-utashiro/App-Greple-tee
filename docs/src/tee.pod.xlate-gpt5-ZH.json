@@ -56,8 +56,8 @@
       "将两个或更多连续的换行合并为一个。\n"
    ],
    [
-      "Executes a function given by C<&function> in the B<greple> process itself, without forking (see L</FUNCTION CALL>). This is the default. Use B<--no-nofork> to execute it in a forked child process. This option has no effect on external commands.\n",
-      "在 B<greple> 进程本身中执行由 C<&function> 指定的函数，而不创建子进程（参见 L</FUNCTION CALL>）。这是默认设置。使用 B<--no-nofork> 可在创建的子进程中执行它。此选项对外部命令无效。\n"
+      "Executes a function given by C<&function> in the B<greple> process itself, without forking. This is the default. Use B<--no-nofork> to execute it in a forked child process. This option has no effect on external commands. See L</FUNCTION CALL>.\n",
+      "在 B<greple> 进程本身中执行由 C<&function> 指定的函数，而不创建子进程。这是默认设置。使用 B<--no-nofork> 可在创建的子进程中执行它。此选项对外部命令无效。参见 L</FUNCTION CALL>。\n"
    ],
    [
       "The equivalent of the B<--offload> option of L<teip(1)> is provided by another module, L<App::Greple::L> (B<-ML>).\n",
@@ -72,8 +72,8 @@
       "可以多次指定 B<-Mtee>，每次都有自己的模式和过滤器。每个过滤器都应用于与其一起指定的模式。\n"
    ],
    [
-      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, the next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and formats the lines that match C<PAT3> as a table with B<ansicolumn>.\n",
-      "第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将匹配 C<PAT3> 的行格式化为表格。\n"
+      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, the next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and formats each part that matches C<PAT3> as a separate table with B<ansicolumn>.\n",
+      "第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将每个匹配 C<PAT3> 的部分格式化为单独的表格。\n"
    ],
    [
       "There are two forms.\n",

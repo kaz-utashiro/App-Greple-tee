@@ -56,8 +56,8 @@
       "연속된 두 개 이상의 개행 문자를 하나로 합칩니다.\n"
    ],
    [
-      "Executes a function given by C<&function> in the B<greple> process itself, without forking (see L</FUNCTION CALL>). This is the default. Use B<--no-nofork> to execute it in a forked child process. This option has no effect on external commands.\n",
-      "포크하지 않고( L</FUNCTION CALL> 참조) B<greple> 프로세스 자체에서 C<&function>으로 지정한 함수를 실행합니다. 이것이 기본값입니다. 포크된 자식 프로세스에서 실행하려면 B<--no-nofork>를 사용하십시오. 이 옵션은 외부 명령에는 영향을 미치지 않습니다.\n"
+      "Executes a function given by C<&function> in the B<greple> process itself, without forking. This is the default. Use B<--no-nofork> to execute it in a forked child process. This option has no effect on external commands. See L</FUNCTION CALL>.\n",
+      "포크하지 않고 B<greple> 프로세스 자체에서 C<&function>으로 지정한 함수를 실행합니다. 이것이 기본값입니다. 포크된 자식 프로세스에서 실행하려면 B<--no-nofork>를 사용하십시오. 이 옵션은 외부 명령에는 영향을 미치지 않습니다. L</FUNCTION CALL>을 참조하십시오.\n"
    ],
    [
       "The equivalent of the B<--offload> option of L<teip(1)> is provided by another module, L<App::Greple::L> (B<-ML>).\n",
@@ -72,8 +72,8 @@
       "B<-Mtee>를 여러 번 지정할 수 있으며, 각각 자체 패턴과 필터를 가질 수 있습니다. 각 필터는 함께 지정된 패턴에 적용됩니다.\n"
    ],
    [
-      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, the next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and formats the lines that match C<PAT3> as a table with B<ansicolumn>.\n",
-      "첫 번째 비옵션 인수 앞의 모든 것은 모듈 옵션이고, 그 뒤부터 C<-->까지는 명령입니다. 예를 들어, 다음 명령은 C<PAT1> 또는 C<PAT2>와 일치하는 줄을 B<ansifold>로 접고, C<PAT3>와 일치하는 줄은 B<ansicolumn>으로 표 형식으로 만듭니다.\n"
+      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, the next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and formats each part that matches C<PAT3> as a separate table with B<ansicolumn>.\n",
+      "첫 번째 비옵션 인수 앞의 모든 것은 모듈 옵션이고, 그 뒤부터 C<-->까지는 명령입니다. 예를 들어, 다음 명령은 C<PAT1> 또는 C<PAT2>와 일치하는 줄을 B<ansifold>로 접고, C<PAT3>와 일치하는 각 부분은 B<ansicolumn>으로 별도의 표 형식으로 만듭니다.\n"
    ],
    [
       "There are two forms.\n",

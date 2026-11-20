@@ -56,8 +56,8 @@
       "連続する2つ以上の改行を1つにまとめます。\n"
    ],
    [
-      "Executes a function given by C<&function> in the B<greple> process itself, without forking (see L</FUNCTION CALL>). This is the default. Use B<--no-nofork> to execute it in a forked child process. This option has no effect on external commands.\n",
-      "C<&function> で指定した関数を、フォークせずに B<greple> プロセス自身で実行します（L</FUNCTION CALL> を参照）。これがデフォルトです。フォークした子プロセスで実行するには B<--no-nofork> を使用します。このオプションは外部コマンドには影響しません。\n"
+      "Executes a function given by C<&function> in the B<greple> process itself, without forking. This is the default. Use B<--no-nofork> to execute it in a forked child process. This option has no effect on external commands. See L</FUNCTION CALL>.\n",
+      "C<&function> で指定した関数を、フォークせずに B<greple> プロセス自身で実行します。これがデフォルトです。フォークした子プロセスで実行するには B<--no-nofork> を使用します。このオプションは外部コマンドには影響しません。L</FUNCTION CALL> を参照してください。\n"
    ],
    [
       "The equivalent of the B<--offload> option of L<teip(1)> is provided by another module, L<App::Greple::L> (B<-ML>).\n",
@@ -72,8 +72,8 @@
       "B<-Mtee> は複数回指定でき、それぞれに独自のパターンとフィルタを指定できます。各フィルタは、それとともに指定されたパターンに適用されます。\n"
    ],
    [
-      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, the next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and formats the lines that match C<PAT3> as a table with B<ansicolumn>.\n",
-      "最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する行を B<ansicolumn> で表として整形します。\n"
+      "Everything before the first non-option argument is an option of the module, and the rest up to C<--> is the command. For example, the next command folds the lines that match C<PAT1> or C<PAT2> with B<ansifold>, and formats each part that matches C<PAT3> as a separate table with B<ansicolumn>.\n",
+      "最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する各部分を B<ansicolumn> で個別の表として整形します。\n"
    ],
    [
       "There are two forms.\n",

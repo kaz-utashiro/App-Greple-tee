@@ -58,7 +58,7 @@ Greple의 **-Mtee** 모듈은 일치한 텍스트 부분을 지정한 필터 명
 
 - **--nofork**
 
-    포크하지 않고( ["FUNCTION CALL"](#function-call) 참조) **greple** 프로세스 자체에서 `&function`으로 지정한 함수를 실행합니다. 이것이 기본값입니다. 포크된 자식 프로세스에서 실행하려면 **--no-nofork**를 사용하십시오. 이 옵션은 외부 명령에는 영향을 미치지 않습니다.
+    포크하지 않고 **greple** 프로세스 자체에서 `&function`으로 지정한 함수를 실행합니다. 이것이 기본값입니다. 포크된 자식 프로세스에서 실행하려면 **--no-nofork**를 사용하십시오. 이 옵션은 외부 명령에는 영향을 미치지 않습니다. ["FUNCTION CALL"](#function-call)을 참조하십시오.
 
 - **-ML** **--offload** _command_
 
@@ -76,7 +76,7 @@ Greple의 **-Mtee** 모듈은 일치한 텍스트 부분을 지정한 필터 명
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
-첫 번째 비옵션 인수 앞의 모든 것은 모듈 옵션이고, 그 뒤부터 `--`까지는 명령입니다. 예를 들어, 다음 명령은 `PAT1` 또는 `PAT2`와 일치하는 줄을 **ansifold**로 접고, `PAT3`와 일치하는 줄은 **ansicolumn**으로 표 형식으로 만듭니다.
+첫 번째 비옵션 인수 앞의 모든 것은 모듈 옵션이고, 그 뒤부터 `--`까지는 명령입니다. 예를 들어, 다음 명령은 `PAT1` 또는 `PAT2`와 일치하는 줄을 **ansifold**로 접고, `PAT3`와 일치하는 각 부분은 **ansicolumn**으로 별도의 표 형식으로 만듭니다.
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \

@@ -58,7 +58,7 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
 
 - **--nofork**
 
-    在 **greple** 进程本身中执行由 `&function` 指定的函数，而不创建子进程（参见 ["FUNCTION CALL"](#function-call)）。这是默认设置。使用 **--no-nofork** 可在创建的子进程中执行它。此选项对外部命令无效。
+    在 **greple** 进程本身中执行由 `&function` 指定的函数，而不创建子进程。这是默认设置。使用 **--no-nofork** 可在创建的子进程中执行它。此选项对外部命令无效。参见 ["FUNCTION CALL"](#function-call)。
 
 - **-ML** **--offload** _command_
 
@@ -76,7 +76,7 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
-第一个非选项参数之前的所有内容都是模块选项，其余直到 `--` 为止的是命令。例如，以下命令使用 **ansifold** 折叠匹配 `PAT1` 或 `PAT2` 的行，并使用 **ansicolumn** 将匹配 `PAT3` 的行格式化为表格。
+第一个非选项参数之前的所有内容都是模块选项，其余直到 `--` 为止的是命令。例如，以下命令使用 **ansifold** 折叠匹配 `PAT1` 或 `PAT2` 的行，并使用 **ansicolumn** 将每个匹配 `PAT3` 的部分格式化为单独的表格。
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \

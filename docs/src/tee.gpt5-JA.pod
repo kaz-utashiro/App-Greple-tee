@@ -62,7 +62,7 @@ B<--discrete> オプションでは、各マッチに対するコマンドはマ
 
 =item B<--nofork>
 
-C<&function> で指定した関数を、フォークせずに B<greple> プロセス自身で実行します（L</FUNCTION CALL> を参照）。これがデフォルトです。フォークした子プロセスで実行するには B<--no-nofork> を使用します。このオプションは外部コマンドには影響しません。
+C<&function> で指定した関数を、フォークせずに B<greple> プロセス自身で実行します。これがデフォルトです。フォークした子プロセスで実行するには B<--no-nofork> を使用します。このオプションは外部コマンドには影響しません。L</FUNCTION CALL> を参照してください。
 
 =item B<-ML> B<--offload> I<command>
 
@@ -82,7 +82,7 @@ B<-Mtee> は複数回指定でき、それぞれに独自のパターンとフ�
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
-最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する行を B<ansicolumn> で表として整形します。
+最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する各部分を B<ansicolumn> で個別の表として整形します。
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \

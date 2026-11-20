@@ -58,7 +58,7 @@ Greple の **-Mtee** モジュールは、マッチしたテキスト部分を�
 
 - **--nofork**
 
-    `&function` で指定した関数を、フォークせずに **greple** プロセス自身で実行します（["FUNCTION CALL"](#function-call) を参照）。これがデフォルトです。フォークした子プロセスで実行するには **--no-nofork** を使用します。このオプションは外部コマンドには影響しません。
+    `&function` で指定した関数を、フォークせずに **greple** プロセス自身で実行します。これがデフォルトです。フォークした子プロセスで実行するには **--no-nofork** を使用します。このオプションは外部コマンドには影響しません。["FUNCTION CALL"](#function-call) を参照してください。
 
 - **-ML** **--offload** _command_
 
@@ -76,7 +76,7 @@ Greple の **-Mtee** モジュールは、マッチしたテキスト部分を�
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
-最初の非オプション引数より前はすべてモジュールのオプションであり、残りの `--` までがコマンドです。たとえば次のコマンドは、`PAT1` または `PAT2` に一致する行を **ansifold** で折り返し、`PAT3` に一致する行を **ansicolumn** で表として整形します。
+最初の非オプション引数より前はすべてモジュールのオプションであり、残りの `--` までがコマンドです。たとえば次のコマンドは、`PAT1` または `PAT2` に一致する行を **ansifold** で折り返し、`PAT3` に一致する各部分を **ansicolumn** で個別の表として整形します。
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \

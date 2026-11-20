@@ -62,7 +62,7 @@ B<--discrete> 옵션을 사용하면 각 일치 항목에 대한 명령은 해�
 
 =item B<--nofork>
 
-포크하지 않고( L</FUNCTION CALL> 참조) B<greple> 프로세스 자체에서 C<&function>으로 지정한 함수를 실행합니다. 이것이 기본값입니다. 포크된 자식 프로세스에서 실행하려면 B<--no-nofork>를 사용하십시오. 이 옵션은 외부 명령에는 영향을 미치지 않습니다.
+포크하지 않고 B<greple> 프로세스 자체에서 C<&function>으로 지정한 함수를 실행합니다. 이것이 기본값입니다. 포크된 자식 프로세스에서 실행하려면 B<--no-nofork>를 사용하십시오. 이 옵션은 외부 명령에는 영향을 미치지 않습니다. L</FUNCTION CALL>을 참조하십시오.
 
 =item B<-ML> B<--offload> I<command>
 
@@ -82,7 +82,7 @@ B<-Mtee>를 여러 번 지정할 수 있으며, 각각 자체 패턴과 필터�
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
-첫 번째 비옵션 인수 앞의 모든 것은 모듈 옵션이고, 그 뒤부터 C<-->까지는 명령입니다. 예를 들어, 다음 명령은 C<PAT1> 또는 C<PAT2>와 일치하는 줄을 B<ansifold>로 접고, C<PAT3>와 일치하는 줄은 B<ansicolumn>으로 표 형식으로 만듭니다.
+첫 번째 비옵션 인수 앞의 모든 것은 모듈 옵션이고, 그 뒤부터 C<-->까지는 명령입니다. 예를 들어, 다음 명령은 C<PAT1> 또는 C<PAT2>와 일치하는 줄을 B<ansifold>로 접고, C<PAT3>와 일치하는 각 부분은 B<ansicolumn>으로 별도의 표 형식으로 만듭니다.
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \

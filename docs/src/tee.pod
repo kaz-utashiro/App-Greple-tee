@@ -91,9 +91,9 @@ Combines two or more consecutive newline characters into one.
 =item B<--nofork>
 
 Executes a function given by C<&function> in the B<greple> process
-itself, without forking (see L</FUNCTION CALL>).  This is the default.
-Use B<--no-nofork> to execute it in a forked child process.  This
-option has no effect on external commands.
+itself, without forking.  This is the default.  Use B<--no-nofork> to
+execute it in a forked child process.  This option has no effect on
+external commands.  See L</FUNCTION CALL>.
 
 =item B<-ML> B<--offload> I<command>
 
@@ -119,8 +119,8 @@ filter.  Each filter is applied to the patterns given with it.
 Everything before the first non-option argument is an option of the
 module, and the rest up to C<--> is the command.  For example, the
 next command folds the lines that match C<PAT1> or C<PAT2> with
-B<ansifold>, and formats the lines that match C<PAT3> as a table with
-B<ansicolumn>.
+B<ansifold>, and formats each part that matches C<PAT3> as a separate
+table with B<ansicolumn>.
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \

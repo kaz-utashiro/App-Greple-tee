@@ -62,7 +62,7 @@ Greple 的 B<-Mtee> 模块将匹配到的文本片段发送给指定的过滤命
 
 =item B<--nofork>
 
-在 B<greple> 进程本身中执行由 C<&function> 指定的函数，而不创建子进程（参见 L</FUNCTION CALL>）。这是默认设置。使用 B<--no-nofork> 可在创建的子进程中执行它。此选项对外部命令无效。
+在 B<greple> 进程本身中执行由 C<&function> 指定的函数，而不创建子进程。这是默认设置。使用 B<--no-nofork> 可在创建的子进程中执行它。此选项对外部命令无效。参见 L</FUNCTION CALL>。
 
 =item B<-ML> B<--offload> I<command>
 
@@ -82,7 +82,7 @@ L<teip(1)> 的 B<--offload> 选项的等效功能由另一个模块 L<App::Grepl
 
     -Mtee [ OPTIONS ] [ COMMAND [ ARGS ... ] ] --
 
-第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将匹配 C<PAT3> 的行格式化为表格。
+第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将每个匹配 C<PAT3> 的部分格式化为单独的表格。
 
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
