@@ -76,6 +76,14 @@
       "第一个非选项参数之前的所有内容都是模块选项，其余直到 C<--> 为止的是命令。例如，以下命令使用 B<ansifold> 折叠匹配 C<PAT1> 或 C<PAT2> 的行，并使用 B<ansicolumn> 将每个匹配 C<PAT3> 的部分格式化为单独的表格。\n"
    ],
    [
+      "To give a command which takes C<--> itself, start the arguments of B<-Mtee> with a word of three or more dashes, and end them with the same word instead of C<-->:\n",
+      "若要指定本身接受 C<--> 的命令，请以由三个或更多连字符组成的词开始 B<-Mtee> 的参数，并以相同的词而非 C<--> 结束：\n"
+   ],
+   [
+      "This needs L<Getopt::EX::Config> 1.03 or later.\n",
+      "这需要 L<Getopt::EX::Config> 1.03 或更高版本。\n"
+   ],
+   [
       "There are two forms.\n",
       "有两种形式。\n"
    ],
@@ -166,10 +174,6 @@
    [
       "No other option can be written between B<-Mtee> modules, because B<-M> must be at the head of the arguments. Use an alias option to combine B<-Mtee> modules and other options.\n",
       "不能在 B<-Mtee> 模块之间写入其他选项，因为 B<-M> 必须位于参数开头。使用别名选项将 B<-Mtee> 模块与其他选项组合。\n"
-   ],
-   [
-      "C<--> cannot be included in the command arguments, as before.\n",
-      "与以前一样，命令参数中不能包含 C<-->。\n"
    ],
    [
       "B<--cm> is not independent for each filter. If it is specified for only some patterns, the colors of other patterns, including those in other B<-Mtee>, change because of the cyclic assignment by B<greple>. Specify B<--cm> for all the patterns when specifying colors.\n",

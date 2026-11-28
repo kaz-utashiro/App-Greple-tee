@@ -11,7 +11,7 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 
 =head1 VERSION
 
-Version 2.00_00
+Version 2.00_01
 
 =head1 DESCRIPTION
 
@@ -87,6 +87,12 @@ L<teip(1)> 的 B<--offload> 选项的等效功能由另一个模块 L<App::Grepl
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
            file
+
+若要指定本身接受 C<--> 的命令，请以由三个或更多连字符组成的词开始 B<-Mtee> 的参数，并以相同的词而非 C<--> 结束：
+
+    greple -Mtee --- nup --ac -w 100 -- --- PATTERN file
+
+这需要 L<Getopt::EX::Config> 1.03 或更高版本。
 
 有两种形式。
 
@@ -195,10 +201,6 @@ L<teip(1)> 的 B<--offload> 选项的等效功能由另一个模块 L<App::Grepl
 =item *
 
 不能在 B<-Mtee> 模块之间写入其他选项，因为 B<-M> 必须位于参数开头。使用别名选项将 B<-Mtee> 模块与其他选项组合。
-
-=item *
-
-与以前一样，命令参数中不能包含 C<-->。
 
 =item *
 

@@ -76,6 +76,14 @@
       "첫 번째 비옵션 인수 앞의 모든 것은 모듈 옵션이고, 그 뒤부터 C<-->까지는 명령입니다. 예를 들어, 다음 명령은 C<PAT1> 또는 C<PAT2>와 일치하는 줄을 B<ansifold>로 접고, C<PAT3>와 일치하는 각 부분은 B<ansicolumn>으로 별도의 표 형식으로 만듭니다.\n"
    ],
    [
+      "To give a command which takes C<--> itself, start the arguments of B<-Mtee> with a word of three or more dashes, and end them with the same word instead of C<-->:\n",
+      "C<--> 자체를 인수로 받는 명령을 지정하려면 B<-Mtee>의 인수를 대시가 세 개 이상인 단어로 시작하고, C<--> 대신 같은 단어로 끝냅니다:\n"
+   ],
+   [
+      "This needs L<Getopt::EX::Config> 1.03 or later.\n",
+      "이를 위해서는 L<Getopt::EX::Config> 1.03 이상이 필요합니다.\n"
+   ],
+   [
       "There are two forms.\n",
       "형식은 두 가지입니다.\n"
    ],
@@ -166,10 +174,6 @@
    [
       "No other option can be written between B<-Mtee> modules, because B<-M> must be at the head of the arguments. Use an alias option to combine B<-Mtee> modules and other options.\n",
       "B<-M>는 인수의 맨 앞에 있어야 하므로 B<-Mtee> 모듈 사이에는 다른 옵션을 작성할 수 없습니다. 별칭 옵션을 사용하여 B<-Mtee> 모듈과 다른 옵션을 결합하십시오.\n"
-   ],
-   [
-      "C<--> cannot be included in the command arguments, as before.\n",
-      "이전과 마찬가지로 C<-->는 명령 인수에 포함할 수 없습니다.\n"
    ],
    [
       "B<--cm> is not independent for each filter. If it is specified for only some patterns, the colors of other patterns, including those in other B<-Mtee>, change because of the cyclic assignment by B<greple>. Specify B<--cm> for all the patterns when specifying colors.\n",

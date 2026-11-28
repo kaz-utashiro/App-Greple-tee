@@ -11,7 +11,7 @@ App::Greple::tee - マッチしたテキストを外部コマンドの結果で�
 
 =head1 VERSION
 
-Version 2.00_00
+Version 2.00_01
 
 =head1 DESCRIPTION
 
@@ -87,6 +87,12 @@ B<-Mtee> は複数回指定でき、それぞれに独自のパターンとフ�
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
            file
+
+C<--> 自体を受け取るコマンドを指定するには、B<-Mtee> の引数を3つ以上のダッシュからなる語で開始し、C<--> の代わりに同じ語で終了します。
+
+    greple -Mtee --- nup --ac -w 100 -- --- PATTERN file
+
+これには L<Getopt::EX::Config> 1.03以降が必要です。
 
 形式は2つあります。
 
@@ -195,10 +201,6 @@ C<--> の後、または B<-Mtee::config(...)> で指定したもの。
 =item *
 
 B<-M> は引数の先頭になければならないため、B<-Mtee> モジュールの間にほかのオプションを記述することはできません。エイリアスオプションを使用して B<-Mtee> モジュールとほかのオプションを組み合わせます。
-
-=item *
-
-従来どおり、C<--> をコマンド引数に含めることはできません。
 
 =item *
 

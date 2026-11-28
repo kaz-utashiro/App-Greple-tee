@@ -2,6 +2,14 @@ Revision history for Perl extension App-Greple-tee
 
 {{$NEXT}}
 
+2.00_01 2026-11-28T14:20:29Z
+
+    - A command which takes "--" itself can be given, with a word of
+      three or more dashes around the arguments of -Mtee:
+          greple -Mtee --- nup --ac -w 100 -- --- PATTERN file
+    - Require Getopt::EX::Config 1.03, which has the terminator
+    - Revise the document, and document --nofork
+
 2.00_00 2026-11-20T13:50:05Z
 
     - Multiple filters: repeat -Mtee with patterns inside it to apply

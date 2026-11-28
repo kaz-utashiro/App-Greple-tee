@@ -76,6 +76,14 @@
       "最初の非オプション引数より前はすべてモジュールのオプションであり、残りの C<--> までがコマンドです。たとえば次のコマンドは、C<PAT1> または C<PAT2> に一致する行を B<ansifold> で折り返し、C<PAT3> に一致する各部分を B<ansicolumn> で個別の表として整形します。\n"
    ],
    [
+      "To give a command which takes C<--> itself, start the arguments of B<-Mtee> with a word of three or more dashes, and end them with the same word instead of C<-->:\n",
+      "C<--> 自体を受け取るコマンドを指定するには、B<-Mtee> の引数を3つ以上のダッシュからなる語で開始し、C<--> の代わりに同じ語で終了します。\n"
+   ],
+   [
+      "This needs L<Getopt::EX::Config> 1.03 or later.\n",
+      "これには L<Getopt::EX::Config> 1.03以降が必要です。\n"
+   ],
+   [
       "There are two forms.\n",
       "形式は2つあります。\n"
    ],
@@ -166,10 +174,6 @@
    [
       "No other option can be written between B<-Mtee> modules, because B<-M> must be at the head of the arguments. Use an alias option to combine B<-Mtee> modules and other options.\n",
       "B<-M> は引数の先頭になければならないため、B<-Mtee> モジュールの間にほかのオプションを記述することはできません。エイリアスオプションを使用して B<-Mtee> モジュールとほかのオプションを組み合わせます。\n"
-   ],
-   [
-      "C<--> cannot be included in the command arguments, as before.\n",
-      "従来どおり、C<--> をコマンド引数に含めることはできません。\n"
    ],
    [
       "B<--cm> is not independent for each filter. If it is specified for only some patterns, the colors of other patterns, including those in other B<-Mtee>, change because of the cyclic assignment by B<greple>. Specify B<--cm> for all the patterns when specifying colors.\n",

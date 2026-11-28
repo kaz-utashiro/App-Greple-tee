@@ -11,7 +11,7 @@ App::Greple::tee - 외부 명령 결과로 일치한 텍스트를 대체하는 �
 
 =head1 VERSION
 
-Version 2.00_00
+Version 2.00_01
 
 =head1 DESCRIPTION
 
@@ -87,6 +87,12 @@ B<-Mtee>를 여러 번 지정할 수 있으며, 각각 자체 패턴과 필터�
     greple -Mtee --crmode -E PAT1 -E PAT2 '&ansifold' --crmode -w80 -- \
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
            file
+
+C<--> 자체를 인수로 받는 명령을 지정하려면 B<-Mtee>의 인수를 대시가 세 개 이상인 단어로 시작하고, C<--> 대신 같은 단어로 끝냅니다:
+
+    greple -Mtee --- nup --ac -w 100 -- --- PATTERN file
+
+이를 위해서는 L<Getopt::EX::Config> 1.03 이상이 필요합니다.
 
 형식은 두 가지입니다.
 
@@ -195,10 +201,6 @@ C<--> 뒤에서 또는 B<-Mtee::config(...)>로 지정한 것입니다.
 =item *
 
 B<-M>는 인수의 맨 앞에 있어야 하므로 B<-Mtee> 모듈 사이에는 다른 옵션을 작성할 수 없습니다. 별칭 옵션을 사용하여 B<-Mtee> 모듈과 다른 옵션을 결합하십시오.
-
-=item *
-
-이전과 마찬가지로 C<-->는 명령 인수에 포함할 수 없습니다.
 
 =item *
 

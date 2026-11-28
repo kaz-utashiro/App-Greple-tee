@@ -9,7 +9,7 @@ App::Greple::tee - 用外部命令结果替换匹配文本的模块
 
 # VERSION
 
-Version 2.00\_00
+Version 2.00\_01
 
 # DESCRIPTION
 
@@ -82,6 +82,12 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
            file
 
+若要指定本身接受 `--` 的命令，请以由三个或更多连字符组成的词开始 **-Mtee** 的参数，并以相同的词而非 `--` 结束：
+
+    greple -Mtee --- nup --ac -w 100 -- --- PATTERN file
+
+这需要 [Getopt::EX::Config](https://metacpan.org/pod/Getopt%3A%3AEX%3A%3AConfig) 1.03 或更高版本。
+
 有两种形式。
 
 - **Legacy form**
@@ -147,7 +153,6 @@ Greple 的 **-Mtee** 模块将匹配到的文本片段发送给指定的过滤�
 
 - 直接在命令行的 **-Mtee** 内编写的 `{DEFINE}` 不会展开。在 **option** 定义内则会展开。
 - 不能在 **-Mtee** 模块之间写入其他选项，因为 **-M** 必须位于参数开头。使用别名选项将 **-Mtee** 模块与其他选项组合。
-- 与以前一样，命令参数中不能包含 `--`。
 - **--cm** 并非对每个过滤器独立。如果仅为部分模式指定它，包括其他 **-Mtee** 中的模式在内的其他模式颜色会因 **greple** 的循环分配而改变。指定颜色时，请为所有模式指定 **--cm**。
 - 当另一个模块位于 **-Mtee** 之后时（`-Mtee -E PAT cmd -- -Mcolors`），模式会通过该模块的 **default** 选项传递给 **greple**，并且选项定义中的扩展（如 `$ENV{NAME}` 和 `__PACKAGE__`）会应用于这些模式。它们不会被转义。
 - 假设存在某个 **default** 选项包含新形式 **-Mtee** 的模块。如果它在 **-Mtee** 后跟另一个模块之前加载，例如 `-Mfoo -Mtee -E PAT cmd -- -Mcolors`，模式会丢失。这会被检测为错误（“重复传递或丢失”）。请在 **-Mtee** 之后加载此类模块。
