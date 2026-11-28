@@ -44,7 +44,7 @@
             "App::Greple::L" : "1.01",
             "Command::Run" : "0.9903",
             "Getopt::EX" : "3.03",
-            "Getopt::EX::Config" : "1.0202",
+            "Getopt::EX::Config" : "1.03",
             "Unicode::EastAsianWidth" : "0",
             "perl" : "v5.24.0"
          },

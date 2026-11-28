@@ -4,7 +4,7 @@ requires 'App::Greple', '10.02';
 requires 'App::Greple::L', '1.01';
 requires 'Command::Run', '0.9903';
 requires 'Getopt::EX', '3.03';
-requires 'Getopt::EX::Config', '1.0202';
+requires 'Getopt::EX::Config', '1.03';
 requires 'Unicode::EastAsianWidth';
 
 suggests 'App::ansifold', '1.34';

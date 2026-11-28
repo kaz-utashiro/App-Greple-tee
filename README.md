@@ -121,6 +121,14 @@ table with **ansicolumn**.
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
            file
 
+To give a command which takes `--` itself, start the arguments of
+**-Mtee** with a word of three or more dashes, and end them with the
+same word instead of `--`:
+
+    greple -Mtee --- nup --ac -w 100 -- --- PATTERN file
+
+This needs [Getopt::EX::Config](https://metacpan.org/pod/Getopt%3A%3AEX%3A%3AConfig) 1.03 or later.
+
 There are two forms.
 
 - **Legacy form**
@@ -212,7 +220,6 @@ not expanded.  It is expanded inside an **option** definition.
 - No other option can be written between **-Mtee** modules, because
 **-M** must be at the head of the arguments.  Use an alias option to
 combine **-Mtee** modules and other options.
-- `--` cannot be included in the command arguments, as before.
 - **--cm** is not independent for each filter.  If it is specified for
 only some patterns, the colors of other patterns, including those in
 other **-Mtee**, change because of the cyclic assignment by

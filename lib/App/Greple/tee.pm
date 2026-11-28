@@ -126,6 +126,14 @@ table with B<ansicolumn>.
            -Mtee --discrete -E PAT3 '&ansicolumn' -t -- \
            file
 
+To give a command which takes C<--> itself, start the arguments of
+B<-Mtee> with a word of three or more dashes, and end them with the
+same word instead of C<-->:
+
+    greple -Mtee --- nup --ac -w 100 -- --- PATTERN file
+
+This needs L<Getopt::EX::Config> 1.03 or later.
+
 There are two forms.
 
 =over 4
@@ -259,10 +267,6 @@ not expanded.  It is expanded inside an B<option> definition.
 No other option can be written between B<-Mtee> modules, because
 B<-M> must be at the head of the arguments.  Use an alias option to
 combine B<-Mtee> modules and other options.
-
-=item *
-
-C<--> cannot be included in the command arguments, as before.
 
 =item *
 
